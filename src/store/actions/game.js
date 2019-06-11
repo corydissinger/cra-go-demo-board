@@ -13,3 +13,11 @@ export const setTurnNumber = turnNumber => ({
         turnNumber,
     },
 });
+
+export const setWindowDimensions = (windowWidth, windowHeight) => ({
+    type: TYPES.SET_WINDOW_DIMENSIONS,
+    payload: {
+        windowWidth,
+        windowHeight,
+    },
+});

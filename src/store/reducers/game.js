@@ -6,6 +6,8 @@ import * as ACTIONS from '../constants/actions';
 const initialState = {
     mode: FLAGS.GAME_9_x_9,
     turnNumber: 0,
+    windowHeight: null,
+    windowWidth: null,
 };
 
 const game = (state = initialState, action) => {
