@@ -44,6 +44,17 @@ class Board extends Component {
         }
     }
 
+    renderRow(aLetterCoordinate, numberCoordinates) {
+        return <div className="flex-container">
+            {_.map(numberCoordinates, aNumberCoordinate => {
+                return <Tile
+                    xCoordinate={aLetterCoordinate}
+                    yCoordinate={aNumberCoordinate}
+                />;
+            })}
+        </div>;
+    }
+
     // I may have reversed this? https://senseis.xmp.net/?Coordinates
     render() {
         const numberCoordinates = _.map(this.getVerticalNumbering(), n => n.toString());
@@ -52,21 +63,26 @@ class Board extends Component {
         return (
             <div id="board">
                 {_.map(letterCoordinates, aLetterCoordinate => {
-                    return _.map(numberCoordinates, aNumberCoordinate => {
-                        return <Tile
-                            xCoordinate={aLetterCoordinate}
-                            yCoordinate={aNumberCoordinate}
-                        />;
-                    });
+                    return this.renderRow(aLetterCoordinate, numberCoordinates);
                 })}
             </div>
         );
     }
 }
 
+//https://senseis.xmp.net/?EquipmentDimensions
+const calculateTileDimensions = windowWidth => {
+    // 0.933333333333333
+};
+
 const mapStateToProps = (state) => {
+    const {
+        mode,
+        windowWidth,
+    } = state;
+
     return {
-        mode: state.mode,
+        mode,
     };
 };
 

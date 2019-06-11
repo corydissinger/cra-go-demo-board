@@ -8,6 +8,7 @@ const initialState = {
     turnNumber: 0,
     windowHeight: null,
     windowWidth: null,
+    configurationHeight: null,
 };
 
 const game = (state = initialState, action) => {
@@ -21,6 +22,24 @@ const game = (state = initialState, action) => {
             return {
                 ...state,
                 turnNumber: action.payload.turnNumber,
+            };
+        case ACTIONS.SET_WINDOW_DIMENSIONS:
+            const {
+                windowHeight,
+                windowWidth,
+            } = action.payload;
+
+            return {
+                ...state,
+                windowHeight,
+                windowWidth,
+            };
+        case ACTIONS.SET_CONFIGURATION_HEIGHT:
+            const { configurationHeight } = action.payload;
+
+            return {
+                ...state,
+                configurationHeight,
             };
         default:
             return state;
