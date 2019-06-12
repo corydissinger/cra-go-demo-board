@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 
 class Tile extends Component {
     componentDidMount() {
+        const {
+            xCoordinate,
+            yCoordinate,
+        } = this.props;
+
         const canvas = this.refs.canvas;
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext('2d');
+
+        ctx.font = '24px serif';
+        ctx.fillText(`${xCoordinate}${yCoordinate}`, 0, 0);
     }
 
     render() {
         const {
-            xCoordinate,
-            yCoordinate,
             height,
             width,
         } = this.props;
@@ -21,6 +26,7 @@ class Tile extends Component {
                 height={height}
                 width={width}
                 ref="canvas"
+                style={{ border: '1px solid #000000'}}
             ></canvas>
         );
     }
