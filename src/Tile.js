@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 class Tile extends Component {
     componentDidMount() {
         const {
+            height,
+            width,
             xCoordinate,
             yCoordinate,
         } = this.props;
@@ -11,8 +13,14 @@ class Tile extends Component {
         const canvas = this.refs.canvas;
         const ctx = canvas.getContext('2d');
 
-        ctx.font = '24px serif';
-        ctx.fillText(`${xCoordinate}${yCoordinate}`, 0, 0);
+        const midX = width / 2;
+        const midY = height / 2;
+
+        ctx.beginPath();
+        ctx.moveTo(midX, midY);
+        ctx.lineTo(width, height);
+        ctx.stroke();
+        console.log(`Mounted ${xCoordinate}${yCoordinate}`);
     }
 
     render() {
@@ -26,7 +34,6 @@ class Tile extends Component {
                 height={height}
                 width={width}
                 ref="canvas"
-                style={{ border: '1px solid #000000'}}
             ></canvas>
         );
     }

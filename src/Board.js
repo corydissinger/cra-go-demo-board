@@ -45,11 +45,18 @@ class Board extends Component {
     }
 
     renderRow(aLetterCoordinate, numberCoordinates) {
-        const { tileDimensions } = this.props;
+        const {
+            mode,
+            tileDimensions,
+        } = this.props;
 
-        return <div className="flex-container">
+        return <div
+            key={`${mode}${aLetterCoordinate}`}
+            className="flex-container"
+        >
             {_.map(numberCoordinates, aNumberCoordinate => {
                 return <Tile
+                    key={`${mode}${aNumberCoordinate}`}
                     xCoordinate={aLetterCoordinate}
                     yCoordinate={aNumberCoordinate}
                     height={tileDimensions.height}
@@ -120,6 +127,8 @@ const mapStateToProps = (state) => {
             windowHeight,
             windowWidth,
         });
+
+    console.log(`Configuration height: ${configurationHeight}, Window width: ${windowWidth}, window height: ${windowHeight}, calculated tile dims: ${JSON.stringify(tileDimensions)}`);
 
     return {
         mode,

@@ -26,18 +26,28 @@ class App extends Component {
     }
 
     render() {
+        const { canRender } = this.props;
+
         return (
             <div className="App">
                 <Configuration/>
-                <Board/>
+                {canRender && <Board/>}
+                {!canRender && <h1>Please wait...</h1>}
             </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
+    const {
+        mode,
+        windowHeight,
+        windowWidth,
+    } = state;
+
     return {
-        mode: state.mode,
+        mode,
+        canRender: windowWidth && windowHeight,
     };
 };
 
