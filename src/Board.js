@@ -2,28 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as _ from 'lodash';
 import * as FLAGS from './store/constants/flags';
+import * as UTILS from './store/constants/utils';
 import Tile from './Tile';
 
 class Board extends Component {
-    // shameless https://stackoverflow.com/a/24597663
-    genCharArray(charA, charZ) {
-        let a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
-        for (; i <= j; ++i) {
-            a.push(String.fromCharCode(i));
-        }
-        return a;
-    }
-
     getHorizontalLettering() {
         const { mode } = this.props;
 
         // Yay hardcoding
         if (mode === FLAGS.GAME_9_x_9) {
-            return this.genCharArray('a', 'i');
+            return UTILS.genCharArray('a', 'i');
         } else if (mode === FLAGS.GAME_13_x_13) {
-            return this.genCharArray('a', 'm');
+            return UTILS.genCharArray('a', 'm');
         } else if (mode === FLAGS.GAME_19_x_19) {
-            return this.genCharArray('a', 't');
+            return UTILS.genCharArray('a', 't');
         } else {
             throw new Error('No known mode selected');
         }
@@ -61,6 +53,7 @@ class Board extends Component {
                     yCoordinate={aNumberCoordinate}
                     height={tileDimensions.height}
                     width={tileDimensions.width}
+                    mode={mode}
                 />;
             })}
         </div>;
