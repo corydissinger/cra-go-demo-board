@@ -1,9 +1,19 @@
 import * as _ from 'lodash';
+// yeehaw circular dependency
 import * as UTILS from './utils';
 
 export const GAME_9_x_9 = 'GAME_9_x_9';
 export const GAME_13_x_13 = 'GAME_13_x_13';
 export const GAME_19_x_19 = 'GAME_19_x_19';
+
+export const NORTH = 'NORTH';
+export const NORTH_EAST = 'NORTH_EAST';
+export const EAST = 'EAST';
+export const SOUTH_EAST = 'SOUTH_EAST';
+export const SOUTH = 'SOUTH';
+export const SOUTH_WEST = 'SOUTH_WEST';
+export const WEST = 'WEST';
+export const NORTH_WEST = 'NORTH_WEST';
 
 export const MIN_COLUMN = 'a';
 export const MIN_SIDE_COLUMN = 'b';

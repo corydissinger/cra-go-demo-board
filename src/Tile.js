@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import * as UTILS from './store/constants/utils';
 import * as FLAGS from './store/constants/flags';
 
 class Tile extends Component {
@@ -10,33 +11,13 @@ class Tile extends Component {
             yCoordinate,
         } = this.props;
 
-        if (this.getCornerConstant(mode).includes(`${xCoordinate}${yCoordinate}`)) {
+        if (UTILS.getCornerConstant(mode).includes(`${xCoordinate}${yCoordinate}`)) {
             this.drawCorner();
-        } else if (this.getSideConstant(mode).includes(`${xCoordinate}${yCoordinate}`)) {
+        } else if (UTILS.getSideConstant(mode).includes(`${xCoordinate}${yCoordinate}`)) {
             this.drawSide();
         } else {
             this.drawIntersection();
         }
-    }
-    
-    getCornerConstant(mode) {
-        if (FLAGS.GAME_9_x_9 === mode) {
-            return FLAGS.CORNERS_9_x_9;
-        } else if (FLAGS.GAME_13_x_13 === mode) {
-            return FLAGS.CORNERS_13_x_13;
-        } else if (FLAGS.GAME_19_x_19 === mode) {
-            return FLAGS.CORNERS_19_x_19;
-        }
-    }
-
-    getSideConstant(mode) {
-        if (FLAGS.GAME_9_x_9 === mode) {
-            return FLAGS.SIDES_9_x_9;
-        } else if (FLAGS.GAME_13_x_13 === mode) {
-            return FLAGS.SIDES_13_x_13;
-        } else if (FLAGS.GAME_19_x_19 === mode) {
-            return FLAGS.SIDES_19_x_19;
-        }        
     }
     
     drawSide() {
@@ -60,18 +41,43 @@ class Tile extends Component {
     drawCorner() {
         const {
             height,
+            mode,
             width,
+            xCoordinate,
+            yCoordinate,
         } = this.props;        
         
         const canvas = this.refs.canvas;
         const ctx = canvas.getContext('2d');
 
-        const midX = width / 2;
-        const midY = height / 2;
+        const cardinalDirection = UTILS.getCardinalDirection(mode, `${xCoordinate}${yCoordinate}`);
 
         ctx.beginPath();
-        ctx.moveTo(width, height);
-        ctx.lineTo(midX, midY);
+
+        console.log(`Found direction: ${cardinalDirection} for ${xCoordinate}${yCoordinate}`);
+
+        if (FLAGS.NORTH_EAST === cardinalDirection) {
+            ctx.moveTo(0, 0);
+            ctx.lineTo(width, 0);
+            ctx.moveTo(width, 0);
+            ctx.lineTo(width, height);
+        } else if (FLAGS.SOUTH_EAST === cardinalDirection) {
+            ctx.moveTo(width, 0);
+            ctx.lineTo(width, height);
+            ctx.moveTo(width, height);
+            ctx.lineTo(0, height);
+        } else if (FLAGS.SOUTH_WEST === cardinalDirection) {
+            ctx.moveTo(width, height);
+            ctx.lineTo(0, height);
+            ctx.moveTo(0, height);
+            ctx.lineTo(0, 0);
+        } else if (FLAGS.NORTH_WEST === cardinalDirection) {
+            ctx.moveTo(0, height);
+            ctx.lineTo(0, 0);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(width, 0);
+        }
+
         ctx.stroke();        
     }
     
@@ -89,8 +95,10 @@ class Tile extends Component {
 
         ctx.beginPath();
         ctx.moveTo(0, midY);
-        ctx.lineTo(width, height);
-        ctx.stroke();        
+        ctx.lineTo(width, midY);
+        ctx.moveTo(midX, 0);
+        ctx.lineTo(midX, height);
+        ctx.stroke();
     }
     
     render() {
