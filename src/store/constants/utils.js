@@ -33,18 +33,30 @@ export const getSideConstant = (mode) => {
 };
 
 export const getCardinalDirection = (mode, coordinate) => {
-    if (`${FLAGS.MIN_COLUMN}${FLAGS.MIN_ROW}` === coordinate) {
+    if (FLAGS.CORNER_ALL_NW === coordinate) {
         return FLAGS.NORTH_WEST;
     } 
     
     if (FLAGS.GAME_9_x_9 === mode) {
-        if (`${FLAGS.MIN_COLUMN}${FLAGS.MAX_9_x_9_ROW}` === coordinate) {
+        if (FLAGS.CORNER_9_x_9_SW === coordinate) {
             return FLAGS.SOUTH_WEST;
-        } else if (`${FLAGS.MAX_9_x_9_COLUMN}${FLAGS.MIN_ROW}` === coordinate) {
+        } else if (FLAGS.CORNER_9_x_9_NE === coordinate) {
             return FLAGS.NORTH_EAST;
-        } else if (`${FLAGS.MIN_COLUMN}${FLAGS.MAX_9_x_9_ROW}` === coordinate) {
+        } else if (FLAGS.CORNER_9_x_9_SE === coordinate) {
             return FLAGS.SOUTH_EAST;
+        } else { // let me die
+            if (FLAGS.MIN_COLUMN === coordinate[0]) {
+                return FLAGS.WEST;
+            } else if (FLAGS.MIN_ROW === coordinate[1]) {
+                return FLAGS.NORTH;
+            } else if (FLAGS.MAX_9_x_9_COLUMN === coordinate[0]) {
+                return FLAGS.EAST;
+            } else if (FLAGS.MAX_9_x_9_ROW === coordinate[1]) {
+                return FLAGS.SOUTH;
+            }
         }
+
+        throw new Error('Avast ye matey, shouldn"nt be branching to this island in 9 x 9');
     }
 
     if (FLAGS.GAME_13_x_13 === mode) {
@@ -55,6 +67,8 @@ export const getCardinalDirection = (mode, coordinate) => {
         } else if (`${FLAGS.MIN_COLUMN}${FLAGS.MAX_13_x_13_ROW}` === coordinate) {
             return FLAGS.SOUTH_EAST;
         }
+
+        throw new Error('Avast ye matey, shouldn"nt be branching to this island in 13 x 13');
     }
 
     if (FLAGS.GAME_19_x_19 === mode) {
@@ -65,5 +79,7 @@ export const getCardinalDirection = (mode, coordinate) => {
         } else if (`${FLAGS.MIN_COLUMN}${FLAGS.MAX_19_x_19_ROW}` === coordinate) {
             return FLAGS.SOUTH_EAST;
         }
+
+        throw new Error('Avast ye matey, shouldn"nt be branching to this island in 19 x 19');
     }    
 };

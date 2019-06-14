@@ -11,13 +11,6 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-        
-        console.log(FLAGS.CORNERS_9_x_9);
-        console.log(FLAGS.CORNERS_13_x_13);
-        console.log(FLAGS.CORNERS_19_x_19);
-        console.log(FLAGS.SIDES_9_x_9);
-        console.log(FLAGS.SIDES_13_x_13);
-        console.log(FLAGS.SIDES_19_x_19);        
     }
 
     componentDidMount() {

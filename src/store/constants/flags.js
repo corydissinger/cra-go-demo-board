@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 // yeehaw circular dependency
 import * as UTILS from './utils';
 
+// yeehaw constants and pointers and strings oh my
 export const GAME_9_x_9 = 'GAME_9_x_9';
 export const GAME_13_x_13 = 'GAME_13_x_13';
 export const GAME_19_x_19 = 'GAME_19_x_19';
@@ -31,11 +32,18 @@ export const MAX_19_x_19_COLUMN = 't';
 export const MAX_19_x_19_SIDE_COLUMN = 's';
 export const MAX_19_x_19_ROW    = '19';
 
+// it's always a1 doofus
+export const CORNER_ALL_NW = `${MIN_COLUMN}${MIN_ROW}`;
+
+export const CORNER_9_x_9_NE = `${MIN_COLUMN}${MAX_9_x_9_ROW}`;
+export const CORNER_9_x_9_SE = `${MAX_9_x_9_COLUMN}${MIN_ROW}`;
+export const CORNER_9_x_9_SW = `${MAX_9_x_9_COLUMN}${MAX_9_x_9_ROW}`;
+
 export const CORNERS_9_x_9 = [
-    `${MIN_COLUMN}${MIN_ROW}`,
-    `${MIN_COLUMN}${MAX_9_x_9_ROW}`,
-    `${MAX_9_x_9_COLUMN}${MIN_ROW}`,
-    `${MAX_9_x_9_COLUMN}${MAX_9_x_9_ROW}`,
+    CORNER_ALL_NW,
+    CORNER_9_x_9_NE,
+    CORNER_9_x_9_SE,
+    CORNER_9_x_9_SW,
 ];
 
 export const CORNERS_13_x_13 = [
