@@ -74,37 +74,6 @@ class Board extends Component {
     }
 }
 
-// Maybe make tests for this stuff?
-const gobanWidthToHeightRatio = Number(1.071428571428571);
-const gobanHeightToWidthRatio = Number(0.933333333333333);
-
-//https://senseis.xmp.net/?EquipmentDimensions
-const calculateTileDimensions = ({
-    configurationHeight,
-    mode,
-    windowHeight,
-    windowWidth,
-}) => {
-    const workingHeight = windowHeight - configurationHeight;
-    const desiredWidth = workingHeight * gobanHeightToWidthRatio;
-    let tileRatio = 0;
-
-    if (FLAGS.GAME_9_x_9 === mode) {
-        tileRatio = Number(1/9);
-    } else if (FLAGS.GAME_13_x_13 === mode) {
-        tileRatio = Number(1/13);
-    } else if (FLAGS.GAME_19_x_19 === mode) {
-        tileRatio = Number(1/19);
-    } else {
-        throw new Error('No known mode');
-    }
-
-    return {
-        height: workingHeight * tileRatio,
-        width: desiredWidth * tileRatio,
-    };
-};
-
 const mapStateToProps = (state) => {
     const {
         mode,
@@ -114,7 +83,7 @@ const mapStateToProps = (state) => {
     } = state;
 
     const tileDimensions =
-        calculateTileDimensions({
+        UTILS.calculateTileDimensions({
             configurationHeight,
             mode,
             windowHeight,

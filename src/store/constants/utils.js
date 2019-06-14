@@ -44,15 +44,15 @@ export const getCardinalDirection = (mode, coordinate) => {
             return FLAGS.NORTH_EAST;
         } else if (FLAGS.CORNER_9_x_9_SE === coordinate) {
             return FLAGS.SOUTH_EAST;
-        } else { // let me die
+        } else { // let me die I made these so confusing
             if (FLAGS.MIN_COLUMN === coordinate[0]) {
-                return FLAGS.WEST;
-            } else if (FLAGS.MIN_ROW === coordinate[1]) {
                 return FLAGS.NORTH;
+            } else if (FLAGS.MIN_ROW === coordinate[1]) {
+                return FLAGS.WEST;
             } else if (FLAGS.MAX_9_x_9_COLUMN === coordinate[0]) {
-                return FLAGS.EAST;
-            } else if (FLAGS.MAX_9_x_9_ROW === coordinate[1]) {
                 return FLAGS.SOUTH;
+            } else if (FLAGS.MAX_9_x_9_ROW === coordinate[1]) {
+                return FLAGS.EAST;
             }
         }
 
@@ -82,4 +82,36 @@ export const getCardinalDirection = (mode, coordinate) => {
 
         throw new Error('Avast ye matey, shouldn"nt be branching to this island in 19 x 19');
     }    
+};
+
+//https://senseis.xmp.net/?EquipmentDimensions
+export const calculateTileDimensions = ({
+                                     configurationHeight,
+                                     mode,
+                                     windowHeight,
+                                     windowWidth,
+                                 }) => {
+    const workingHeight = windowHeight - configurationHeight;
+    const desiredWidth = workingHeight * FLAGS.gobanHeightToWidthRatio;
+    let tileRatio = 0;
+
+    if (FLAGS.GAME_9_x_9 === mode) {
+        tileRatio = Number(1/9);
+    } else if (FLAGS.GAME_13_x_13 === mode) {
+        tileRatio = Number(1/13);
+    } else if (FLAGS.GAME_19_x_19 === mode) {
+        tileRatio = Number(1/19);
+    } else {
+        throw new Error('No known mode');
+    }
+    
+    const height = Math.floor(workingHeight * tileRatio);
+    const width = Math.floor(desiredWidth * tileRatio); 
+
+    // Otherwise these calculations will cause lines to be drawn outside
+    // the bounding canvas
+    return {
+        height: height % 2 === 0 ? height : height - 1,
+        width: width % 2 === 0 ? width : width - 1,
+    };
 };

@@ -39,37 +39,29 @@ class Tile extends Component {
 
         ctx.beginPath();
 
-        // I've done something horribly wrong or I'm very stupid
         if (FLAGS.WEST === cardinalDirection) {
-            ctx.moveTo(0, 0);
-            ctx.lineTo(width, 0);
             ctx.moveTo(midX, 0);
             ctx.lineTo(midX, height);
+            ctx.moveTo(midX, midY);
+            ctx.lineTo(width, midY);
         } else if (FLAGS.NORTH === cardinalDirection) {
-            ctx.moveTo(0, 0);
-            ctx.lineTo(0, height);
             ctx.moveTo(0, midY);
             ctx.lineTo(width, midY);
+            ctx.moveTo(midX, midY);
+            ctx.lineTo(midX, height);
         } else if (FLAGS.EAST === cardinalDirection) {
-            console.log(`Painting east T for ${xCoordinate}${yCoordinate}`);
-
-            ctx.moveTo(width, 0);
-            ctx.lineTo(width, height);
-            ctx.moveTo(width, midY);
-            ctx.lineTo(0, midY);
+            ctx.moveTo(midX, 0);
+            ctx.lineTo(midX, height);
+            ctx.moveTo(0, midY);
+            ctx.lineTo(midX, midY);
         } else if (FLAGS.SOUTH === cardinalDirection) {
-            console.log(`Painting south T for ${xCoordinate}${yCoordinate}`);
-
-            ctx.moveTo(0, 0);
-            ctx.lineTo(0, height);
             ctx.moveTo(0, midY);
             ctx.lineTo(width, midY);
+            ctx.moveTo(midX, 0);
+            ctx.lineTo(midX, midY);
         }
 
         ctx.stroke();
-
-        ctx.font = '24px serif';
-        ctx.fillText(`${xCoordinate}${yCoordinate}`, midX, midY);
     }
 
     drawCorner() {
@@ -86,28 +78,27 @@ class Tile extends Component {
 
         const cardinalDirection = UTILS.getCardinalDirection(mode, `${xCoordinate}${yCoordinate}`);
 
+        const midX = width / 2;
+        const midY = height / 2;
+
         ctx.beginPath();
 
         if (FLAGS.NORTH_EAST === cardinalDirection) {
-            ctx.moveTo(0, 0);
-            ctx.lineTo(width, 0);
-            ctx.moveTo(width, 0);
-            ctx.lineTo(width, height);
+            ctx.moveTo(0, midY);
+            ctx.lineTo(midX, midY);
+            ctx.lineTo(midX, height);
         } else if (FLAGS.SOUTH_EAST === cardinalDirection) {
-            ctx.moveTo(width, 0);
-            ctx.lineTo(width, height);
-            ctx.moveTo(width, height);
-            ctx.lineTo(0, height);
+            ctx.moveTo(midX, 0);
+            ctx.lineTo(midX, midY);
+            ctx.lineTo(0, midY);
         } else if (FLAGS.SOUTH_WEST === cardinalDirection) {
-            ctx.moveTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.moveTo(0, height);
-            ctx.lineTo(0, 0);
+            ctx.moveTo(width, midY);
+            ctx.lineTo(midX, midY);
+            ctx.lineTo(midX, 0);
         } else if (FLAGS.NORTH_WEST === cardinalDirection) {
-            ctx.moveTo(0, height);
-            ctx.lineTo(0, 0);
-            ctx.moveTo(0, 0);
-            ctx.lineTo(width, 0);
+            ctx.moveTo(midX, height);
+            ctx.lineTo(midX, midY);
+            ctx.lineTo(width, midY);
         }
 
         ctx.stroke();        

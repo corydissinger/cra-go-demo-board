@@ -3,6 +3,9 @@ import * as _ from 'lodash';
 import * as UTILS from './utils';
 
 // yeehaw constants and pointers and strings oh my
+export const gobanWidthToHeightRatio = Number(1.071428571428571);
+export const gobanHeightToWidthRatio = Number(0.933333333333333);
+
 export const GAME_9_x_9 = 'GAME_9_x_9';
 export const GAME_13_x_13 = 'GAME_13_x_13';
 export const GAME_19_x_19 = 'GAME_19_x_19';
@@ -36,8 +39,8 @@ export const MAX_19_x_19_ROW    = '19';
 export const CORNER_ALL_NW = `${MIN_COLUMN}${MIN_ROW}`;
 
 export const CORNER_9_x_9_NE = `${MIN_COLUMN}${MAX_9_x_9_ROW}`;
-export const CORNER_9_x_9_SE = `${MAX_9_x_9_COLUMN}${MIN_ROW}`;
-export const CORNER_9_x_9_SW = `${MAX_9_x_9_COLUMN}${MAX_9_x_9_ROW}`;
+export const CORNER_9_x_9_SE = `${MAX_9_x_9_COLUMN}${MAX_9_x_9_ROW}`;
+export const CORNER_9_x_9_SW = `${MAX_9_x_9_COLUMN}${MIN_ROW}`;
 
 export const CORNERS_9_x_9 = [
     CORNER_ALL_NW,
