@@ -95,6 +95,8 @@ export const getCardinalDirection = (mode, coordinate) => {
 };
 
 //https://senseis.xmp.net/?EquipmentDimensions
+// This function determines the width and height of each renderable tile.
+// corners and sides will get an additional padding for aesthetic.
 export const calculateTileDimensions = ({
                                      configurationHeight,
                                      mode,
@@ -126,6 +128,6 @@ export const calculateTileDimensions = ({
     };
 };
 
-export const stoneRadius = (boardWidth) => {
-    return boardWidth * FLAGS.gobanStoneToWidthRatio;
+export const stoneRadius = (tileHeight) => {
+    return Math.floor((tileHeight * FLAGS.gobanStoneDiameterToTileHeightRatio) / 2);
 };

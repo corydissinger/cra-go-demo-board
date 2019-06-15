@@ -167,7 +167,7 @@ class Tile extends Component {
         ctx.beginPath();
         ctx.arc(midX, midY, stoneRadius, 0, 2 * Math.PI);
         ctx.stroke();
-        console.log(`Showing stone for ${colCoordinate}${rowCoordinate}`);
+        console.log(`Showing stone for ${colCoordinate}${rowCoordinate} with r ${stoneRadius}`);
     }
 
     hideStone() {

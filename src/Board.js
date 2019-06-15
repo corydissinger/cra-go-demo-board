@@ -93,7 +93,7 @@ const mapStateToProps = (state) => {
             windowWidth,
         });
 
-    const stoneRadius = GAME_MATHS.stoneRadius(windowWidth);
+    const stoneRadius = GAME_MATHS.stoneRadius(tileDimensions.height);
 
     console.log(`Configuration height: ${configurationHeight}, Window width: ${windowWidth}, window height: ${windowHeight}, calculated tile dims: ${JSON.stringify(tileDimensions)}`);
 

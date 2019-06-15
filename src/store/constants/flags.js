@@ -4,7 +4,7 @@ import * as UTILS from './utils';
 // yeehaw constants and pointers and strings oh my
 export const gobanWidthToHeightRatio = Number(1.071428571428571);
 export const gobanHeightToWidthRatio = Number(0.933333333333333);
-export const gobanStoneToWidthRatio = Number(0.053041018387553);
+export const gobanStoneDiameterToTileHeightRatio = Number(0.949367088607595);
 
 export const GAME_9_x_9 = 'GAME_9_x_9';
 export const GAME_13_x_13 = 'GAME_13_x_13';
