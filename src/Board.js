@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as _ from 'lodash';
 import * as FLAGS from './store/constants/flags';
 import * as UTILS from './store/constants/utils';
+import * as GAME_MATHS from './store/constants/gameMaths';
 import Tile from './Tile';
 
 class Board extends Component {
@@ -11,11 +12,11 @@ class Board extends Component {
 
         // Yay hardcoding
         if (mode === FLAGS.GAME_9_x_9) {
-            return UTILS.genCharArray('a', 'i');
+            return UTILS.genCharArray(FLAGS.MIN_COLUMN, FLAGS.MAX_9_x_9_COLUMN);
         } else if (mode === FLAGS.GAME_13_x_13) {
-            return UTILS.genCharArray('a', 'm');
+            return UTILS.genCharArray(FLAGS.MIN_COLUMN, FLAGS.MAX_13_x_13_COLUMN);
         } else if (mode === FLAGS.GAME_19_x_19) {
-            return UTILS.genCharArray('a', 't');
+            return UTILS.genCharArray(FLAGS.MIN_COLUMN, FLAGS.MAX_19_x_19_COLUMN);
         } else {
             throw new Error('No known mode selected');
         }
@@ -36,22 +37,24 @@ class Board extends Component {
         }
     }
 
-    renderRow(aLetterCoordinate, numberCoordinates) {
+    renderRow(aNumberCoordinate, letterCoordinates) {
         const {
             mode,
+            stoneRadius,
             tileDimensions,
         } = this.props;
 
         return <div
-            key={`${mode}${aLetterCoordinate}`}
+            key={`${mode}${aNumberCoordinate}`}
             className="flex-container"
         >
-            {_.map(numberCoordinates, aNumberCoordinate => {
+            {_.map(letterCoordinates, aLetterCoordinate => {
                 return <Tile
-                    key={`${mode}${aNumberCoordinate}`}
-                    xCoordinate={aLetterCoordinate}
-                    yCoordinate={aNumberCoordinate}
+                    key={`${mode}${aLetterCoordinate}${aNumberCoordinate}`}
+                    colCoordinate={aLetterCoordinate}
+                    rowCoordinate={aNumberCoordinate}
                     height={tileDimensions.height}
+                    stoneRadius={stoneRadius}
                     width={tileDimensions.width}
                     mode={mode}
                 />;
@@ -66,8 +69,8 @@ class Board extends Component {
 
         return (
             <div id="board">
-                {_.map(letterCoordinates, aLetterCoordinate => {
-                    return this.renderRow(aLetterCoordinate, numberCoordinates);
+                {_.map(numberCoordinates, aNumberCoordinate => {
+                    return this.renderRow(aNumberCoordinate, letterCoordinates);
                 })}
             </div>
         );
@@ -83,17 +86,20 @@ const mapStateToProps = (state) => {
     } = state;
 
     const tileDimensions =
-        UTILS.calculateTileDimensions({
+        GAME_MATHS.calculateTileDimensions({
             configurationHeight,
             mode,
             windowHeight,
             windowWidth,
         });
 
+    const stoneRadius = GAME_MATHS.stoneRadius(windowWidth);
+
     console.log(`Configuration height: ${configurationHeight}, Window width: ${windowWidth}, window height: ${windowHeight}, calculated tile dims: ${JSON.stringify(tileDimensions)}`);
 
     return {
         mode,
+        stoneRadius,
         tileDimensions,
     };
 };

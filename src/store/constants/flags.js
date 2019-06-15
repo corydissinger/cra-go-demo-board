@@ -1,10 +1,10 @@
 import * as _ from 'lodash';
-// yeehaw circular dependency
 import * as UTILS from './utils';
 
 // yeehaw constants and pointers and strings oh my
 export const gobanWidthToHeightRatio = Number(1.071428571428571);
 export const gobanHeightToWidthRatio = Number(0.933333333333333);
+export const gobanStoneToWidthRatio = Number(0.053041018387553);
 
 export const GAME_9_x_9 = 'GAME_9_x_9';
 export const GAME_13_x_13 = 'GAME_13_x_13';
@@ -24,23 +24,31 @@ export const MIN_SIDE_COLUMN = 'b';
 export const MIN_ROW = '1';
 
 export const MAX_9_x_9_COLUMN = 'i';
-export const MAX_9_x_9_SIDE_COLUMN = 'h';
+export const MAX_EASTWARD_9_x_9_COLUMN_FOR_NORTH_SOUTH = 'h';
 export const MAX_9_x_9_ROW    = '9';
 
 export const MAX_13_x_13_COLUMN = 'm';
-export const MAX_13_x_13_SIDE_COLUMN = 'l';
+export const MAX_EASTWARD_13_x_13_COLUMN_FOR_NORTH_SOUTH = 'l';
 export const MAX_13_x_13_ROW    = '13';
 
-export const MAX_19_x_19_COLUMN = 't';
-export const MAX_19_x_19_SIDE_COLUMN = 's';
+export const MAX_19_x_19_COLUMN = 's';
+export const MAX_EASTWARD_19_x_19_COLUMN_FOR_NORTH_SOUTH = 'r';
 export const MAX_19_x_19_ROW    = '19';
 
 // it's always a1 doofus
 export const CORNER_ALL_NW = `${MIN_COLUMN}${MIN_ROW}`;
 
-export const CORNER_9_x_9_NE = `${MIN_COLUMN}${MAX_9_x_9_ROW}`;
+export const CORNER_9_x_9_NE = `${MAX_9_x_9_COLUMN}${MIN_ROW}`;
 export const CORNER_9_x_9_SE = `${MAX_9_x_9_COLUMN}${MAX_9_x_9_ROW}`;
-export const CORNER_9_x_9_SW = `${MAX_9_x_9_COLUMN}${MIN_ROW}`;
+export const CORNER_9_x_9_SW = `${MIN_COLUMN}${MAX_9_x_9_ROW}`;
+
+export const CORNER_13_x_13_NE = `${MAX_13_x_13_COLUMN}${MIN_ROW}`;
+export const CORNER_13_x_13_SE = `${MAX_13_x_13_COLUMN}${MAX_13_x_13_ROW}`;
+export const CORNER_13_x_13_SW = `${MIN_COLUMN}${MAX_13_x_13_ROW}`;
+
+export const CORNER_19_x_19_NE = `${MAX_19_x_19_COLUMN}${MIN_ROW}`;
+export const CORNER_19_x_19_SE = `${MAX_19_x_19_COLUMN}${MAX_19_x_19_ROW}`;
+export const CORNER_19_x_19_SW = `${MIN_COLUMN}${MAX_19_x_19_ROW}`;
 
 export const CORNERS_9_x_9 = [
     CORNER_ALL_NW,
@@ -66,20 +74,20 @@ export const CORNERS_19_x_19 = [
 export const SIDES_9_x_9 = [
     ..._.map(_.range(2, 9), row => `${MIN_COLUMN}${row}`),
     ..._.map(_.range(2, 9), row => `${MAX_9_x_9_COLUMN}${row}`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_9_x_9_SIDE_COLUMN), col => `${col}9`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_9_x_9_SIDE_COLUMN), col => `${col}1`),
+    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_9_x_9_COLUMN_FOR_NORTH_SOUTH), col => `${col}9`),
+    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_9_x_9_COLUMN_FOR_NORTH_SOUTH), col => `${col}1`),
 ];
 
 export const SIDES_13_x_13 = [
     ..._.map(_.range(2, 13), row => `${MIN_COLUMN}${row}`),
     ..._.map(_.range(2, 13), row => `${MAX_13_x_13_COLUMN}${row}`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_13_x_13_SIDE_COLUMN), col => `${col}13`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_13_x_13_SIDE_COLUMN), col => `${col}1`),
+    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_13_x_13_COLUMN_FOR_NORTH_SOUTH), col => `${col}13`),
+    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_13_x_13_COLUMN_FOR_NORTH_SOUTH), col => `${col}1`),
 ];
 
 export const SIDES_19_x_19 = [
     ..._.map(_.range(2, 19), row => `${MIN_COLUMN}${row}`),
     ..._.map(_.range(2, 19), row => `${MAX_19_x_19_COLUMN}${row}`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_19_x_19_SIDE_COLUMN), col => `${col}19`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_19_x_19_SIDE_COLUMN), col => `${col}1`),
+    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_19_x_19_COLUMN_FOR_NORTH_SOUTH), col => `${col}19`),
+    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_19_x_19_COLUMN_FOR_NORTH_SOUTH), col => `${col}1`),
 ];
