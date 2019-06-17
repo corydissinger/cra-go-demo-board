@@ -65,9 +65,9 @@ class Configuration extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        mode: state.mode,
-        turnNumber: state.turnNumber,
-        configurationHeight: state.configurationHeight,
+        mode: state.game.mode,
+        turnNumber: state.game.turnNumber,
+        configurationHeight: state.game.configurationHeight,
     };
 };
 

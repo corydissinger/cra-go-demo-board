@@ -1,28 +1,26 @@
-import * as _ from 'lodash';
-
 import * as FLAGS from '../constants/flags';
+import * as ACTIONS from '../constants/actions';
 
 const initialState = {
-    mode: FLAGS.GAME_9_x_9,
+    a1: FLAGS.STONE_NONE,
 };
 
 const board = (state = initialState, action) => {
     switch (action.type) {
-        case 'ADD_TODO':
-            return [
+        case ACTIONS.SET_MODE:
+            return initialState;
+        case ACTIONS.SET_STONE:
+            const {
+                colCoordinate,
+                rowCoordinate,
+                color,
+            } = action.payload;
+
+            // fancy JS YOLO who needs Types or TypeScript when you can do this
+            return {
                 ...state,
-                {
-                    id: action.id,
-                    text: action.text,
-                    completed: false
-                }
-            ];
-        case 'TOGGLE_TODO':
-            return _.map(state, todo =>
-                (todo.id === action.id)
-                    ? {...todo, completed: !todo.completed}
-                    : todo
-            );
+                [`${colCoordinate}${rowCoordinate}`]: color,
+            };
         default:
             return state;
     }

@@ -2,9 +2,19 @@ import * as _ from 'lodash';
 import * as UTILS from './utils';
 
 // yeehaw constants and pointers and strings oh my
+
+// Ratios expertly calculated from here
+//https://senseis.xmp.net/?EquipmentDimensions
 export const GOBAN_WIDTH_TO_HEIGHT_RATIO = Number(1.071428571428571);
 export const GOBAN_HEIGHT_TO_WIDTH_RATIO = Number(0.933333333333333);
 export const GOBAN_STONE_DIAMETER_TO_TILE_HEIGHT_RATIO = Number(0.949367088607595);
+
+export const TURN_BLACK = 'TURN_BLACK';
+export const TURN_WHITE = 'TURN_WHITE';
+
+export const STONE_NONE = 'STONE_NONE';
+export const STONE_BLACK = 'STONE_BLACK';
+export const STONE_WHITE = 'STONE_WHITE';
 
 export const GAME_9_x_9 = 'GAME_9_x_9';
 export const GAME_13_x_13 = 'GAME_13_x_13';

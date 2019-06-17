@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as UTILS from './store/constants/gameMaths';
 import * as FLAGS from './store/constants/flags';
+import { setStone } from './store/actions/board';
+import { placedStoneSelector } from './store/selectors/board';
+import { connect } from 'react-redux';
 
 class Tile extends Component {
     constructor(props) {
         super(props);
-        this.showStone = this.showStone.bind(this);
-        this.hideStone = this.hideStone.bind(this);
+        this.showPreviewStone = this.showPreviewStone.bind(this);
+        this.hidePreviewStone = this.hidePreviewStone.bind(this);
         this.drawTile = this.drawTile.bind(this);
     }
 
@@ -24,6 +27,7 @@ class Tile extends Component {
             mode,
             rowCoordinate,
             colCoordinate,
+            stonePlaced,
         } = this.props;
 
         if (UTILS.getCornersConstant(mode).includes(`${colCoordinate}${rowCoordinate}`)) {
@@ -32,6 +36,10 @@ class Tile extends Component {
             this.drawSide();
         } else {
             this.drawIntersection();
+        }
+        
+        if (FLAGS.STONE_NONE !== stonePlaced) {
+            this.drawStone();
         }
     }
 
@@ -153,13 +161,17 @@ class Tile extends Component {
         ctx.stroke();
     }
 
-    showStone() {
+    drawStone() {
+        const { stonePlaced } = this.props;
+
+        this.drawStoneInternal(FLAGS.STONE_BLACK === stonePlaced);
+    }
+
+    drawStoneInternal(isBlack) {
         const {
             height,
             stoneRadius,
             width,
-            rowCoordinate,
-            colCoordinate,
         } = this.props;
 
         const canvas = this.refs.canvas;
@@ -170,11 +182,22 @@ class Tile extends Component {
 
         ctx.beginPath();
         ctx.arc(midX, midY, stoneRadius, 0, 2 * Math.PI);
+
+        if (isBlack) {
+            ctx.fillStyle = '#000000';
+            ctx.fill();
+        }
+
         ctx.stroke();
-        console.log(`Showing stone for ${colCoordinate}${rowCoordinate} with r ${stoneRadius}`);
     }
 
-    hideStone() {
+    showPreviewStone() {
+        const { turnColor } = this.props;
+
+        this.drawStoneInternal(FLAGS.TURN_BLACK === turnColor);
+    }
+
+    hidePreviewStone() {
         const {
             height,
             width,
@@ -186,10 +209,12 @@ class Tile extends Component {
         ctx.clearRect(0, 0, width, height);
         this.drawTile();
     }
-    
+
     render() {
         const {
             height,
+            setStone,
+            stonePlaced,
             width,
         } = this.props;
 
@@ -198,9 +223,10 @@ class Tile extends Component {
                 height={height}
                 width={width}
                 ref="canvas"
-                onMouseOver={this.showStone}
-                onMouseOut={this.hideStone}
-            ></canvas>
+                onMouseOver={FLAGS.STONE_NONE === stonePlaced ? this.showPreviewStone : () => {}}
+                onMouseOut={FLAGS.STONE_NONE === stonePlaced ? this.hidePreviewStone : () => {}}
+                onClick={FLAGS.STONE_NONE === stonePlaced ? setStone : () => {}}
+            />
         );
     }
 }
@@ -212,7 +238,31 @@ Tile.propTypes = {
     stoneRadius: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     mode: PropTypes.string.isRequired,
+    stonePlaced: PropTypes.string.isRequired,
+    turnColor: PropTypes.string.isRequired,
 };
 
-// export default connect(mapStateToProps)(Tile);
-export default Tile;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        stonePlaced: placedStoneSelector(state, ownProps),
+        turnColor: state.game.turnColor,
+    };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    const {
+        colCoordinate,
+        rowCoordinate,
+    } = ownProps;
+
+    return {
+        setStone: () => {
+            dispatch(setStone(colCoordinate, rowCoordinate));
+        },
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Tile);

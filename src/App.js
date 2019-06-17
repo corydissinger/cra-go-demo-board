@@ -41,14 +41,13 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
     const {
+        canRender,
         mode,
-        windowHeight,
-        windowWidth,
-    } = state;
+    } = state.game;
 
     return {
         mode,
-        canRender: windowWidth && windowHeight,
+        canRender,
     };
 };
 

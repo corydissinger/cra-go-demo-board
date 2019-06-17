@@ -83,7 +83,7 @@ const mapStateToProps = (state) => {
         windowHeight,
         windowWidth,
         configurationHeight
-    } = state;
+    } = state.game;
 
     const boardDimensions =
         GAME_MATHS.calculateBoardDimensions({
