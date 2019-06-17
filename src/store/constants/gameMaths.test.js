@@ -82,3 +82,62 @@ it('returns correct cardinal direction for each game mode', () => {
     expect(w19).toEqual(FLAGS.WEST);
     expect(nw19).toEqual(FLAGS.NORTH_WEST);
 });
+
+it('returns reasonable board dimensions', () => {
+    const test_800_600 = GAME_MATHS.calculateBoardDimensions({
+        configurationHeight: 100,
+        windowWidth: 800,
+        windowHeight: 600,
+    });
+
+    const test_1024_768 = GAME_MATHS.calculateBoardDimensions({
+        configurationHeight: 300,
+        windowWidth: 1024,
+        windowHeight: 768,
+    });
+
+    expect(test_800_600).toEqual({
+        height: 499,
+        width: 466,
+    });
+
+    expect(test_1024_768).toEqual({
+        height: 467,
+        width: 436,
+    });
+});
+
+it('returns reasonable tile dimensions', () => {
+    const test_1024_768_9_x_9 = GAME_MATHS.calculateTileDimensions({
+        mode: FLAGS.GAME_9_x_9,
+        boardWidth: 560,
+        boardHeight: 612,
+    });
+
+    const test_1024_768_13_x_13 = GAME_MATHS.calculateTileDimensions({
+        mode: FLAGS.GAME_13_x_13,
+        boardWidth: 560,
+        boardHeight: 612,
+    });
+
+    const test_1024_768_19_x_19 = GAME_MATHS.calculateTileDimensions({
+        mode: FLAGS.GAME_19_x_19,
+        boardWidth: 560,
+        boardHeight: 612,
+    });
+
+    expect(test_1024_768_9_x_9).toEqual({
+        height: 68,
+        width: 62,
+    });
+
+    expect(test_1024_768_13_x_13).toEqual({
+        height: 46,
+        width: 42,
+    });
+
+    expect(test_1024_768_19_x_19).toEqual({
+        height: 32,
+        width: 28,
+    });
+});
