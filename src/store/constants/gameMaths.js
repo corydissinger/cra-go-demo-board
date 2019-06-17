@@ -94,20 +94,31 @@ export const getCardinalDirection = (mode, coordinate) => {
     }    
 };
 
-//https://senseis.xmp.net/?EquipmentDimensions
-// This function determines the width and height of each renderable tile.
-// corners and sides will get an additional padding for aesthetic.
-export const calculateTileDimensions = ({
+// Calculates how much space the board can have on the screen
+export const calculateBoardDimensions = ({
                                      configurationHeight,
-                                     mode,
                                      windowHeight,
                                      windowWidth,
                                  }) => {
-
     const workingHeight = windowHeight - configurationHeight;
     let desiredWidth = workingHeight * FLAGS.GOBAN_HEIGHT_TO_WIDTH_RATIO;
     desiredWidth = windowWidth > desiredWidth ? desiredWidth : windowWidth - 10; // very scientific
     const desiredHeight = desiredWidth * FLAGS.GOBAN_WIDTH_TO_HEIGHT_RATIO;
+
+    return {
+        height: Math.floor(desiredHeight),
+        width: Math.floor(desiredWidth),
+    };
+};
+
+//https://senseis.xmp.net/?EquipmentDimensions
+// This function determines the width and height of each renderable tile.
+// corners and sides will get an additional padding for aesthetic.
+export const calculateTileDimensions = ({
+                                     mode,
+                                     boardHeight,
+                                     boardWidth,
+                                 }) => {
     let tileRatio = 0;
 
     if (FLAGS.GAME_9_x_9 === mode) {
@@ -120,8 +131,8 @@ export const calculateTileDimensions = ({
         throw new Error('No known mode');
     }
     
-    const height = Math.floor(desiredHeight * tileRatio);
-    const width = Math.floor(desiredWidth * tileRatio); 
+    const height = Math.floor(boardHeight * tileRatio);
+    const width = Math.floor(boardWidth * tileRatio);
 
     // Otherwise these calculations will cause lines to be drawn outside
     // the bounding canvas

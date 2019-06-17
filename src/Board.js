@@ -85,12 +85,18 @@ const mapStateToProps = (state) => {
         configurationHeight
     } = state;
 
-    const tileDimensions =
-        GAME_MATHS.calculateTileDimensions({
+    const boardDimensions =
+        GAME_MATHS.calculateBoardDimensions({
             configurationHeight,
-            mode,
             windowHeight,
             windowWidth,
+        });
+
+    const tileDimensions =
+        GAME_MATHS.calculateTileDimensions({
+            mode,
+            boardHeight: boardDimensions.height,
+            boardWidth: boardDimensions.width,
         });
 
     const stoneRadius = GAME_MATHS.stoneRadius(tileDimensions.height);
