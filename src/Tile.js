@@ -15,6 +15,10 @@ class Tile extends Component {
         this.drawTile();
     }
 
+    componentDidUpdate() {
+        this.drawTile();
+    }
+
     drawTile() {
         const {
             mode,

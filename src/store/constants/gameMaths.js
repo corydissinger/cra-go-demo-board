@@ -103,7 +103,7 @@ export const calculateTileDimensions = ({
                                      windowHeight,
                                      windowWidth,
                                  }) => {
-    
+
     const workingHeight = windowHeight - configurationHeight;
     let desiredWidth = workingHeight * FLAGS.GOBAN_HEIGHT_TO_WIDTH_RATIO;
     desiredWidth = windowWidth > desiredWidth ? desiredWidth : windowWidth - 10; // very scientific
