@@ -1,5 +1,6 @@
 import * as GAME_MATHS from './gameMaths';
 import * as FLAGS from './flags';
+import {GAME_9_x_9} from "./flags";
 
 it('returns correct corner arrays', () => {
     const corners9 = GAME_MATHS.getCornersConstant(FLAGS.GAME_9_x_9);
@@ -139,5 +140,260 @@ it('returns reasonable tile dimensions', () => {
     expect(test_1024_768_19_x_19).toEqual({
         height: 32,
         width: 28,
+    });
+});
+
+it('returns correct adjacent coordinates for b4 9 x 9, a random intersection', () => {
+    const b4_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_9_x_9,
+        colCoordinate: 'b',
+        rowCoordinate: '4',
+    });
+
+    expect(b4_9_x_9_adjacents).toEqual({
+        north: 'b3',
+        east: 'c4',
+        south: 'b5',
+        west: 'a4',
+    });
+});
+
+it('returns correct adjacent coordinates for a1 9 x 9, northwest corner', () => {
+    const a1_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_9_x_9,
+        colCoordinate: FLAGS.MIN_COLUMN,
+        rowCoordinate: FLAGS.MIN_ROW,
+    });
+
+    expect(a1_9_x_9_adjacents).toEqual({
+        north: '',
+        east: 'b1',
+        south: 'a2',
+        west: '',
+    });
+});
+
+it('returns correct adjacent coordinates for i1 9 x 9, northeast corner', () => {
+    const i1_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_9_x_9,
+        colCoordinate: FLAGS.MAX_9_x_9_COLUMN,
+        rowCoordinate: FLAGS.MIN_ROW,
+    });
+
+    expect(i1_9_x_9_adjacents).toEqual({
+        north: '',
+        east: '',
+        south: 'i2',
+        west: 'h1',
+    });
+});
+
+it('returns correct adjacent coordinates for i9 9 x 9, southeast corner', () => {
+    const i9_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_9_x_9,
+        colCoordinate: FLAGS.MAX_9_x_9_COLUMN,
+        rowCoordinate: FLAGS.MAX_9_x_9_ROW,
+    });
+
+    expect(i9_9_x_9_adjacents).toEqual({
+        north: 'i8',
+        east: '',
+        south: '',
+        west: 'h9',
+    });
+});
+
+it('returns correct adjacent coordinates for a9 9 x 9, southwest corner', () => {
+    const a9_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_9_x_9,
+        colCoordinate: FLAGS.MIN_COLUMN,
+        rowCoordinate: FLAGS.MAX_9_x_9_ROW,
+    });
+
+    expect(a9_9_x_9_adjacents).toEqual({
+        north: 'a8',
+        east: 'b9',
+        south: '',
+        west: '',
+    });
+});
+
+it('returns correct adjacent coordinates for b1 9 x 9, north side', () => {
+    const a2_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_9_x_9,
+        colCoordinate: 'b',
+        rowCoordinate: FLAGS.MIN_ROW,
+    });
+
+    expect(a2_9_x_9_adjacents).toEqual({
+        north: '',
+        east: 'c1',
+        south: 'b2',
+        west: 'a1',
+    });
+});
+
+it('returns correct adjacent coordinates for i5 9 x 9, east side', () => {
+    const a2_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_9_x_9,
+        colCoordinate: FLAGS.MAX_9_x_9_COLUMN,
+        rowCoordinate: '5',
+    });
+
+    expect(a2_9_x_9_adjacents).toEqual({
+        north: 'i4',
+        east: '',
+        south: 'i6',
+        west: 'h5',
+    });
+});
+
+it('returns correct adjacent coordinates for e9 9 x 9, south side', () => {
+    const a2_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_9_x_9,
+        colCoordinate: 'e',
+        rowCoordinate: FLAGS.MAX_9_x_9_ROW,
+    });
+
+    expect(a2_9_x_9_adjacents).toEqual({
+        north: 'e8',
+        east: 'f9',
+        south: '',
+        west: 'd9',
+    });
+});
+
+it('returns correct adjacent coordinates for a2 9 x 9, west side', () => {
+    const a2_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_9_x_9,
+        colCoordinate: FLAGS.MIN_COLUMN,
+        rowCoordinate: '2',
+    });
+
+    expect(a2_9_x_9_adjacents).toEqual({
+        north: 'a1',
+        east: 'b2',
+        south: 'a3',
+        west: '',
+    });
+});
+
+it('returns correct adjacent coordinates for d7 13 x 13, random intersection', () => {
+    const d7_13_x_13_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_13_x_13,
+        colCoordinate: 'd',
+        rowCoordinate: '7',
+    });
+
+    expect(d7_13_x_13_adjacents).toEqual({
+        east: 'e7',
+        north: 'd6',
+        south: 'd8',
+        west: 'c7',
+    });
+});
+
+it('returns correct adjacent coordinates for m1 13 x 13, northeast corner', () => {
+    const m1_13_x_13_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_13_x_13,
+        colCoordinate: FLAGS.MAX_13_x_13_COLUMN,
+        rowCoordinate: FLAGS.MIN_ROW,
+    });
+
+    expect(m1_13_x_13_adjacents).toEqual({
+        north: '',
+        east: '',
+        south: 'm2',
+        west: 'l1',
+    });
+});
+
+it('returns correct adjacent coordinates for m13 13 x 13, southeast corner', () => {
+    const m13_13_x_13_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_13_x_13,
+        colCoordinate: FLAGS.MAX_13_x_13_COLUMN,
+        rowCoordinate: FLAGS.MAX_13_x_13_ROW,
+    });
+
+    expect(m13_13_x_13_adjacents).toEqual({
+        north: 'm12',
+        east: '',
+        south: '',
+        west: 'l13',
+    });
+});
+
+it('returns correct adjacent coordinates for a13 13 x 13, southwest corner', () => {
+    const a13_13_x_13_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_13_x_13,
+        colCoordinate: FLAGS.MIN_COLUMN,
+        rowCoordinate: FLAGS.MAX_13_x_13_ROW,
+    });
+
+    expect(a13_13_x_13_adjacents).toEqual({
+        north: 'a12',
+        east: 'b13',
+        south: '',
+        west: '',
+    });
+});
+
+it('returns correct adjacent coordinates for g14 19 x 19, random intersection', () => {
+    const g14_19_x_19_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_19_x_19,
+        colCoordinate: 'g',
+        rowCoordinate: '14',
+    });
+
+    expect(g14_19_x_19_adjacents).toEqual({
+        east: 'h14',
+        north: 'g13',
+        south: 'g15',
+        west: 'f14',
+    });
+});
+
+it('returns correct adjacent coordinates for m1 19 x 19, northeast corner', () => {
+    const m1_19_x_19_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_19_x_19,
+        colCoordinate: FLAGS.MAX_19_x_19_COLUMN,
+        rowCoordinate: FLAGS.MIN_ROW,
+    });
+
+    expect(m1_19_x_19_adjacents).toEqual({
+        north: '',
+        east: '',
+        south: 's2',
+        west: 'r1',
+    });
+});
+
+it('returns correct adjacent coordinates for s19 19 x 19, southeast corner', () => {
+    const m19_19_x_19_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_19_x_19,
+        colCoordinate: FLAGS.MAX_19_x_19_COLUMN,
+        rowCoordinate: FLAGS.MAX_19_x_19_ROW,
+    });
+
+    expect(m19_19_x_19_adjacents).toEqual({
+        north: 's18',
+        east: '',
+        south: '',
+        west: 'r19',
+    });
+});
+
+it('returns correct adjacent coordinates for a19 19 x 19, southwest corner', () => {
+    const a19_19_x_19_adjacents = GAME_MATHS.getAdjacentCoordinates({
+        mode: FLAGS.GAME_19_x_19,
+        colCoordinate: FLAGS.MIN_COLUMN,
+        rowCoordinate: FLAGS.MAX_19_x_19_ROW,
+    });
+
+    expect(a19_19_x_19_adjacents).toEqual({
+        north: 'a18',
+        east: 'b19',
+        south: '',
+        west: '',
     });
 });

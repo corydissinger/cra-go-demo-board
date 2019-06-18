@@ -146,12 +146,31 @@ export const stoneRadius = (tileHeight) => {
     return Math.floor((tileHeight * FLAGS.GOBAN_STONE_DIAMETER_TO_TILE_HEIGHT_RATIO) / 2);
 };
 
-// TODO: consider refactoring all this nonsense to have three
-// TODO: two dimensional arrays with all the coordinates
 export const getAdjacentCoordinates = ({
     mode,
     colCoordinate,
     rowCoordinate,
 }) => {
+    let coordinates;
 
+    if (FLAGS.GAME_9_x_9 === mode) {
+        coordinates = FLAGS.GRID_COORDINATES_9_x_9;
+    } else if (FLAGS.GAME_13_x_13 === mode) {
+        coordinates = FLAGS.GRID_COORDINATES_13_x_13;
+    } else if (FLAGS.GAME_19_x_19 === mode) {
+        coordinates = FLAGS.GRID_COORDINATES_19_x_19;
+    }
+
+    const maxIndex = coordinates.length - 1;
+
+    // 'a' is ASCII 97
+    const colIndex = parseInt(colCoordinate.charCodeAt(0) - 97);
+    const rowIndex = parseInt(rowCoordinate) - 1; // 0 indexed, dummy
+
+    return {
+        north: rowIndex >= 1 ? coordinates[rowIndex - 1][colIndex] : '',
+        east: colIndex < maxIndex ? coordinates[rowIndex][colIndex + 1] : '',
+        south: rowIndex < maxIndex ? coordinates[rowIndex + 1][colIndex] : '',
+        west: colIndex >= 1 ? coordinates[rowIndex][colIndex - 1] : '',
+    }
 };
