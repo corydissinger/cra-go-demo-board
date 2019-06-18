@@ -3,8 +3,8 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import loggerMiddleware from './middleware/logger';
-import gameReducer from './reducers/game';
 import boardReducer from './reducers/board';
+import gameReducer from './reducers/game';
 
 export default function configureStore(preloadedState) {
     const middlewares = [loggerMiddleware, thunkMiddleware];

@@ -7,52 +7,41 @@ import * as GAME_MATHS from './store/constants/gameMaths';
 import Tile from './Tile';
 
 class Board extends Component {
-    getHorizontalLettering() {
+    getCoordinates() {
         const { mode } = this.props;
 
         // Yay hardcoding
         if (mode === FLAGS.GAME_9_x_9) {
-            return UTILS.genCharArray(FLAGS.MIN_COLUMN, FLAGS.MAX_9_x_9_COLUMN);
+            return FLAGS.GRID_COORDINATES_9_x_9;
         } else if (mode === FLAGS.GAME_13_x_13) {
-            return UTILS.genCharArray(FLAGS.MIN_COLUMN, FLAGS.MAX_13_x_13_COLUMN);
+            return FLAGS.GRID_COORDINATES_13_x_13;
         } else if (mode === FLAGS.GAME_19_x_19) {
-            return UTILS.genCharArray(FLAGS.MIN_COLUMN, FLAGS.MAX_19_x_19_COLUMN);
+            return FLAGS.GRID_COORDINATES_19_x_19;
         } else {
             throw new Error('No known mode selected');
         }
     }
 
-    getVerticalNumbering() {
-        const { mode } = this.props;
-
-        // Yay hardcoding
-        if (mode === FLAGS.GAME_9_x_9) {
-            return _.range(1, 10);
-        } else if (mode === FLAGS.GAME_13_x_13) {
-            return _.range(1, 14);
-        } else if (mode === FLAGS.GAME_19_x_19) {
-            return _.range(1, 20);
-        } else {
-            throw new Error('No known mode selected');
-        }
-    }
-
-    renderRow(aNumberCoordinate, letterCoordinates) {
+    renderRow(aRow) {
         const {
             mode,
             stoneRadius,
             tileDimensions,
         } = this.props;
 
+        const numberCoordinate = aRow[0].substring(1);
+
         return <div
-            key={`${mode}${aNumberCoordinate}`}
+            key={`${mode}${numberCoordinate}`}
             className="flex-container"
         >
-            {_.map(letterCoordinates, aLetterCoordinate => {
+            {_.map(aRow, aCoordinate => {
+                const letterCoordinate = aCoordinate[0];
+
                 return <Tile
-                    key={`${mode}${aLetterCoordinate}${aNumberCoordinate}`}
-                    colCoordinate={aLetterCoordinate}
-                    rowCoordinate={aNumberCoordinate}
+                    key={`${mode}${letterCoordinate}${numberCoordinate}`}
+                    colCoordinate={letterCoordinate}
+                    rowCoordinate={numberCoordinate}
                     height={tileDimensions.height}
                     stoneRadius={stoneRadius}
                     width={tileDimensions.width}
@@ -64,13 +53,12 @@ class Board extends Component {
 
     // I may have reversed this? https://senseis.xmp.net/?Coordinates
     render() {
-        const numberCoordinates = _.map(this.getVerticalNumbering(), n => n.toString());
-        const letterCoordinates = this.getHorizontalLettering();
+        const coordinates = this.getCoordinates();
 
         return (
             <div id="board">
-                {_.map(numberCoordinates, aNumberCoordinate => {
-                    return this.renderRow(aNumberCoordinate, letterCoordinates);
+                {_.map(coordinates, aRow => {
+                    return this.renderRow(aRow);
                 })}
             </div>
         );

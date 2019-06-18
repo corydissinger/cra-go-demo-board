@@ -145,3 +145,13 @@ export const calculateTileDimensions = ({
 export const stoneRadius = (tileHeight) => {
     return Math.floor((tileHeight * FLAGS.GOBAN_STONE_DIAMETER_TO_TILE_HEIGHT_RATIO) / 2);
 };
+
+// TODO: consider refactoring all this nonsense to have three
+// TODO: two dimensional arrays with all the coordinates
+export const getAdjacentCoordinates = ({
+    mode,
+    colCoordinate,
+    rowCoordinate,
+}) => {
+
+};

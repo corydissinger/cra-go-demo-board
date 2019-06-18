@@ -101,3 +101,21 @@ export const SIDES_19_x_19 = [
     ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_19_x_19_COLUMN_FOR_NORTH_SOUTH), col => `${col}19`),
     ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_19_x_19_COLUMN_FOR_NORTH_SOUTH), col => `${col}1`),
 ];
+
+export const GRID_COORDINATES_9_x_9 =
+    _.map(_.range(1, 10), row => {
+        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_9_x_9_COLUMN), col => `${col}${row}`);
+    })
+;
+
+export const GRID_COORDINATES_13_x_13 =
+    _.map(_.range(1, 14), row => {
+        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_13_x_13_COLUMN), col => `${col}${row}`);
+    })
+;
+
+export const GRID_COORDINATES_19_x_19 =
+    _.map(_.range(1, 20), row => {
+        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_19_x_19_COLUMN), col => `${col}${row}`);
+    })
+;

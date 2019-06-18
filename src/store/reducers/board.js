@@ -2,13 +2,26 @@ import * as FLAGS from '../constants/flags';
 import * as ACTIONS from '../constants/actions';
 
 const initialState = {
+    mode: FLAGS.GAME_9_x_9,
     a1: FLAGS.STONE_NONE,
+};
+
+const libertyRemovalCheck = ({
+    state,
+    colCoordinate,
+    rowCoordinate,
+    color,
+     }) => {
+
 };
 
 const board = (state = initialState, action) => {
     switch (action.type) {
         case ACTIONS.SET_MODE:
-            return initialState;
+            return {
+                ...initialState,
+                mode: action.payload.mode,
+            };
         case ACTIONS.SET_STONE:
             const {
                 colCoordinate,
