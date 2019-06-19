@@ -1,6 +1,5 @@
 import * as GAME_MATHS from './gameMaths';
 import * as FLAGS from './flags';
-import {GAME_9_x_9} from "./flags";
 
 it('returns correct corner arrays', () => {
     const corners9 = GAME_MATHS.getCornersConstant(FLAGS.GAME_9_x_9);

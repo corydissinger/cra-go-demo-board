@@ -1,5 +1,4 @@
-// shameless https://stackoverflow.com/a/24597663
-// yeehaw circular dependency
+import * as _ from 'lodash';
 import * as FLAGS from './flags';
 
 export const getCornersConstant = (mode) => {
@@ -21,6 +20,17 @@ export const getSidesConstant = (mode) => {
         return FLAGS.SIDES_19_x_19;
     }
 };
+
+// TODO: Might not need this?
+// export const getEmptyBoardConstant = (mode) => {
+//     if (FLAGS.GAME_9_x_9 === mode) {
+//         return FLAGS.GRID_EMPTY_9_x_9;
+//     } else if (FLAGS.GAME_13_x_13 === mode) {
+//         return FLAGS.GRID_EMPTY_13_x_13;
+//     } else if (FLAGS.GAME_19_x_19 === mode) {
+//         return FLAGS.GRID_EMPTY_19_x_19;
+//     }
+// };
 
 export const getCardinalDirection = (mode, coordinate) => {
     if (FLAGS.CORNER_ALL_NW === coordinate) {
@@ -146,6 +156,16 @@ export const stoneRadius = (tileHeight) => {
     return Math.floor((tileHeight * FLAGS.GOBAN_STONE_DIAMETER_TO_TILE_HEIGHT_RATIO) / 2);
 };
 
+// TODO: this shouldn't have been a wrapper in the first place
+export const getAdjacentCoordinatesExact = ({
+    mode,
+    coordinates,
+}) => getAdjacentCoordinates({
+    mode,
+    colCoordinate: coordinates[0],
+    rowCoordinate: coordinates.substring(1),
+});
+
 export const getAdjacentCoordinates = ({
     mode,
     colCoordinate,
@@ -173,4 +193,48 @@ export const getAdjacentCoordinates = ({
         south: rowIndex < maxIndex ? coordinates[rowIndex + 1][colIndex] : '',
         west: colIndex >= 1 ? coordinates[rowIndex][colIndex - 1] : '',
     }
+};
+
+const getOpposingStoneCoordinates = (stonesMap, opposingColor) => {
+    const opposingStones = [];
+
+    for (const [coordinate, stoneColor] of _.toPairs(stonesMap)) {
+        if (stoneColor === opposingColor) {
+            opposingStones.push(coordinate);
+        }
+    }
+
+    return opposingStones;
+};
+
+export const removeDeadStones = ({
+    existingStones,
+    mode,
+    newStoneColor,
+    newStoneColCoordinate,
+    newStoneRowCoordinate,
+}) => {
+    let nextAdjacencies = getAdjacentCoordinates({
+        mode,
+        colCoordinate: newStoneColCoordinate,
+        rowCoordinate: newStoneRowCoordinate,
+    });
+
+    let nextCoordinatesToCheck = _.values(nextAdjacencies);
+    let adjacentStonesMap = _.pick(existingStones, nextCoordinatesToCheck);
+
+    if (!adjacentStonesMap) {
+        return existingStones;
+    }
+
+    const isBlackOpposingColor = FLAGS.STONE_WHITE === newStoneColor;
+    const stonesWithQuestionableLiberties
+        = [...getOpposingStoneCoordinates(adjacentStonesMap, isBlackOpposingColor)];
+    const deadStones = [];
+
+    while (stonesWithQuestionableLiberties.length !== 0) {
+        nextAdjacencies
+    }
+
+    return _.omit(existingStones, deadStones);
 };

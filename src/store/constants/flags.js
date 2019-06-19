@@ -119,3 +119,22 @@ export const GRID_COORDINATES_19_x_19 =
         return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_19_x_19_COLUMN), col => `${col}${row}`);
     })
 ;
+
+// Probably a better way to do this?
+export const GRID_EMPTY_9_x_9 =
+    _.map(_.range(1, 10), () => {
+        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_9_x_9_COLUMN), () => STONE_NONE);
+    })
+;
+
+export const GRID_EMPTY_13_x_13 =
+    _.map(_.range(1, 14), () => {
+        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_13_x_13_COLUMN), () => STONE_NONE);
+    })
+;
+
+export const GRID_EMPTY_19_x_19 =
+    _.map(_.range(1, 20), () => {
+        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_19_x_19_COLUMN), () => STONE_NONE);
+    })
+;
