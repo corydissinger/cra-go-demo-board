@@ -1,5 +1,5 @@
 import * as TYPES from '../constants/actions';
-import * as FLAGS from '../constants/flags';
+import * as FLAGS from '../../game/flags';
 
 const setStoneInternal = (colCoordinate, rowCoordinate, color) => ({
     type: TYPES.SET_STONE,

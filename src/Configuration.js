@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as FLAGS from './store/constants/flags';
+import * as FLAGS from './game/flags';
 import {
     setConfigurationHeight,
     setMode,

@@ -1,5 +1,5 @@
-import * as FLAGS from '../constants/flags';
-import * as GAME_MATHS from '../constants/gameMaths';
+import * as FLAGS from '../../game/flags';
+import * as GAME_MATHS from '../../game/maths';
 import * as ACTIONS from '../constants/actions';
 
 // This maintains a map of coordinates as keys to placed stones.
@@ -7,7 +7,6 @@ import * as ACTIONS from '../constants/actions';
 // generally agreed upon goban coordinates
 const initialState = {
     mode: FLAGS.GAME_9_x_9,
-    // stonesPlaced: FLAGS.GRID_EMPTY_9_x_9,
 };
 
 const board = (state = initialState, action) => {
@@ -18,7 +17,6 @@ const board = (state = initialState, action) => {
             return {
                 ...initialState,
                 mode,
-                // stonesPlaced: GAME_MATHS.getEmptyBoardConstant(mode),
             };
         case ACTIONS.SET_STONE:
             const {
@@ -27,10 +25,19 @@ const board = (state = initialState, action) => {
                 color,
             } = action.payload;
 
-            // fancy JS YOLO who needs Types or TypeScript when you can do this
+            const nextBoardState = GAME_MATHS.removeDeadStones({
+                existingStones: state,
+                mode: state.mode,
+                newStoneColor: color,
+                newStoneColCoordinate: colCoordinate,
+                newStoneRowCoordinate: rowCoordinate,
+            });
+
+            // console.log(`%c Next assumed board state: ${JSON.stringify(nextBoardState)}`, 'background: #222; color: #bada55');
+
             return {
                 mode: state.mode,
-                [`${colCoordinate}${rowCoordinate}`]: color,
+                ...nextBoardState,
             };
         default:
             return state;

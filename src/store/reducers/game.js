@@ -1,4 +1,4 @@
-import * as FLAGS from '../constants/flags';
+import * as FLAGS from '../../game/flags';
 import * as ACTIONS from '../constants/actions';
 
 const initialState = {

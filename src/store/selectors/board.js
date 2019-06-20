@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import * as FLAGS from '../constants/flags';
+import * as FLAGS from '../../game/flags';
 
 // This may have been pointless
 const boardCoordinateSelector = (state, props) => state.board[`${props.colCoordinate}${props.rowCoordinate}`];

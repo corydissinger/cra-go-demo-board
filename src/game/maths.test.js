@@ -1,4 +1,4 @@
-import * as GAME_MATHS from './gameMaths';
+import * as GAME_MATHS from './maths';
 import * as FLAGS from './flags';
 
 it('returns correct corner arrays', () => {
@@ -165,10 +165,8 @@ it('returns correct adjacent coordinates for a1 9 x 9, northwest corner', () => 
     });
 
     expect(a1_9_x_9_adjacents).toEqual({
-        north: '',
         east: 'b1',
         south: 'a2',
-        west: '',
     });
 });
 
@@ -180,8 +178,6 @@ it('returns correct adjacent coordinates for i1 9 x 9, northeast corner', () => 
     });
 
     expect(i1_9_x_9_adjacents).toEqual({
-        north: '',
-        east: '',
         south: 'i2',
         west: 'h1',
     });
@@ -196,8 +192,6 @@ it('returns correct adjacent coordinates for i9 9 x 9, southeast corner', () => 
 
     expect(i9_9_x_9_adjacents).toEqual({
         north: 'i8',
-        east: '',
-        south: '',
         west: 'h9',
     });
 });
@@ -212,8 +206,6 @@ it('returns correct adjacent coordinates for a9 9 x 9, southwest corner', () => 
     expect(a9_9_x_9_adjacents).toEqual({
         north: 'a8',
         east: 'b9',
-        south: '',
-        west: '',
     });
 });
 
@@ -225,7 +217,6 @@ it('returns correct adjacent coordinates for b1 9 x 9, north side', () => {
     });
 
     expect(a2_9_x_9_adjacents).toEqual({
-        north: '',
         east: 'c1',
         south: 'b2',
         west: 'a1',
@@ -241,7 +232,6 @@ it('returns correct adjacent coordinates for i5 9 x 9, east side', () => {
 
     expect(a2_9_x_9_adjacents).toEqual({
         north: 'i4',
-        east: '',
         south: 'i6',
         west: 'h5',
     });
@@ -257,7 +247,6 @@ it('returns correct adjacent coordinates for e9 9 x 9, south side', () => {
     expect(a2_9_x_9_adjacents).toEqual({
         north: 'e8',
         east: 'f9',
-        south: '',
         west: 'd9',
     });
 });
@@ -273,7 +262,6 @@ it('returns correct adjacent coordinates for a2 9 x 9, west side', () => {
         north: 'a1',
         east: 'b2',
         south: 'a3',
-        west: '',
     });
 });
 
@@ -300,8 +288,6 @@ it('returns correct adjacent coordinates for m1 13 x 13, northeast corner', () =
     });
 
     expect(m1_13_x_13_adjacents).toEqual({
-        north: '',
-        east: '',
         south: 'm2',
         west: 'l1',
     });
@@ -316,8 +302,6 @@ it('returns correct adjacent coordinates for m13 13 x 13, southeast corner', () 
 
     expect(m13_13_x_13_adjacents).toEqual({
         north: 'm12',
-        east: '',
-        south: '',
         west: 'l13',
     });
 });
@@ -332,8 +316,6 @@ it('returns correct adjacent coordinates for a13 13 x 13, southwest corner', () 
     expect(a13_13_x_13_adjacents).toEqual({
         north: 'a12',
         east: 'b13',
-        south: '',
-        west: '',
     });
 });
 
@@ -360,8 +342,6 @@ it('returns correct adjacent coordinates for m1 19 x 19, northeast corner', () =
     });
 
     expect(m1_19_x_19_adjacents).toEqual({
-        north: '',
-        east: '',
         south: 's2',
         west: 'r1',
     });
@@ -376,8 +356,6 @@ it('returns correct adjacent coordinates for s19 19 x 19, southeast corner', () 
 
     expect(m19_19_x_19_adjacents).toEqual({
         north: 's18',
-        east: '',
-        south: '',
         west: 'r19',
     });
 });
@@ -392,7 +370,5 @@ it('returns correct adjacent coordinates for a19 19 x 19, southwest corner', () 
     expect(a19_19_x_19_adjacents).toEqual({
         north: 'a18',
         east: 'b19',
-        south: '',
-        west: '',
     });
 });

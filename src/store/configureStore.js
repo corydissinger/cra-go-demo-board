@@ -7,8 +7,7 @@ import boardReducer from './reducers/board';
 import gameReducer from './reducers/game';
 
 export default function configureStore(preloadedState) {
-    const middlewares = [loggerMiddleware, thunkMiddleware];
-    const middlewareEnhancer = applyMiddleware(...middlewares);
+    const middlewareEnhancer = applyMiddleware(thunkMiddleware, loggerMiddleware);
 
     const enhancers = [middlewareEnhancer];
     const composedEnhancers = composeWithDevTools(...enhancers);

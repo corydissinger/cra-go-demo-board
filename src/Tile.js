@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as UTILS from './store/constants/gameMaths';
-import * as FLAGS from './store/constants/flags';
+import * as UTILS from './game/maths';
+import * as FLAGS from './game/flags';
 import { setStone } from './store/actions/board';
 import { placedStoneSelector } from './store/selectors/board';
 import { connect } from 'react-redux';
@@ -9,9 +9,13 @@ import { connect } from 'react-redux';
 class Tile extends Component {
     constructor(props) {
         super(props);
+
         this.showPreviewStone = this.showPreviewStone.bind(this);
         this.hidePreviewStone = this.hidePreviewStone.bind(this);
         this.drawTile = this.drawTile.bind(this);
+        this.onClick = this.onClick.bind(this);
+        this.onMouseOver = this.onMouseOver.bind(this);
+        this.onMouseOut = this.onMouseOut.bind(this);
     }
 
     componentDidMount() {
@@ -19,6 +23,7 @@ class Tile extends Component {
     }
 
     componentDidUpdate() {
+        console.log('%c UPDATING', 'background: #222; color: #bada55');
         this.drawTile();
     }
 
@@ -210,11 +215,27 @@ class Tile extends Component {
         this.drawTile();
     }
 
+    onMouseOver() {
+        if (FLAGS.STONE_NONE === this.props.stonePlaced) {
+            this.showPreviewStone();
+        }
+    }
+
+    onMouseOut() {
+        if (FLAGS.STONE_NONE === this.props.stonePlaced) {
+            this.hidePreviewStone();
+        }
+    }
+
+    onClick() {
+        if (FLAGS.STONE_NONE === this.props.stonePlaced) {
+            this.props.setStone();
+        }
+    }
+
     render() {
         const {
             height,
-            setStone,
-            stonePlaced,
             width,
         } = this.props;
 
@@ -223,9 +244,9 @@ class Tile extends Component {
                 height={height}
                 width={width}
                 ref="canvas"
-                onMouseOver={FLAGS.STONE_NONE === stonePlaced ? this.showPreviewStone : () => {}}
-                onMouseOut={FLAGS.STONE_NONE === stonePlaced ? this.hidePreviewStone : () => {}}
-                onClick={FLAGS.STONE_NONE === stonePlaced ? setStone : () => {}}
+                onMouseOver={this.onMouseOver}
+                onMouseOut={this.onMouseOut}
+                onClick={this.onClick}
             />
         );
     }

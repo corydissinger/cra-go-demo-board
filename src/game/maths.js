@@ -156,16 +156,6 @@ export const stoneRadius = (tileHeight) => {
     return Math.floor((tileHeight * FLAGS.GOBAN_STONE_DIAMETER_TO_TILE_HEIGHT_RATIO) / 2);
 };
 
-// TODO: this shouldn't have been a wrapper in the first place
-export const getAdjacentCoordinatesExact = ({
-    mode,
-    coordinates,
-}) => getAdjacentCoordinates({
-    mode,
-    colCoordinate: coordinates[0],
-    rowCoordinate: coordinates.substring(1),
-});
-
 export const getAdjacentCoordinates = ({
     mode,
     colCoordinate,
@@ -187,12 +177,31 @@ export const getAdjacentCoordinates = ({
     const colIndex = parseInt(colCoordinate.charCodeAt(0) - 97);
     const rowIndex = parseInt(rowCoordinate) - 1; // 0 indexed, dummy
 
-    return {
-        north: rowIndex >= 1 ? coordinates[rowIndex - 1][colIndex] : '',
-        east: colIndex < maxIndex ? coordinates[rowIndex][colIndex + 1] : '',
-        south: rowIndex < maxIndex ? coordinates[rowIndex + 1][colIndex] : '',
-        west: colIndex >= 1 ? coordinates[rowIndex][colIndex - 1] : '',
+    const adjacencies = {};
+
+    if (rowIndex >= 1) {
+        adjacencies.north = coordinates[rowIndex - 1][colIndex];
     }
+
+    if (colIndex < maxIndex) {
+        adjacencies.east = coordinates[rowIndex][colIndex + 1];
+    }
+
+    if (rowIndex < maxIndex) {
+        adjacencies.south = coordinates[rowIndex + 1][colIndex];
+    }
+
+    if (colIndex >= 1) {
+        adjacencies.west = coordinates[rowIndex][colIndex - 1];
+    }
+
+    return adjacencies;
+    // return {
+    //     north: rowIndex >= 1 ? coordinates[rowIndex - 1][colIndex] : '',
+    //     east: colIndex < maxIndex ? coordinates[rowIndex][colIndex + 1] : '',
+    //     south: rowIndex < maxIndex ? coordinates[rowIndex + 1][colIndex] : '',
+    //     west: colIndex >= 1 ? coordinates[rowIndex][colIndex - 1] : '',
+    // }
 };
 
 const getOpposingStoneCoordinates = (stonesMap, opposingColor) => {
@@ -227,14 +236,48 @@ export const removeDeadStones = ({
         return existingStones;
     }
 
-    const isBlackOpposingColor = FLAGS.STONE_WHITE === newStoneColor;
-    const stonesWithQuestionableLiberties
-        = [...getOpposingStoneCoordinates(adjacentStonesMap, isBlackOpposingColor)];
-    const deadStones = [];
+    const newBoardState = _.assign({}, existingStones,
+        {
+            [`${newStoneColCoordinate}${newStoneRowCoordinate}`]: newStoneColor
+        }
+    );
 
-    while (stonesWithQuestionableLiberties.length !== 0) {
-        nextAdjacencies
-    }
+    const groupWithQuestionableLiberties
+        = [
+        ...getOpposingStoneCoordinates(
+            newBoardState,
+            FLAGS.STONE_BLACK === newStoneColor ?
+                FLAGS.STONE_WHITE : FLAGS.STONE_BLACK
+        )];
 
-    return _.omit(existingStones, deadStones);
+    console.log(`New board state: ${JSON.stringify(newBoardState)}`);
+    console.log(`Group with questionable liberties: ${JSON.stringify(groupWithQuestionableLiberties)}`);
+
+    // this feels like garbage
+    const groupLives = _.reduce(groupWithQuestionableLiberties, (isAlive, groupMemberCoordinates) => {
+        if (isAlive) {
+            return isAlive;
+        }
+
+        nextAdjacencies = getAdjacentCoordinates({
+            mode,
+            colCoordinate: groupMemberCoordinates[0],
+            rowCoordinate: groupMemberCoordinates.substring(1),
+        });
+
+        // console.log(`:: Using ${groupMemberCoordinates} got ${JSON.stringify(nextAdjacencies)}`);
+
+        nextCoordinatesToCheck = _.values(nextAdjacencies);
+
+        // console.log(`:: next coordinates ${nextCoordinatesToCheck}`);
+
+        adjacentStonesMap = _.pick(newBoardState, nextCoordinatesToCheck);
+
+        // console.log(`:: Adjacent stones map: ${JSON.stringify(adjacentStonesMap)}`);
+
+        // If the lengths don't match, there's an open space.
+        return _.keys(adjacentStonesMap).length !== nextCoordinatesToCheck.length;
+    }, false); // we assume it's dead to begin with
+
+    return groupLives ? newBoardState : _.omit(newBoardState, groupWithQuestionableLiberties);
 };

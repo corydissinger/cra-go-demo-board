@@ -3,7 +3,7 @@ import Board from './Board';
 import Configuration from './Configuration';
 import { connect } from 'react-redux';
 import { setWindowDimensions } from './store/actions/game';
-import * as FLAGS from './store/constants/flags';
+import * as FLAGS from './game/flags';
 import './styles/index.css';
 
 class App extends Component {
