@@ -11,7 +11,7 @@ class Tile extends Component {
         super(props);
 
         this.showPreviewStone = this.showPreviewStone.bind(this);
-        this.hidePreviewStone = this.hidePreviewStone.bind(this);
+        this.clearCanvas = this.clearCanvas.bind(this);
         this.drawTile = this.drawTile.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
@@ -23,7 +23,12 @@ class Tile extends Component {
     }
 
     componentDidUpdate() {
-        console.log('%c UPDATING', 'background: #222; color: #bada55');
+        const { stonePlaced } = this.props;
+
+        if (FLAGS.STONE_NONE !== stonePlaced) {
+            console.log(`%c UPDATING with ${stonePlaced}`, 'background: #222; color: #bada55');
+        }
+        
         this.drawTile();
     }
 
@@ -35,16 +40,20 @@ class Tile extends Component {
             stonePlaced,
         } = this.props;
 
+        // Render the stone first, that way we can clear appropriately
+        // when the component is updated.
+        if (FLAGS.STONE_NONE === stonePlaced) {
+            this.clearCanvas();
+        } else {
+            this.drawStone();
+        }
+
         if (UTILS.getCornersConstant(mode).includes(`${colCoordinate}${rowCoordinate}`)) {
             this.drawCorner();
         } else if (UTILS.getSidesConstant(mode).includes(`${colCoordinate}${rowCoordinate}`)) {
             this.drawSide();
         } else {
             this.drawIntersection();
-        }
-        
-        if (FLAGS.STONE_NONE !== stonePlaced) {
-            this.drawStone();
         }
     }
 
@@ -202,7 +211,7 @@ class Tile extends Component {
         this.drawStoneInternal(FLAGS.TURN_BLACK === turnColor);
     }
 
-    hidePreviewStone() {
+    clearCanvas() {
         const {
             height,
             width,
@@ -212,7 +221,6 @@ class Tile extends Component {
         const ctx = canvas.getContext('2d');
 
         ctx.clearRect(0, 0, width, height);
-        this.drawTile();
     }
 
     onMouseOver() {
@@ -223,7 +231,8 @@ class Tile extends Component {
 
     onMouseOut() {
         if (FLAGS.STONE_NONE === this.props.stonePlaced) {
-            this.hidePreviewStone();
+            this.clearCanvas();
+            this.drawTile();
         }
     }
 
