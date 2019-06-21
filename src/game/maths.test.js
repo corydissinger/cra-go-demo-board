@@ -143,7 +143,7 @@ it('returns reasonable tile dimensions', () => {
 });
 
 it('returns correct adjacent coordinates for b4 9 x 9, a random intersection', () => {
-    const b4_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const b4_9_x_9_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_9_x_9,
         colCoordinate: 'b',
         rowCoordinate: '4',
@@ -158,7 +158,7 @@ it('returns correct adjacent coordinates for b4 9 x 9, a random intersection', (
 });
 
 it('returns correct adjacent coordinates for a1 9 x 9, northwest corner', () => {
-    const a1_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const a1_9_x_9_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_9_x_9,
         colCoordinate: FLAGS.MIN_COLUMN,
         rowCoordinate: FLAGS.MIN_ROW,
@@ -171,7 +171,7 @@ it('returns correct adjacent coordinates for a1 9 x 9, northwest corner', () => 
 });
 
 it('returns correct adjacent coordinates for i1 9 x 9, northeast corner', () => {
-    const i1_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const i1_9_x_9_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_9_x_9,
         colCoordinate: FLAGS.MAX_9_x_9_COLUMN,
         rowCoordinate: FLAGS.MIN_ROW,
@@ -184,7 +184,7 @@ it('returns correct adjacent coordinates for i1 9 x 9, northeast corner', () => 
 });
 
 it('returns correct adjacent coordinates for i9 9 x 9, southeast corner', () => {
-    const i9_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const i9_9_x_9_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_9_x_9,
         colCoordinate: FLAGS.MAX_9_x_9_COLUMN,
         rowCoordinate: FLAGS.MAX_9_x_9_ROW,
@@ -197,7 +197,7 @@ it('returns correct adjacent coordinates for i9 9 x 9, southeast corner', () => 
 });
 
 it('returns correct adjacent coordinates for a9 9 x 9, southwest corner', () => {
-    const a9_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const a9_9_x_9_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_9_x_9,
         colCoordinate: FLAGS.MIN_COLUMN,
         rowCoordinate: FLAGS.MAX_9_x_9_ROW,
@@ -210,7 +210,7 @@ it('returns correct adjacent coordinates for a9 9 x 9, southwest corner', () => 
 });
 
 it('returns correct adjacent coordinates for b1 9 x 9, north side', () => {
-    const a2_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const a2_9_x_9_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_9_x_9,
         colCoordinate: 'b',
         rowCoordinate: FLAGS.MIN_ROW,
@@ -224,7 +224,7 @@ it('returns correct adjacent coordinates for b1 9 x 9, north side', () => {
 });
 
 it('returns correct adjacent coordinates for i5 9 x 9, east side', () => {
-    const a2_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const a2_9_x_9_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_9_x_9,
         colCoordinate: FLAGS.MAX_9_x_9_COLUMN,
         rowCoordinate: '5',
@@ -238,7 +238,7 @@ it('returns correct adjacent coordinates for i5 9 x 9, east side', () => {
 });
 
 it('returns correct adjacent coordinates for e9 9 x 9, south side', () => {
-    const a2_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const a2_9_x_9_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_9_x_9,
         colCoordinate: 'e',
         rowCoordinate: FLAGS.MAX_9_x_9_ROW,
@@ -252,7 +252,7 @@ it('returns correct adjacent coordinates for e9 9 x 9, south side', () => {
 });
 
 it('returns correct adjacent coordinates for a2 9 x 9, west side', () => {
-    const a2_9_x_9_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const a2_9_x_9_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_9_x_9,
         colCoordinate: FLAGS.MIN_COLUMN,
         rowCoordinate: '2',
@@ -266,7 +266,7 @@ it('returns correct adjacent coordinates for a2 9 x 9, west side', () => {
 });
 
 it('returns correct adjacent coordinates for d7 13 x 13, random intersection', () => {
-    const d7_13_x_13_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const d7_13_x_13_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_13_x_13,
         colCoordinate: 'd',
         rowCoordinate: '7',
@@ -281,7 +281,7 @@ it('returns correct adjacent coordinates for d7 13 x 13, random intersection', (
 });
 
 it('returns correct adjacent coordinates for m1 13 x 13, northeast corner', () => {
-    const m1_13_x_13_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const m1_13_x_13_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_13_x_13,
         colCoordinate: FLAGS.MAX_13_x_13_COLUMN,
         rowCoordinate: FLAGS.MIN_ROW,
@@ -294,7 +294,7 @@ it('returns correct adjacent coordinates for m1 13 x 13, northeast corner', () =
 });
 
 it('returns correct adjacent coordinates for m13 13 x 13, southeast corner', () => {
-    const m13_13_x_13_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const m13_13_x_13_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_13_x_13,
         colCoordinate: FLAGS.MAX_13_x_13_COLUMN,
         rowCoordinate: FLAGS.MAX_13_x_13_ROW,
@@ -307,7 +307,7 @@ it('returns correct adjacent coordinates for m13 13 x 13, southeast corner', () 
 });
 
 it('returns correct adjacent coordinates for a13 13 x 13, southwest corner', () => {
-    const a13_13_x_13_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const a13_13_x_13_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_13_x_13,
         colCoordinate: FLAGS.MIN_COLUMN,
         rowCoordinate: FLAGS.MAX_13_x_13_ROW,
@@ -320,7 +320,7 @@ it('returns correct adjacent coordinates for a13 13 x 13, southwest corner', () 
 });
 
 it('returns correct adjacent coordinates for g14 19 x 19, random intersection', () => {
-    const g14_19_x_19_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const g14_19_x_19_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_19_x_19,
         colCoordinate: 'g',
         rowCoordinate: '14',
@@ -335,7 +335,7 @@ it('returns correct adjacent coordinates for g14 19 x 19, random intersection', 
 });
 
 it('returns correct adjacent coordinates for m1 19 x 19, northeast corner', () => {
-    const m1_19_x_19_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const m1_19_x_19_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_19_x_19,
         colCoordinate: FLAGS.MAX_19_x_19_COLUMN,
         rowCoordinate: FLAGS.MIN_ROW,
@@ -348,7 +348,7 @@ it('returns correct adjacent coordinates for m1 19 x 19, northeast corner', () =
 });
 
 it('returns correct adjacent coordinates for s19 19 x 19, southeast corner', () => {
-    const m19_19_x_19_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const m19_19_x_19_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_19_x_19,
         colCoordinate: FLAGS.MAX_19_x_19_COLUMN,
         rowCoordinate: FLAGS.MAX_19_x_19_ROW,
@@ -361,7 +361,7 @@ it('returns correct adjacent coordinates for s19 19 x 19, southeast corner', () 
 });
 
 it('returns correct adjacent coordinates for a19 19 x 19, southwest corner', () => {
-    const a19_19_x_19_adjacents = GAME_MATHS.getAdjacentCoordinates({
+    const a19_19_x_19_adjacents = GAME_MATHS.getCardinalAdjacencies({
         mode: FLAGS.GAME_19_x_19,
         colCoordinate: FLAGS.MIN_COLUMN,
         rowCoordinate: FLAGS.MAX_19_x_19_ROW,

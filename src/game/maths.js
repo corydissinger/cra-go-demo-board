@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import * as FLAGS from './flags';
+import {argumentPlaceholder} from "@babel/types";
 
 export const getCornersConstant = (mode) => {
     if (FLAGS.GAME_9_x_9 === mode) {
@@ -156,7 +157,7 @@ export const stoneRadius = (tileHeight) => {
     return Math.floor((tileHeight * FLAGS.GOBAN_STONE_DIAMETER_TO_TILE_HEIGHT_RATIO) / 2);
 };
 
-export const getAdjacentCoordinates = ({
+export const getCardinalAdjacencies = ({
     mode,
     colCoordinate,
     rowCoordinate,
@@ -196,24 +197,31 @@ export const getAdjacentCoordinates = ({
     }
 
     return adjacencies;
-    // return {
-    //     north: rowIndex >= 1 ? coordinates[rowIndex - 1][colIndex] : '',
-    //     east: colIndex < maxIndex ? coordinates[rowIndex][colIndex + 1] : '',
-    //     south: rowIndex < maxIndex ? coordinates[rowIndex + 1][colIndex] : '',
-    //     west: colIndex >= 1 ? coordinates[rowIndex][colIndex - 1] : '',
-    // }
 };
 
-const getOpposingStoneCoordinates = (stonesMap, opposingColor) => {
-    const opposingStones = [];
+export const getAdjacentCoordinates = ({
+   mode,
+   colCoordinate,
+   rowCoordinate,
+}) => _.values(getCardinalAdjacencies({
+    mode,
+    colCoordinate,
+    rowCoordinate,
+}));
 
-    for (const [coordinate, stoneColor] of _.toPairs(stonesMap)) {
-        if (stoneColor === opposingColor) {
-            opposingStones.push(coordinate);
+const getOpposingGroupCoordinates = ({
+    stonesMap,
+    opposingColor,
+    adjacentStonesMap,
+    mode,
+}) => {
+    return _.reduce(stonesMap, (theOpposingStones, color, coordinate) => {
+        if (color === opposingColor && adjacentStonesMap[coordinate]) {
+            theOpposingStones.push(coordinate);
         }
-    }
 
-    return opposingStones;
+        return theOpposingStones;
+    }, []);
 };
 
 export const removeDeadStones = ({
@@ -223,13 +231,14 @@ export const removeDeadStones = ({
     newStoneColCoordinate,
     newStoneRowCoordinate,
 }) => {
-    let nextAdjacencies = getAdjacentCoordinates({
+    console.debug('BEGIN Removing dead stones');
+
+    let nextCoordinatesToCheck = getAdjacentCoordinates({
         mode,
         colCoordinate: newStoneColCoordinate,
         rowCoordinate: newStoneRowCoordinate,
     });
 
-    let nextCoordinatesToCheck = _.values(nextAdjacencies);
     let adjacentStonesMap = _.pick(existingStones, nextCoordinatesToCheck);
 
     if (!adjacentStonesMap) {
@@ -244,40 +253,32 @@ export const removeDeadStones = ({
 
     const groupWithQuestionableLiberties
         = [
-        ...getOpposingStoneCoordinates(
-            newBoardState,
-            FLAGS.STONE_BLACK === newStoneColor ?
-                FLAGS.STONE_WHITE : FLAGS.STONE_BLACK
-        )];
+        ...getOpposingGroupCoordinates({
+            stonesMap: newBoardState,
+            opposingColor: FLAGS.STONE_BLACK === newStoneColor ?
+                FLAGS.STONE_WHITE : FLAGS.STONE_BLACK,
+            adjacentStonesMap,
+            mode,
+        })];
 
-    console.log(`New board state: ${JSON.stringify(newBoardState)}`);
-    console.log(`Group with questionable liberties: ${JSON.stringify(groupWithQuestionableLiberties)}`);
-
-    // this feels like garbage
     const groupLives = _.reduce(groupWithQuestionableLiberties, (isAlive, groupMemberCoordinates) => {
         if (isAlive) {
             return isAlive;
         }
 
-        nextAdjacencies = getAdjacentCoordinates({
+        nextCoordinatesToCheck = getAdjacentCoordinates({
             mode,
             colCoordinate: groupMemberCoordinates[0],
             rowCoordinate: groupMemberCoordinates.substring(1),
         });
 
-        // console.log(`:: Using ${groupMemberCoordinates} got ${JSON.stringify(nextAdjacencies)}`);
-
-        nextCoordinatesToCheck = _.values(nextAdjacencies);
-
-        // console.log(`:: next coordinates ${nextCoordinatesToCheck}`);
-
         adjacentStonesMap = _.pick(newBoardState, nextCoordinatesToCheck);
-
-        // console.log(`:: Adjacent stones map: ${JSON.stringify(adjacentStonesMap)}`);
 
         // If the lengths don't match, there's an open space.
         return _.keys(adjacentStonesMap).length !== nextCoordinatesToCheck.length;
     }, false); // we assume it's dead to begin with
+
+    console.debug('END Removing dead stones');
 
     return groupLives ? newBoardState : _.omit(newBoardState, groupWithQuestionableLiberties);
 };

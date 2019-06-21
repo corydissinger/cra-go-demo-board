@@ -25,9 +25,9 @@ class Tile extends Component {
     componentDidUpdate() {
         const { stonePlaced } = this.props;
 
-        if (FLAGS.STONE_NONE !== stonePlaced) {
-            console.log(`%c UPDATING with ${stonePlaced}`, 'background: #222; color: #bada55');
-        }
+        // if (FLAGS.STONE_NONE !== stonePlaced) {
+        //     console.log(`%c UPDATING with ${stonePlaced}`, 'background: #222; color: #bada55');
+        // }
         
         this.drawTile();
     }
