@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0f0064c980471ea0dfbd4cf19ac183a0",
+    "revision": "fecb3aaa2b65589aa7bdd000f58e0fdb",
     "url": "/cra-go-demo-board/index.html"
   },
   {
