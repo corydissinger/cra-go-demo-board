@@ -53,6 +53,25 @@ it('black placing a stone to kill a white stone in NW corner; random outlying st
     expect(newStonesState).toEqual(correctState);
 });
 
+it('white placing a stone with no liberties commits seppuku', () => {
+    const existingStones = {
+        e3: FLAGS.STONE_BLACK,
+        f2: FLAGS.STONE_BLACK,
+        f4: FLAGS.STONE_BLACK,
+        g3: FLAGS.STONE_BLACK,
+    };
+
+    const newStonesState = GAME_MATHS.removeDeadStones({
+        existingStones,
+        mode: FLAGS.GAME_9_x_9,
+        newStoneColor: FLAGS.STONE_WHITE,
+        newStoneColCoordinate: 'f',
+        newStoneRowCoordinate: 3,
+    });
+
+    expect(newStonesState).toEqual(existingStones);
+});
+
 it('white placing a stone to kill a black stone in NW corner', () => {
     const existingStones = {
         a1: FLAGS.STONE_BLACK,

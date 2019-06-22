@@ -223,13 +223,19 @@ export const removeDeadStones = ({
     const opposingColor = FLAGS.STONE_BLACK === newStoneColor ? FLAGS.STONE_WHITE : FLAGS.STONE_BLACK;
     const newStones = _.assign({}, existingStones, { [`${newStoneColCoordinate}${newStoneRowCoordinate}`]: newStoneColor });
 
-    // This will be an array that contains the next coordinates to process.
-    // first pass we get opposing stones
-    let nextAdjacentCoordinates = _.filter(getAdjacentCoordinates({
+    // this will make sense in a few lines.. maybe
+    let originalCardinalAdjacencyMap = getCardinalAdjacencies({
         mode,
         colCoordinate: newStoneColCoordinate,
         rowCoordinate: newStoneRowCoordinate,
-    }), aCoordinate => newStones[aCoordinate] === opposingColor);
+    });
+
+    // This will be an array that contains the next coordinates to process.
+    // first pass we get opposing stones
+    let nextAdjacentCoordinates = _.filter(_.values(originalCardinalAdjacencyMap), aCoordinate => newStones[aCoordinate] === opposingColor);
+
+    // We got the cardinal map so that we could hold this flag for later
+    const isNewStoneSurrounded = nextAdjacentCoordinates.length === _.keys(originalCardinalAdjacencyMap).length;
 
     // ...and these stones are considered to be part of an opposing group
     const opposingStoneGroup = [];
@@ -262,10 +268,16 @@ export const removeDeadStones = ({
         libertiesForGroup.push.apply(libertiesForGroup, nextAdjacentCoordinates);
     }
 
-    // return the new board if there are liberties, otherwise the board with the
-    // now dead opposing group omitted
-    return libertiesForGroup.length > 0 ?
-        newStones
-        :
-        _.omit(newStones, opposingStoneGroup);
+    if (libertiesForGroup.length > 0) {
+        // if the attacked group has liberties and the new stone
+        // was surrounded, return the old state
+        if (isNewStoneSurrounded) {
+            return existingStones;
+        } else {
+            return newStones;
+        }
+    } else {
+        // otherwise, the attacked group has died
+        return _.omit(newStones, opposingStoneGroup);
+    }
 };
