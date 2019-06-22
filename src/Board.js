@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as _ from 'lodash';
 import * as FLAGS from './game/flags';
-import * as UTILS from './game/utils';
 import * as GAME_MATHS from './game/maths';
 import Tile from './Tile';
 

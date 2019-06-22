@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import * as FLAGS from './flags';
-import {argumentPlaceholder} from "@babel/types";
 
 export const getCornersConstant = (mode) => {
     if (FLAGS.GAME_9_x_9 === mode) {
@@ -209,20 +208,10 @@ export const getAdjacentCoordinates = ({
     rowCoordinate,
 }));
 
-const getOpposingGroupCoordinates = ({
-    stonesMap,
-    opposingColor,
-    adjacentStonesMap,
-    mode,
-}) => {
-    return _.reduce(stonesMap, (theOpposingStones, color, coordinate) => {
-        if (color === opposingColor && adjacentStonesMap[coordinate]) {
-            theOpposingStones.push(coordinate);
-        }
-
-        return theOpposingStones;
-    }, []);
-};
+// get adjacent stones of opposing color
+// get all connected stones in that opposing color group
+// determine if any of those connected stones have any liberties
+// return board state with dead groups removed
 
 export const removeDeadStones = ({
     existingStones,
@@ -231,54 +220,52 @@ export const removeDeadStones = ({
     newStoneColCoordinate,
     newStoneRowCoordinate,
 }) => {
-    console.debug('BEGIN Removing dead stones');
+    const opposingColor = FLAGS.STONE_BLACK === newStoneColor ? FLAGS.STONE_WHITE : FLAGS.STONE_BLACK;
+    const newStones = _.assign({}, existingStones, { [`${newStoneColCoordinate}${newStoneRowCoordinate}`]: newStoneColor });
 
-    let nextCoordinatesToCheck = getAdjacentCoordinates({
+    // This will be an array that contains the next coordinates to process.
+    // first pass we get opposing stones
+    let nextAdjacentCoordinates = _.filter(getAdjacentCoordinates({
         mode,
         colCoordinate: newStoneColCoordinate,
         rowCoordinate: newStoneRowCoordinate,
-    });
+    }), aCoordinate => newStones[aCoordinate] === opposingColor);
 
-    let adjacentStonesMap = _.pick(existingStones, nextCoordinatesToCheck);
+    // ...and these stones are considered to be part of an opposing group
+    const opposingStoneGroup = [];
 
-    if (!adjacentStonesMap) {
-        return existingStones;
+    while (nextAdjacentCoordinates.length !== 0) {
+        opposingStoneGroup.push.apply(opposingStoneGroup, nextAdjacentCoordinates);
+
+        // ... get adjacent allied stones and ones not already part of the group
+        nextAdjacentCoordinates = _.flatMap(nextAdjacentCoordinates, (coordinateToProcess) =>
+            _.filter(getAdjacentCoordinates({
+                    mode,
+                    colCoordinate: coordinateToProcess[0],
+                    rowCoordinate: coordinateToProcess.substring(1),
+                }), aCoordinate => !_.includes(opposingStoneGroup, aCoordinate)
+                && newStones[aCoordinate] === opposingColor)
+        );
     }
 
-    const newBoardState = _.assign({}, existingStones,
-        {
-            [`${newStoneColCoordinate}${newStoneRowCoordinate}`]: newStoneColor
-        }
-    );
+    // Now we check the liberties of each stone in the opposing group
+    const libertiesForGroup = [];
 
-    const groupWithQuestionableLiberties
-        = [
-        ...getOpposingGroupCoordinates({
-            stonesMap: newBoardState,
-            opposingColor: FLAGS.STONE_BLACK === newStoneColor ?
-                FLAGS.STONE_WHITE : FLAGS.STONE_BLACK,
-            adjacentStonesMap,
+    for (const coordinateToProcess of opposingStoneGroup) {
+        nextAdjacentCoordinates = _.filter(getAdjacentCoordinates({
             mode,
-        })];
+            colCoordinate: coordinateToProcess[0],
+            rowCoordinate: coordinateToProcess.substring(1),
+        }), aCoordinate => !_.includes(opposingStoneGroup, aCoordinate)
+        && (!newStones[aCoordinate] || newStones[aCoordinate] === FLAGS.STONE_NONE));
 
-    const groupLives = _.reduce(groupWithQuestionableLiberties, (isAlive, groupMemberCoordinates) => {
-        if (isAlive) {
-            return isAlive;
-        }
+        libertiesForGroup.push.apply(libertiesForGroup, nextAdjacentCoordinates);
+    }
 
-        nextCoordinatesToCheck = getAdjacentCoordinates({
-            mode,
-            colCoordinate: groupMemberCoordinates[0],
-            rowCoordinate: groupMemberCoordinates.substring(1),
-        });
-
-        adjacentStonesMap = _.pick(newBoardState, nextCoordinatesToCheck);
-
-        // If the lengths don't match, there's an open space.
-        return _.keys(adjacentStonesMap).length !== nextCoordinatesToCheck.length;
-    }, false); // we assume it's dead to begin with
-
-    console.debug('END Removing dead stones');
-
-    return groupLives ? newBoardState : _.omit(newBoardState, groupWithQuestionableLiberties);
+    // return the new board if there are liberties, otherwise the board with the
+    // now dead opposing group omitted
+    return libertiesForGroup.length > 0 ?
+        newStones
+        :
+        _.omit(newStones, opposingStoneGroup);
 };

@@ -148,3 +148,54 @@ it('white placing a stone to kill a black triangle group in NE corner', () => {
 
     expect(newStonesState).toEqual(correctState);
 });
+
+it('white placing a stone to kill a black one eye group in center', () => {
+    const existingStones = {
+        d4: FLAGS.STONE_WHITE,
+        d5: FLAGS.STONE_WHITE,
+        d6: FLAGS.STONE_WHITE,
+        e3: FLAGS.STONE_WHITE,
+        e4: FLAGS.STONE_BLACK,
+        e5: FLAGS.STONE_BLACK,
+        e6: FLAGS.STONE_BLACK,
+        e7: FLAGS.STONE_WHITE,
+        f3: FLAGS.STONE_WHITE,
+        f4: FLAGS.STONE_BLACK,
+        f6: FLAGS.STONE_BLACK,
+        f7: FLAGS.STONE_WHITE,
+        g3: FLAGS.STONE_WHITE,
+        g4: FLAGS.STONE_BLACK,
+        g5: FLAGS.STONE_BLACK,
+        g6: FLAGS.STONE_BLACK,
+        g7: FLAGS.STONE_WHITE,
+        h4: FLAGS.STONE_WHITE,
+        h5: FLAGS.STONE_WHITE,
+        h6: FLAGS.STONE_WHITE,
+    };
+
+    const newStonesState = GAME_MATHS.removeDeadStones({
+        existingStones,
+        mode: FLAGS.GAME_9_x_9,
+        newStoneColor: FLAGS.STONE_WHITE,
+        newStoneColCoordinate: 'f',
+        newStoneRowCoordinate: 5,
+    });
+
+    const correctState = {
+        d4: FLAGS.STONE_WHITE,
+        d5: FLAGS.STONE_WHITE,
+        d6: FLAGS.STONE_WHITE,
+        e3: FLAGS.STONE_WHITE,
+        e7: FLAGS.STONE_WHITE,
+        f3: FLAGS.STONE_WHITE,
+        f5: FLAGS.STONE_WHITE,
+        f7: FLAGS.STONE_WHITE,
+        g3: FLAGS.STONE_WHITE,
+        g7: FLAGS.STONE_WHITE,
+        h4: FLAGS.STONE_WHITE,
+        h5: FLAGS.STONE_WHITE,
+        h6: FLAGS.STONE_WHITE,
+    };
+
+    expect(newStonesState).toEqual(correctState);
+});
