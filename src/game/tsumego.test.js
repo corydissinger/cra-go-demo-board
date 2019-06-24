@@ -250,3 +250,55 @@ it('white placing a stone in a textbook beginning of ko kills the appropriate bl
 
     expect(newStonesState).toEqual(correctState);
 });
+
+it('black placing a stone in a strange middle fight with two white groups dying', () => {
+    const existingStones = {
+        c4: FLAGS.STONE_BLACK,
+        d3: FLAGS.STONE_BLACK,
+        d4: FLAGS.STONE_WHITE,
+        d5: FLAGS.STONE_BLACK,
+        e2: FLAGS.STONE_BLACK,
+        e3: FLAGS.STONE_WHITE,
+        e6: FLAGS.STONE_BLACK,
+        f2: FLAGS.STONE_BLACK,
+        f3: FLAGS.STONE_WHITE,
+        f4: FLAGS.STONE_WHITE,
+        f5: FLAGS.STONE_BLACK,
+        f6: FLAGS.STONE_BLACK,
+        g3: FLAGS.STONE_BLACK,
+        g4: FLAGS.STONE_WHITE,
+        g5: FLAGS.STONE_WHITE,
+        g6: FLAGS.STONE_WHITE,
+        g7: FLAGS.STONE_BLACK,
+        h4: FLAGS.STONE_BLACK,
+        h5: FLAGS.STONE_BLACK,
+        h6: FLAGS.STONE_BLACK,
+    };
+
+    const newStonesState = GAME_MATHS.removeDeadStones({
+        existingStones,
+        mode: FLAGS.GAME_13_x_13,
+        newStoneColor: FLAGS.STONE_BLACK,
+        newStoneColCoordinate: 'e',
+        newStoneRowCoordinate: 4,
+    });
+
+    const correctState = {
+        c4: FLAGS.STONE_BLACK,
+        d3: FLAGS.STONE_BLACK,
+        d5: FLAGS.STONE_BLACK,
+        e2: FLAGS.STONE_BLACK,
+        e4: FLAGS.STONE_BLACK,
+        e6: FLAGS.STONE_BLACK,
+        f2: FLAGS.STONE_BLACK,
+        f5: FLAGS.STONE_BLACK,
+        f6: FLAGS.STONE_BLACK,
+        g3: FLAGS.STONE_BLACK,
+        g7: FLAGS.STONE_BLACK,
+        h4: FLAGS.STONE_BLACK,
+        h5: FLAGS.STONE_BLACK,
+        h6: FLAGS.STONE_BLACK,
+    };
+
+    expect(newStonesState).toEqual(correctState);
+});

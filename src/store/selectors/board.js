@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import * as FLAGS from '../../game/flags';
 
 // This may have been pointless
-const boardCoordinateSelector = (state, props) => state.board[`${props.colCoordinate}${props.rowCoordinate}`];
+const boardCoordinateSelector = (state, props) => state.board.currentBoardState[`${props.colCoordinate}${props.rowCoordinate}`];
 
 export const placedStoneSelector = createSelector(
     boardCoordinateSelector,
