@@ -218,3 +218,35 @@ it('white placing a stone to kill a black one eye group in center', () => {
 
     expect(newStonesState).toEqual(correctState);
 });
+
+it('white placing a stone in a textbook beginning of ko kills the appropriate black stone', () => {
+    const existingStones = {
+        c3: FLAGS.STONE_BLACK,
+        c4: FLAGS.STONE_WHITE,
+        d2: FLAGS.STONE_BLACK,
+        d4: FLAGS.STONE_BLACK,
+        d5: FLAGS.STONE_WHITE,
+        e3: FLAGS.STONE_BLACK,
+        e4: FLAGS.STONE_WHITE,
+    };
+
+    const newStonesState = GAME_MATHS.removeDeadStones({
+        existingStones,
+        mode: FLAGS.GAME_9_x_9,
+        newStoneColor: FLAGS.STONE_WHITE,
+        newStoneColCoordinate: 'd',
+        newStoneRowCoordinate: 3,
+    });
+
+    const correctState = {
+        c3: FLAGS.STONE_BLACK,
+        c4: FLAGS.STONE_WHITE,
+        d2: FLAGS.STONE_BLACK,
+        d3: FLAGS.STONE_WHITE,
+        d5: FLAGS.STONE_WHITE,
+        e3: FLAGS.STONE_BLACK,
+        e4: FLAGS.STONE_WHITE,
+    };
+
+    expect(newStonesState).toEqual(correctState);
+});

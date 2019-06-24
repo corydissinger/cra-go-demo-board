@@ -224,60 +224,111 @@ export const removeDeadStones = ({
     const newStones = _.assign({}, existingStones, { [`${newStoneColCoordinate}${newStoneRowCoordinate}`]: newStoneColor });
 
     // this will make sense in a few lines.. maybe
-    let originalCardinalAdjacencyMap = getCardinalAdjacencies({
+    let cardinalAdjacencyMap = getCardinalAdjacencies({
         mode,
         colCoordinate: newStoneColCoordinate,
         rowCoordinate: newStoneRowCoordinate,
     });
 
-    // This will be an array that contains the next coordinates to process.
-    // first pass we get opposing stones
-    let nextAdjacentCoordinates = _.filter(_.values(originalCardinalAdjacencyMap), aCoordinate => newStones[aCoordinate] === opposingColor);
+    let nextAdjacentCoordinates = [];
 
-    // We got the cardinal map so that we could hold this flag for later
-    const isNewStoneSurrounded = nextAdjacentCoordinates.length === _.keys(originalCardinalAdjacencyMap).length;
+    // Need to track the attacked groups separately to ensure proper removal
+    const attackedGroups = {
+        north: {
+            stones: [],
+            liberties: [],
+        },
+        east: {
+            stones: [],
+            liberties: [],
+        },
+        south: {
+            stones: [],
+            liberties: [],
+        },
+        west: {
+            stones: [],
+            liberties: [],
+        },
+    };
 
-    // ...and these stones are considered to be part of an opposing group
-    const opposingStoneGroup = [];
+    const isCoordinateProcessed = (coordinate) => {
+        for (const direction in attackedGroups) {
+            if (_.includes(attackedGroups[direction].stones, coordinate)) {
+                return true;
+            }
+        }
 
-    while (nextAdjacentCoordinates.length !== 0) {
-        opposingStoneGroup.push.apply(opposingStoneGroup, nextAdjacentCoordinates);
+        return false;
+    };
 
-        // ... get adjacent allied stones and ones not already part of the group
-        nextAdjacentCoordinates = _.flatMap(nextAdjacentCoordinates, (coordinateToProcess) =>
-            _.filter(getAdjacentCoordinates({
+    const shouldProcessCoordinate = (coordinate) => {
+        if (isCoordinateProcessed(coordinate)) {
+            return false;
+        }
+
+        if (newStones[coordinate] === opposingColor) {
+            return true;
+        }
+
+        return false;
+    };
+
+    for (const direction in cardinalAdjacencyMap) {
+        const coordinate = cardinalAdjacencyMap[direction];
+        const attackedGroup = attackedGroups[direction];
+
+        // For a while I forgot to process the initial coordinate. Smart.
+        if (shouldProcessCoordinate(coordinate)) {
+            nextAdjacentCoordinates.push(coordinate);
+            attackedGroup.stones.push(coordinate);
+        }
+
+        do {
+            // ... get adjacent allied stones and ones not already part of the group
+            nextAdjacentCoordinates = _.flatMap(nextAdjacentCoordinates, (coordinateToProcess) =>
+                _.filter(getAdjacentCoordinates({
                     mode,
                     colCoordinate: coordinateToProcess[0],
                     rowCoordinate: coordinateToProcess.substring(1),
-                }), aCoordinate => !_.includes(opposingStoneGroup, aCoordinate)
-                && newStones[aCoordinate] === opposingColor)
-        );
+                }), shouldProcessCoordinate)
+            );
+
+            attackedGroup.stones.push.apply(attackedGroup.stones, nextAdjacentCoordinates);
+        } while (nextAdjacentCoordinates.length !== 0);
     }
 
-    // Now we check the liberties of each stone in the opposing group
-    const libertiesForGroup = [];
+    for (const direction in attackedGroups) {
+        const attackedGroup = attackedGroups[direction];
 
-    for (const coordinateToProcess of opposingStoneGroup) {
-        nextAdjacentCoordinates = _.filter(getAdjacentCoordinates({
-            mode,
-            colCoordinate: coordinateToProcess[0],
-            rowCoordinate: coordinateToProcess.substring(1),
-        }), aCoordinate => !_.includes(opposingStoneGroup, aCoordinate)
-        && (!newStones[aCoordinate] || newStones[aCoordinate] === FLAGS.STONE_NONE));
+        for (const coordinateToProcess of attackedGroup.stones) {
+            nextAdjacentCoordinates = _.filter(getAdjacentCoordinates({
+                mode,
+                colCoordinate: coordinateToProcess[0],
+                rowCoordinate: coordinateToProcess.substring(1),
+            }), aCoordinate => !isCoordinateProcessed(aCoordinate)
+                && (!newStones[aCoordinate] || newStones[aCoordinate] === FLAGS.STONE_NONE));
 
-        libertiesForGroup.push.apply(libertiesForGroup, nextAdjacentCoordinates);
-    }
-
-    if (libertiesForGroup.length > 0) {
-        // if the attacked group has liberties and the new stone
-        // was surrounded, return the old state
-        if (isNewStoneSurrounded) {
-            return existingStones;
-        } else {
-            return newStones;
+            attackedGroup.liberties.push.apply(attackedGroup.liberties, nextAdjacentCoordinates);
         }
-    } else {
-        // otherwise, the attacked group has died
-        return _.omit(newStones, opposingStoneGroup);
     }
+
+    const stonesToRemove = [];
+    let survivingAttackedGroups = 0;
+
+    for (const direction in attackedGroups) {
+        const attackedGroup = attackedGroups[direction];
+
+        if (attackedGroup.liberties.length === 0) {
+            stonesToRemove.push.apply(stonesToRemove, attackedGroup.stones);
+        } else if (attackedGroup.stones.length > 0) {
+            survivingAttackedGroups++;
+        }
+    }
+
+    if (survivingAttackedGroups === _.keys(cardinalAdjacencyMap).length) {
+        return existingStones; // the placed stone died
+    }
+
+    return _.omit(newStones, stonesToRemove);
 };
