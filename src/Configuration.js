@@ -2,23 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as FLAGS from './game/flags';
 import {
-    setConfigurationHeight,
     setMode,
 } from './store/actions/game';
 
 class Configuration extends Component {
-    componentDidMount() {
-        const {
-            configurationHeight,
-            setConfigurationHeight,
-        } = this.props;
-
-        if (!configurationHeight) {
-            const height = document.getElementById('configuration').clientHeight;
-            setConfigurationHeight(height);
-        }
-    }
-
     getHumanReadableMode() {
         const { mode } = this.props;
 
@@ -67,16 +54,12 @@ const mapStateToProps = (state) => {
     return {
         mode: state.game.mode,
         turnNumber: state.game.turnNumber,
-        configurationHeight: state.game.configurationHeight,
     };
 };
 
 const mapDispatchToProps = dispatch => ({
     setMode: (mode) => {
         dispatch(setMode(mode))
-    },
-    setConfigurationHeight: (height) => {
-        dispatch(setConfigurationHeight(height))
     },
 });
 

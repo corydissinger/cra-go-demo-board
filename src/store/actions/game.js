@@ -21,10 +21,3 @@ export const setWindowDimensions = (windowWidth, windowHeight) => ({
         windowHeight,
     },
 });
-
-export const setConfigurationHeight = configurationHeight => ({
-    type: TYPES.SET_CONFIGURATION_HEIGHT,
-    payload: {
-        configurationHeight,
-    },
-});

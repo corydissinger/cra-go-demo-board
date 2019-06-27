@@ -21,16 +21,15 @@ export const getSidesConstant = (mode) => {
     }
 };
 
-// TODO: Might not need this?
-// export const getEmptyBoardConstant = (mode) => {
-//     if (FLAGS.GAME_9_x_9 === mode) {
-//         return FLAGS.GRID_EMPTY_9_x_9;
-//     } else if (FLAGS.GAME_13_x_13 === mode) {
-//         return FLAGS.GRID_EMPTY_13_x_13;
-//     } else if (FLAGS.GAME_19_x_19 === mode) {
-//         return FLAGS.GRID_EMPTY_19_x_19;
-//     }
-// };
+export const getStarPointsConstant = (mode) => {
+    if (FLAGS.GAME_9_x_9 === mode) {
+        return FLAGS.STAR_POINTS_9_x_9;
+    } else if (FLAGS.GAME_13_x_13 === mode) {
+        return FLAGS.STAR_POINTS_13_x_13;
+    } else if (FLAGS.GAME_19_x_19 === mode) {
+        return FLAGS.STAR_POINTS_19_x_19;
+    }
+};
 
 export const getCardinalDirection = (mode, coordinate) => {
     if (FLAGS.CORNER_ALL_NW === coordinate) {
@@ -106,12 +105,10 @@ export const getCardinalDirection = (mode, coordinate) => {
 
 // Calculates how much space the board can have on the screen
 export const calculateBoardDimensions = ({
-                                     configurationHeight,
                                      windowHeight,
                                      windowWidth,
                                  }) => {
-    const workingHeight = windowHeight - configurationHeight;
-    let desiredWidth = workingHeight * FLAGS.GOBAN_HEIGHT_TO_WIDTH_RATIO;
+    let desiredWidth = windowHeight * FLAGS.GOBAN_HEIGHT_TO_WIDTH_RATIO;
     desiredWidth = windowWidth > desiredWidth ? desiredWidth : windowWidth - 10; // very scientific
     const desiredHeight = desiredWidth * FLAGS.GOBAN_WIDTH_TO_HEIGHT_RATIO;
 

@@ -7,7 +7,9 @@ import * as UTILS from './utils';
 //https://senseis.xmp.net/?EquipmentDimensions
 export const GOBAN_WIDTH_TO_HEIGHT_RATIO = Number(1.071428571428571);
 export const GOBAN_HEIGHT_TO_WIDTH_RATIO = Number(0.933333333333333);
-export const GOBAN_STONE_DIAMETER_TO_TILE_HEIGHT_RATIO = Number(0.949367088607595);
+
+// I made this up
+export const GOBAN_STONE_DIAMETER_TO_TILE_HEIGHT_RATIO = Number(0.88);
 
 export const TURN_BLACK = 'TURN_BLACK';
 export const TURN_WHITE = 'TURN_WHITE';
@@ -67,6 +69,10 @@ export const CORNERS_9_x_9 = [
     CORNER_9_x_9_SW,
 ];
 
+export const STAR_POINTS_9_x_9 = [
+    'c3','g3','e5', 'c7', 'g7',
+];
+
 export const CORNERS_13_x_13 = [
     `${MIN_COLUMN}${MIN_ROW}`,
     `${MIN_COLUMN}${MAX_13_x_13_ROW}`,
@@ -74,11 +80,19 @@ export const CORNERS_13_x_13 = [
     `${MAX_13_x_13_COLUMN}${MAX_13_x_13_ROW}`,
 ];
 
+export const STAR_POINTS_13_x_13 = [
+    'd4','j4','g7', 'j10', 'd10',
+];
+
 export const CORNERS_19_x_19 = [
     `${MIN_COLUMN}${MIN_ROW}`,
     `${MIN_COLUMN}${MAX_19_x_19_ROW}`,
     `${MAX_19_x_19_COLUMN}${MIN_ROW}`,
     `${MAX_19_x_19_COLUMN}${MAX_19_x_19_ROW}`,
+];
+
+export const STAR_POINTS_19_x_19 = [
+    'd4', 'd10', 'd16', 'j4', 'j10', 'j16', 'p4', 'p10', 'p16',
 ];
 
 export const SIDES_9_x_9 = [
@@ -117,24 +131,5 @@ export const GRID_COORDINATES_13_x_13 =
 export const GRID_COORDINATES_19_x_19 =
     _.map(_.range(1, 20), row => {
         return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_19_x_19_COLUMN), col => `${col}${row}`);
-    })
-;
-
-// Probably a better way to do this?
-export const GRID_EMPTY_9_x_9 =
-    _.map(_.range(1, 10), () => {
-        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_9_x_9_COLUMN), () => STONE_NONE);
-    })
-;
-
-export const GRID_EMPTY_13_x_13 =
-    _.map(_.range(1, 14), () => {
-        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_13_x_13_COLUMN), () => STONE_NONE);
-    })
-;
-
-export const GRID_EMPTY_19_x_19 =
-    _.map(_.range(1, 20), () => {
-        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_19_x_19_COLUMN), () => STONE_NONE);
     })
 ;

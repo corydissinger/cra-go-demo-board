@@ -85,25 +85,23 @@ it('returns correct cardinal direction for each game mode', () => {
 
 it('returns reasonable board dimensions', () => {
     const test_800_600 = GAME_MATHS.calculateBoardDimensions({
-        configurationHeight: 100,
         windowWidth: 800,
         windowHeight: 600,
     });
 
     const test_1024_768 = GAME_MATHS.calculateBoardDimensions({
-        configurationHeight: 300,
         windowWidth: 1024,
         windowHeight: 768,
     });
 
     expect(test_800_600).toEqual({
-        height: 499,
-        width: 466,
+        height: 599,
+        width: 559,
     });
 
     expect(test_1024_768).toEqual({
-        height: 467,
-        width: 436,
+        height: 767,
+        width: 716,
     });
 });
 

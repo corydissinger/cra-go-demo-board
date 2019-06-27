@@ -29,10 +29,14 @@ class App extends Component {
         const { canRender } = this.props;
 
         return (
-            <div className="App">
-                <Configuration/>
-                {canRender && <Board/>}
-                {!canRender && <h1>Please wait...</h1>}
+            <div className="App app-container">
+                <div className="board-container">
+                    {canRender && <Board/>}
+                    {!canRender && <h1>Please wait...</h1>}
+                </div>
+                <div className="configuration-container">
+                    <Configuration/>
+                </div>
             </div>
         );
     }

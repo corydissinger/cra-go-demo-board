@@ -26,6 +26,13 @@ class Tile extends Component {
         this.drawTile();
     }
 
+    getCanvasContextPresets() {
+        const canvas = this.refs.canvas;
+        const ctx = canvas.getContext('2d');
+        ctx.lineWidth = 4; // 4 pixels is a little over a millimeter. Yeah I know mobile yada yada
+        return ctx;
+    }
+
     drawTile() {
         const {
             mode,
@@ -46,6 +53,8 @@ class Tile extends Component {
             this.drawCorner();
         } else if (UTILS.getSidesConstant(mode).includes(`${colCoordinate}${rowCoordinate}`)) {
             this.drawSide();
+        } else if (UTILS.getStarPointsConstant(mode).includes(`${colCoordinate}${rowCoordinate}`)) {
+            this.drawStarPoint();
         } else {
             this.drawIntersection();
         }
@@ -59,9 +68,8 @@ class Tile extends Component {
             rowCoordinate,
             colCoordinate,
         } = this.props;
-        
-        const canvas = this.refs.canvas;
-        const ctx = canvas.getContext('2d');
+
+        const ctx = this.getCanvasContextPresets();
 
         const cardinalDirection = UTILS.getCardinalDirection(mode, `${colCoordinate}${rowCoordinate}`);
 
@@ -76,7 +84,7 @@ class Tile extends Component {
             ctx.lineTo(midX, height);
             ctx.moveTo(midX, midY);
             ctx.lineTo(width, midY);
-            ctx.fillText(rowCoordinate, 0, midY);
+            ctx.fillText(rowCoordinate, 0, midY + 4);
         } else if (FLAGS.NORTH === cardinalDirection) {
             ctx.moveTo(0, midY);
             ctx.lineTo(width, midY);
@@ -88,13 +96,13 @@ class Tile extends Component {
             ctx.lineTo(midX, height);
             ctx.moveTo(0, midY);
             ctx.lineTo(midX, midY);
-            ctx.fillText(rowCoordinate, width - 20, midY);
+            ctx.fillText(rowCoordinate, width - 20, midY + 4);
         } else if (FLAGS.SOUTH === cardinalDirection) {
             ctx.moveTo(0, midY);
             ctx.lineTo(width, midY);
             ctx.moveTo(midX, 0);
             ctx.lineTo(midX, midY);
-            ctx.fillText(colCoordinate, midX, height - 20);
+            ctx.fillText(colCoordinate, midX, height - 10);
         }
 
         ctx.stroke();
@@ -107,10 +115,9 @@ class Tile extends Component {
             width,
             rowCoordinate,
             colCoordinate,
-        } = this.props;        
-        
-        const canvas = this.refs.canvas;
-        const ctx = canvas.getContext('2d');
+        } = this.props;
+
+        const ctx = this.getCanvasContextPresets();
 
         const cardinalDirection = UTILS.getCardinalDirection(mode, `${colCoordinate}${rowCoordinate}`);
 
@@ -124,19 +131,19 @@ class Tile extends Component {
             ctx.moveTo(0, midY);
             ctx.lineTo(midX, midY);
             ctx.lineTo(midX, height);
-            ctx.fillText(colCoordinate, midX, 18);
-            ctx.fillText(rowCoordinate, width - 20, midY);
+            ctx.fillText(colCoordinate, midX - 4, 18);
+            ctx.fillText(rowCoordinate, width - 20, midY + 4);
         } else if (FLAGS.SOUTH_EAST === cardinalDirection) {
             ctx.moveTo(midX, 0);
             ctx.lineTo(midX, midY);
             ctx.lineTo(0, midY);
-            ctx.fillText(colCoordinate, midX, height - 20);
+            ctx.fillText(colCoordinate, midX - 4, height - 10);
             ctx.fillText(rowCoordinate, width - 20, midY);
         } else if (FLAGS.SOUTH_WEST === cardinalDirection) {
             ctx.moveTo(width, midY);
             ctx.lineTo(midX, midY);
             ctx.lineTo(midX, 0);
-            ctx.fillText(colCoordinate, midX, height - 20);
+            ctx.fillText(colCoordinate, midX, height - 10);
             ctx.fillText(rowCoordinate, 0, midY);
         } else if (FLAGS.NORTH_WEST === cardinalDirection) {
             ctx.moveTo(midX, height);
@@ -153,15 +160,36 @@ class Tile extends Component {
         const {
             height,
             width,
-        } = this.props;        
-        
-        const canvas = this.refs.canvas;
-        const ctx = canvas.getContext('2d');
+        } = this.props;
+
+        const ctx = this.getCanvasContextPresets();
 
         const midX = width / 2;
         const midY = height / 2;
 
         ctx.beginPath();
+        ctx.moveTo(0, midY);
+        ctx.lineTo(width, midY);
+        ctx.moveTo(midX, 0);
+        ctx.lineTo(midX, height);
+        ctx.stroke();
+    }
+
+    drawStarPoint() {
+        const {
+            height,
+            width,
+        } = this.props;
+
+        const ctx = this.getCanvasContextPresets();
+
+        const midX = width / 2;
+        const midY = height / 2;
+
+        ctx.beginPath();
+        ctx.arc(midX, midY, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = '#000000';
+        ctx.fill();
         ctx.moveTo(0, midY);
         ctx.lineTo(width, midY);
         ctx.moveTo(midX, 0);

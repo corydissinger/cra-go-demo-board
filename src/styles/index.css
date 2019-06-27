@@ -1,3 +1,16 @@
-.flex-container {
+.app-container {
     display: flex;
+    flex-wrap: wrap;
+}
+
+.tiles-container {
+    display: flex;
+}
+
+.configuration-container {
+    flex-grow: 1;
+}
+
+.board-container {
+    flex-grow: 8;
 }

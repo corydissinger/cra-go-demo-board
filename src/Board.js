@@ -32,7 +32,7 @@ class Board extends Component {
 
         return <div
             key={`${mode}${numberCoordinate}`}
-            className="flex-container"
+            className="tiles-container"
         >
             {_.map(aRow, aCoordinate => {
                 const letterCoordinate = aCoordinate[0];
@@ -69,12 +69,10 @@ const mapStateToProps = (state) => {
         mode,
         windowHeight,
         windowWidth,
-        configurationHeight
     } = state.game;
 
     const boardDimensions =
         GAME_MATHS.calculateBoardDimensions({
-            configurationHeight,
             windowHeight,
             windowWidth,
         });
@@ -87,8 +85,6 @@ const mapStateToProps = (state) => {
         });
 
     const stoneRadius = GAME_MATHS.stoneRadius(tileDimensions.height);
-
-    console.log(`Configuration height: ${configurationHeight}, Window width: ${windowWidth}, window height: ${windowHeight}, calculated tile dims: ${JSON.stringify(tileDimensions)}`);
 
     return {
         mode,
