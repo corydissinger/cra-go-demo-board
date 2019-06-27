@@ -23,6 +23,7 @@ class Board extends Component {
 
     renderRow(aRow) {
         const {
+            koViolation,
             mode,
             stoneRadius,
             tileDimensions,
@@ -38,6 +39,7 @@ class Board extends Component {
                 const letterCoordinate = aCoordinate[0];
 
                 return <Tile
+                    isKoViolation={koViolation === aCoordinate}
                     key={`${mode}${letterCoordinate}${numberCoordinate}`}
                     colCoordinate={letterCoordinate}
                     rowCoordinate={numberCoordinate}
@@ -71,6 +73,10 @@ const mapStateToProps = (state) => {
         windowWidth,
     } = state.game;
 
+    const {
+        koViolation,
+    } = state.board;
+
     const boardDimensions =
         GAME_MATHS.calculateBoardDimensions({
             windowHeight,
@@ -87,6 +93,7 @@ const mapStateToProps = (state) => {
     const stoneRadius = GAME_MATHS.stoneRadius(tileDimensions.height);
 
     return {
+        koViolation,
         mode,
         stoneRadius,
         tileDimensions,

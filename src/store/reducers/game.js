@@ -23,7 +23,7 @@ const game = (state = initialState, action) => {
                 blackCaptures: 0,
                 whiteCaptures: 0,
             };
-        case ACTIONS.SET_STONE:
+        case ACTIONS.UPDATE_STONES:
             return {
                 ...state,
                 turnColor: state.turnColor === FLAGS.TURN_BLACK ? FLAGS.TURN_WHITE : FLAGS.TURN_BLACK,

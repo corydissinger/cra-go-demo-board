@@ -27,9 +27,16 @@ class Tile extends Component {
     }
 
     getCanvasContextPresets() {
+        const { isKoViolation } = this.props;
+
         const canvas = this.refs.canvas;
         const ctx = canvas.getContext('2d');
         ctx.lineWidth = 4; // 4 pixels is a little over a millimeter. Yeah I know mobile yada yada
+
+        if (isKoViolation) {
+            ctx.strokeStyle = '#FF0000';
+        }
+
         return ctx;
     }
 
