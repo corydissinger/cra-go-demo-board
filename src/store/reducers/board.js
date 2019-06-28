@@ -9,6 +9,8 @@ const initialState = {
     koViolation: '',
     currentBoardState: {},
     previousBoardState: {},
+    previousStone: '',
+    penultimateStone: '', // means 'second to last', quite literally
 };
 
 const board = (state = initialState, action) => {
@@ -21,13 +23,18 @@ const board = (state = initialState, action) => {
                 mode,
             };
         case ACTIONS.UPDATE_STONES:
-            const { nextBoardState } = action.payload;
+            const {
+                nextBoardState,
+                placedStone,
+            } = action.payload;
 
             return {
                 ...state,
                 koViolation: '',
                 currentBoardState: nextBoardState,
                 previousBoardState: state.currentBoardState,
+                penultimateStone: state.previousStone,
+                previousStone: placedStone,
             };
         case ACTIONS.KO_WARNING:
             const {

@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import * as _ from 'lodash';
 import * as FLAGS from './game/flags';
 import * as GAME_MATHS from './game/maths';
+import { setStone } from './store/actions/board';
 
 class Board extends Component {
     constructor(props) {
         super(props);
         this.onMouseMove = this.onMouseMove.bind(this);
+        this.onClick = this.onClick.bind(this);
         this.calculatePreviewStone = _.throttle(this.calculatePreviewStone.bind(this), 100);
     }
 
@@ -230,10 +232,10 @@ class Board extends Component {
         canvasContext.stroke();
     }
 
-    showPreviewStone(canvasContext, colOffset, rowOffset) {
+    showPreviewStone(colOffset, rowOffset) {
         const { turnColor } = this.props;
 
-        this.drawStoneInternal(FLAGS.TURN_BLACK === turnColor, canvasContext, colOffset, rowOffset);
+        this.drawStoneInternal(FLAGS.TURN_BLACK === turnColor, this.getCanvasContextPresets(), colOffset, rowOffset);
     }
 
     clearCanvas(canvasContext, colOffset, rowOffset) {
@@ -265,17 +267,26 @@ class Board extends Component {
     }
 
     calculatePreviewStone(x, y) {
-        const {
-            currentBoardState,
-            tileDimensions,
-            turnColor,
-        } = this.props;
+        const { tileDimensions } = this.props;
 
         // yeah yeah it's seemingly flipped
-        const assumedCol = Math.ceil(x / tileDimensions.height);
-        const assumedRow = Math.ceil(y / tileDimensions.width);
+        const assumedCol = Math.floor(x / tileDimensions.height);
+        const assumedRow = Math.floor(y / tileDimensions.width);
 
-        console.log(`X: ${x}, Y: ${y}, assumed col: ${assumedCol}, assumed row: ${assumedRow}`);
+        this.showPreviewStone(assumedCol, assumedRow);
+    }
+
+    onClick(e) {
+        const {
+            setStone,
+            tileDimensions,
+        } = this.props;
+
+        // ASCII 97 is 'a', 98 'b', so 0 + 97 = 'a' :)
+        const assumedCol = String.fromCharCode(Math.floor(e.clientX / tileDimensions.height) + 97);
+        const assumedRow = Math.floor(e.clientY / tileDimensions.width);
+
+        setStone(assumedCol, assumedRow);
     }
 
     onMouseMove(e) {
@@ -294,6 +305,7 @@ class Board extends Component {
                 height={boardDimensions.height}
                 width={boardDimensions.width}
                 onMouseMove={this.onMouseMove}
+                onClick={this.onClick}
                 ref="canvas"
             />
         );
@@ -326,4 +338,15 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(Board);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setStone: (colCoordinate, rowCoordinate) => {
+            dispatch(setStone(colCoordinate, rowCoordinate));
+        },
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Board);
