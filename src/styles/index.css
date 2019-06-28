@@ -14,3 +14,14 @@
 .board-container {
     flex-grow: 8;
 }
+
+#interactive-board {
+    position: absolute;
+    visibility: hidden;
+    z-index: 20;
+}
+
+#stones-board {
+    position: absolute;
+    z-index: 10;
+}

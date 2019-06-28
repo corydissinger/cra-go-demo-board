@@ -1,9 +1,18 @@
 import * as FLAGS from '../../game/flags';
 import * as ACTIONS from '../constants/actions';
+import * as GAME_MATHS from "../../game/maths";
 
 const initialState = {
+    boardDimensions: {
+        height: 0,
+        width: 0,
+    },
     canRender: false,
     mode: FLAGS.GAME_9_x_9,
+    tileDimensions: {
+        height: 0,
+        width: 0,
+    },
     turnColor: FLAGS.TURN_BLACK,
     turnNumber: 1,
     windowHeight: null,
@@ -35,9 +44,24 @@ const game = (state = initialState, action) => {
                 windowWidth,
             } = action.payload;
 
+            const boardDimensions =
+                GAME_MATHS.calculateBoardDimensions({
+                    windowHeight,
+                    windowWidth,
+                });
+
+            const tileDimensions =
+                GAME_MATHS.calculateTileDimensions({
+                    mode: state.mode,
+                    boardHeight: boardDimensions.height,
+                    boardWidth: boardDimensions.width,
+                });
+
             return {
                 ...state,
                 canRender: true,
+                boardDimensions,
+                tileDimensions,
                 windowHeight,
                 windowWidth,
             };
