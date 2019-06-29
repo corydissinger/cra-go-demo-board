@@ -27,6 +27,16 @@ class Board extends Component {
             const canvasContext = this.getCanvasContextPresets();
             canvasContext.clearRect(0, 0, boardDimensions.width, boardDimensions.height);
             this.renderWholeBoard();
+        } else if (!_.isEqual(this.props.alteredStones, prevProps.alteredStones)) {
+            for (const coordinate of this.props.alteredStones) {
+                const colCoordinate = coordinate[0];
+                const rowCoordinate = Number.parseInt(coordinate.substring(1));
+                const colOffset = UTILS.getOffsetFromCharacter(colCoordinate);
+                const rowOffset = rowCoordinate - 1;
+                const canvasContext = this.getCanvasContextPresets();
+
+                this.drawTile(colCoordinate, rowCoordinate, canvasContext, colOffset, rowOffset);
+            }
         }
     }
 
@@ -366,6 +376,7 @@ const mapStateToProps = (state) => {
     } = state.game;
 
     const {
+        alteredStones,
         currentBoardState,
         koViolation,
     } = state.board;
@@ -373,6 +384,7 @@ const mapStateToProps = (state) => {
     const stoneRadius = GAME_MATHS.stoneRadius(tileDimensions.height);
 
     return {
+        alteredStones,
         currentBoardState,
         koViolation,
         lastPreviewStone,

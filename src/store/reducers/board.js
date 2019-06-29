@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as FLAGS from '../../game/flags';
 import * as ACTIONS from '../constants/actions';
 
@@ -31,6 +32,7 @@ const board = (state = initialState, action) => {
 
             return {
                 ...state,
+                alteredStones: _.keys(_.omit(nextBoardState, _.keys(state.currentBoardState))),
                 koViolation: '',
                 currentBoardState: nextBoardState,
                 previousBoardState: state.currentBoardState,
