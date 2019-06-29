@@ -5,6 +5,7 @@ import * as ACTIONS from '../constants/actions';
 // the state is somewhat dynamic but predictable based on the
 // generally agreed upon goban coordinates
 const initialState = {
+    alteredStones: [],
     mode: FLAGS.GAME_9_x_9,
     koViolation: '',
     currentBoardState: {},

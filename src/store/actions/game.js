@@ -7,10 +7,10 @@ export const setMode = mode => ({
     },
 });
 
-export const setTurnNumber = turnNumber => ({
-    type: TYPES.SET_TURN_NUMBER,
+export const setLastPreviewStone = coordinate => ({
+    type: TYPES.SET_LAST_PREVIEW_STONE,
     payload: {
-        turnNumber,
+        coordinate,
     },
 });
 

@@ -3,22 +3,37 @@ import { connect } from 'react-redux';
 import * as _ from 'lodash';
 import * as FLAGS from './game/flags';
 import * as GAME_MATHS from './game/maths';
+import * as UTILS from './game/utils';
 import { setStone } from './store/actions/board';
+import { setLastPreviewStone } from './store/actions/game';
 
 class Board extends Component {
     constructor(props) {
         super(props);
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onClick = this.onClick.bind(this);
-        this.calculatePreviewStone = _.throttle(this.calculatePreviewStone.bind(this), 100);
+        this.calculatePreviewStone = this.calculatePreviewStone.bind(this);
+        // this.calculatePreviewStone = _.throttle(this.calculatePreviewStone.bind(this), 100);
     }
 
     componentDidMount() {
         this.renderWholeBoard();
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.mode !== prevProps.mode) {
+            const { boardDimensions } = this.props;
+
+            const canvasContext = this.getCanvasContextPresets();
+            canvasContext.clearRect(0, 0, boardDimensions.width, boardDimensions.height);
+            this.renderWholeBoard();
+        }
+    }
+
     getCoordinates() {
         const { mode } = this.props;
+
+        console.log(`Current mode ${mode}, tile dims: ${JSON.stringify(this.props.tileDimensions)}`);
 
         // Yay hardcoding
         if (mode === FLAGS.GAME_9_x_9) {
@@ -233,9 +248,38 @@ class Board extends Component {
     }
 
     showPreviewStone(colOffset, rowOffset) {
-        const { turnColor } = this.props;
+        const {
+            currentBoardState,
+            lastPreviewStone,
+            setLastPreviewStone,
+            turnColor,
+        } = this.props;
 
-        this.drawStoneInternal(FLAGS.TURN_BLACK === turnColor, this.getCanvasContextPresets(), colOffset, rowOffset);
+        const currentColCoordinate = UTILS.getCharacterFromOffset(colOffset);
+        const currentRowCoordinate = rowOffset + 1;
+
+        const coordinate = `${currentColCoordinate}${currentRowCoordinate}`;
+
+        // Don't go through re-render if it's the same stone
+        // Don't render preview stone if a stone is already there
+        if (coordinate === lastPreviewStone ||
+            (currentBoardState[coordinate] &&
+            currentBoardState[coordinate] !== FLAGS.STONE_NONE)) {
+            return;
+        }
+
+        const canvasContext = this.getCanvasContextPresets();
+
+        if (lastPreviewStone) {
+            const previousColOffset = UTILS.getOffsetFromCharacter(lastPreviewStone[0]);
+            const previousRowOffset = Number.parseInt(lastPreviewStone.substring(1)) - 1;
+
+            this.clearCanvas(canvasContext, previousColOffset, previousRowOffset);
+            this.drawTile(lastPreviewStone[0], lastPreviewStone.substring(1), canvasContext, previousColOffset, previousRowOffset);
+        }
+
+        setLastPreviewStone(coordinate);
+        this.drawStoneInternal(FLAGS.TURN_BLACK === turnColor, canvasContext, colOffset, rowOffset);
     }
 
     clearCanvas(canvasContext, colOffset, rowOffset) {
@@ -270,10 +314,10 @@ class Board extends Component {
         const { tileDimensions } = this.props;
 
         // yeah yeah it's seemingly flipped
-        const assumedCol = Math.floor(x / tileDimensions.height);
-        const assumedRow = Math.floor(y / tileDimensions.width);
+        const colOffset = Math.floor(x / tileDimensions.height);
+        const rowOffset = Math.floor(y / tileDimensions.width);
 
-        this.showPreviewStone(assumedCol, assumedRow);
+        this.showPreviewStone(colOffset, rowOffset, x, y);
     }
 
     onClick(e) {
@@ -283,7 +327,7 @@ class Board extends Component {
         } = this.props;
 
         // ASCII 97 is 'a', 98 'b', so 0 + 97 = 'a' :)
-        const assumedCol = String.fromCharCode(Math.floor(e.clientX / tileDimensions.height) + 97);
+        const assumedCol = UTILS.getCharacterFromOffset(Math.floor(e.clientX / tileDimensions.height));
         const assumedRow = Math.floor(e.clientY / tileDimensions.width);
 
         setStone(assumedCol, assumedRow);
@@ -316,6 +360,7 @@ const mapStateToProps = (state) => {
     const {
         mode,
         boardDimensions,
+        lastPreviewStone,
         tileDimensions,
         turnColor,
     } = state.game;
@@ -330,6 +375,7 @@ const mapStateToProps = (state) => {
     return {
         currentBoardState,
         koViolation,
+        lastPreviewStone,
         mode,
         stoneRadius,
         tileDimensions,
@@ -342,6 +388,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setStone: (colCoordinate, rowCoordinate) => {
             dispatch(setStone(colCoordinate, rowCoordinate));
+        },
+        setLastPreviewStone: (coordinate) => {
+            dispatch(setLastPreviewStone(coordinate));
         },
     };
 };

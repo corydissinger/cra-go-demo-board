@@ -327,5 +327,9 @@ export const removeDeadStones = ({
         return existingStones; // the placed stone died
     }
 
-    return _.omit(newStones, stonesToRemove);
+    for (const coordinate of stonesToRemove) {
+        newStones[coordinate] = FLAGS.STONE_NONE;
+    }
+
+    return newStones;
 };
