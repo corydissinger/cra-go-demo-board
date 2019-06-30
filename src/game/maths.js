@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import * as FLAGS from './flags';
+import * as UTILS from "./utils";
 
 export const getCornersConstant = (mode) => {
     if (FLAGS.GAME_9_x_9 === mode) {
@@ -332,4 +333,26 @@ export const removeDeadStones = ({
     }
 
     return newStones;
+};
+
+export const getOffsets = ({ x, y, tileDimensions }) => {
+    const col = Math.floor(x / tileDimensions.width);
+    const row = Math.floor(y / tileDimensions.height);
+
+    return {
+        col,
+        row,
+    };
+};
+
+export const deriveCoordinatesFromOffsets = (offsets) => {
+    const colCoordinate = UTILS.getCharacterFromOffset(offsets.col);
+    const rowCoordinate = offsets.row + 1;
+
+    console.log(`col coordinate: ${colCoordinate}, row coordinate: ${rowCoordinate}`);
+
+    return {
+        colCoordinate,
+        rowCoordinate,
+    };
 };

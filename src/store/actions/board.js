@@ -20,7 +20,7 @@ const koWarning = (colCoordinate, rowCoordinate, color) => ({
     }
 });
 
-export const setStone = (colCoordinate, rowCoordinate) => {
+export const setStone = ({ colCoordinate, rowCoordinate }) => {
     return (dispatch, getState) => {
         const {
             mode,

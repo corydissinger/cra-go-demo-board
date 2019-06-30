@@ -11,6 +11,7 @@ class Board extends Component {
     constructor(props) {
         super(props);
         this.onMouseMove = this.onMouseMove.bind(this);
+        this.onMouseOut = this.onMouseOut.bind(this);
         this.onClick = this.onClick.bind(this);
         this.calculatePreviewStone = this.calculatePreviewStone.bind(this);
         // this.calculatePreviewStone = _.throttle(this.calculatePreviewStone.bind(this), 100);
@@ -21,7 +22,8 @@ class Board extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.mode !== prevProps.mode) {
+        if (this.props.mode !== prevProps.mode ||
+            !_.isEqual(this.props.tileDimensions, prevProps.tileDimensions)) {
             const { boardDimensions } = this.props;
 
             const canvasContext = this.getCanvasContextPresets();
@@ -257,6 +259,18 @@ class Board extends Component {
         canvasContext.stroke();
     }
 
+    resetLastPreviewStone(canvasContext) {
+        const { lastPreviewStone } = this.props;
+
+        if (lastPreviewStone) {
+            const previousColOffset = UTILS.getOffsetFromCharacter(lastPreviewStone[0]);
+            const previousRowOffset = Number.parseInt(lastPreviewStone.substring(1)) - 1;
+
+            this.clearCanvas(canvasContext, previousColOffset, previousRowOffset);
+            this.drawTile(lastPreviewStone[0], lastPreviewStone.substring(1), canvasContext, previousColOffset, previousRowOffset);
+        }
+    }
+
     showPreviewStone(colOffset, rowOffset) {
         const {
             currentBoardState,
@@ -280,13 +294,8 @@ class Board extends Component {
 
         const canvasContext = this.getCanvasContextPresets();
 
-        if (lastPreviewStone) {
-            const previousColOffset = UTILS.getOffsetFromCharacter(lastPreviewStone[0]);
-            const previousRowOffset = Number.parseInt(lastPreviewStone.substring(1)) - 1;
-
-            this.clearCanvas(canvasContext, previousColOffset, previousRowOffset);
-            this.drawTile(lastPreviewStone[0], lastPreviewStone.substring(1), canvasContext, previousColOffset, previousRowOffset);
-        }
+        // DRY but lame?
+        this.resetLastPreviewStone(canvasContext);
 
         setLastPreviewStone(coordinate);
         this.drawStoneInternal(FLAGS.TURN_BLACK === turnColor, canvasContext, colOffset, rowOffset);
@@ -320,27 +329,62 @@ class Board extends Component {
         });
     }
 
+    getOffsetsWithinBounds({x, y}) {
+        const {
+            tileDimensions,
+            maxOffsets,
+        } = this.props;
+        const offsets = GAME_MATHS.getOffsets({ x, y, tileDimensions});
+
+        if (offsets.col > maxOffsets.col || offsets.row > maxOffsets.row) {
+            throw new Error(`Offsets out of bounds: ${JSON.stringify(offsets)}, bounds: ${JSON.stringify(maxOffsets)}`);
+        }
+
+        return offsets;
+    }
+
     calculatePreviewStone(x, y) {
-        const { tileDimensions } = this.props;
+        let offsets;
 
-        // yeah yeah it's seemingly flipped
-        const colOffset = Math.floor(x / tileDimensions.height);
-        const rowOffset = Math.floor(y / tileDimensions.width);
+        try {
+            offsets = this.getOffsetsWithinBounds({ x, y });
+        } catch (e) {
+            console.log(e);
+            return;
+        }
 
-        this.showPreviewStone(colOffset, rowOffset, x, y);
+        this.showPreviewStone(offsets.col, offsets.row, x, y);
     }
 
     onClick(e) {
         const {
             setStone,
-            tileDimensions,
         } = this.props;
 
-        // ASCII 97 is 'a', 98 'b', so 0 + 97 = 'a' :)
-        const assumedCol = UTILS.getCharacterFromOffset(Math.floor(e.clientX / tileDimensions.height));
-        const assumedRow = Math.floor(e.clientY / tileDimensions.width);
+        let offsets;
 
-        setStone(assumedCol, assumedRow);
+        try {
+            offsets = this.getOffsetsWithinBounds({
+                x: e.clientX,
+                y: e.clientY,
+            });
+        } catch (e) {
+            console.log(e);
+            return;
+        }
+
+        const coordinates = GAME_MATHS.deriveCoordinatesFromOffsets(offsets);
+
+        // a little hacky, wutevs
+        setStone({ ...coordinates });
+    }
+
+    onMouseOut() {
+        const canvasContext = this.getCanvasContextPresets();
+
+        // DRY but lame?
+        this.resetLastPreviewStone(canvasContext);
+        this.props.setLastPreviewStone('');
     }
 
     onMouseMove(e) {
@@ -359,6 +403,7 @@ class Board extends Component {
                 height={boardDimensions.height}
                 width={boardDimensions.width}
                 onMouseMove={this.onMouseMove}
+                onMouseOut={this.onMouseOut}
                 onClick={this.onClick}
                 ref="canvas"
             />
@@ -371,6 +416,7 @@ const mapStateToProps = (state) => {
         mode,
         boardDimensions,
         lastPreviewStone,
+        maxOffsets,
         tileDimensions,
         turnColor,
     } = state.game;
@@ -388,6 +434,7 @@ const mapStateToProps = (state) => {
         currentBoardState,
         koViolation,
         lastPreviewStone,
+        maxOffsets,
         mode,
         stoneRadius,
         tileDimensions,
@@ -398,8 +445,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setStone: (colCoordinate, rowCoordinate) => {
-            dispatch(setStone(colCoordinate, rowCoordinate));
+        setStone: ({ colCoordinate, rowCoordinate }) => {
+            dispatch(setStone({ colCoordinate, rowCoordinate }));
         },
         setLastPreviewStone: (coordinate) => {
             dispatch(setLastPreviewStone(coordinate));

@@ -8,6 +8,10 @@ const initialState = {
         width: 0,
     },
     canRender: false,
+    maxOffsets: {
+        col: 8,
+        row: 8,
+    },
     mode: FLAGS.GAME_9_x_9,
     tileDimensions: {
         height: 0,
@@ -62,8 +66,22 @@ const game = (state = initialState, action) => {
                 windowWidth: state.windowWidth,
             });
 
+            let maxOffsets = {
+                col: 8,
+                row: 8,
+            };
+
+            if (mode === FLAGS.GAME_13_x_13) {
+                maxOffsets.col = 12;
+                maxOffsets.row = 12;
+            } else if (mode === FLAGS.GAME_19_x_19) {
+                maxOffsets.col = 18;
+                maxOffsets.row = 18;
+            }
+
             return {
                 ...state,
+                maxOffsets,
                 mode,
                 boardDimensions,
                 tileDimensions,
