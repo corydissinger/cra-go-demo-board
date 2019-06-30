@@ -6,7 +6,7 @@ import * as ACTIONS from '../constants/actions';
 // the state is somewhat dynamic but predictable based on the
 // generally agreed upon goban coordinates
 const initialState = {
-    alteredStones: [],
+    alteredStones: new Set(),
     mode: FLAGS.GAME_9_x_9,
     koViolation: '',
     currentBoardState: {},
@@ -26,13 +26,15 @@ const board = (state = initialState, action) => {
             };
         case ACTIONS.UPDATE_STONES:
             const {
+                alteredStones,
                 nextBoardState,
                 placedStone,
             } = action.payload;
 
+            // ALTERED STONES GOES TO GAME MATHS
             return {
                 ...state,
-                alteredStones: _.keys(_.omit(nextBoardState, _.keys(state.currentBoardState))),
+                alteredStones,
                 koViolation: '',
                 currentBoardState: nextBoardState,
                 previousBoardState: state.currentBoardState,

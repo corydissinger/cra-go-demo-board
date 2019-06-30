@@ -27,7 +27,14 @@ it('black placing a stone to kill a white stone in NW corner', () => {
         b1: FLAGS.STONE_BLACK,
     };
 
+    const expectedAlteredStones = new Set(['a1', 'b1']);
+    const alteredStones = GAME_MATHS.determineAlteredstones({
+        currentBoardState: existingStones,
+        nextBoardState: newStonesState,
+    });
+
     expect(newStonesState).toEqual(correctState);
+    expect(alteredStones).toEqual(expectedAlteredStones);
 });
 
 it('black placing a stone to kill a white stone in NW corner; random outlying stone', () => {
@@ -52,7 +59,14 @@ it('black placing a stone to kill a white stone in NW corner; random outlying st
         b7: FLAGS.STONE_WHITE,
     };
 
+    const expectedAlteredStones = new Set(['a1', 'b1']);
+    const alteredStones = GAME_MATHS.determineAlteredstones({
+        currentBoardState: existingStones,
+        nextBoardState: newStonesState,
+    });
+
     expect(newStonesState).toEqual(correctState);
+    expect(alteredStones).toEqual(expectedAlteredStones);
 });
 
 it('white placing a stone with no liberties commits seppuku', () => {
@@ -71,7 +85,14 @@ it('white placing a stone with no liberties commits seppuku', () => {
         newStoneRowCoordinate: 3,
     });
 
+    const expectedAlteredStones = new Set([]);
+    const alteredStones = GAME_MATHS.determineAlteredstones({
+        currentBoardState: existingStones,
+        nextBoardState: newStonesState,
+    });
+
     expect(newStonesState).toEqual(existingStones);
+    expect(alteredStones).toEqual(expectedAlteredStones);
 });
 
 it('white placing a stone to kill a black stone in NW corner', () => {
@@ -94,7 +115,14 @@ it('white placing a stone to kill a black stone in NW corner', () => {
         b1: FLAGS.STONE_WHITE,
     };
 
+    const expectedAlteredStones = new Set(['a1', 'b1']);
+    const alteredStones = GAME_MATHS.determineAlteredstones({
+        currentBoardState: existingStones,
+        nextBoardState: newStonesState,
+    });
+
     expect(newStonesState).toEqual(correctState);
+    expect(alteredStones).toEqual(expectedAlteredStones);
 });
 
 it('black placing a stone to kill a white stone in SE corner', () => {
@@ -117,7 +145,14 @@ it('black placing a stone to kill a white stone in SE corner', () => {
         h9: FLAGS.STONE_BLACK,
     };
 
+    const expectedAlteredStones = new Set(['h9', 'i9']);
+    const alteredStones = GAME_MATHS.determineAlteredstones({
+        currentBoardState: existingStones,
+        nextBoardState: newStonesState,
+    });
+
     expect(newStonesState).toEqual(correctState);
+    expect(alteredStones).toEqual(expectedAlteredStones);
 });
 
 it('black placing a stone to kill a white stone on a N side', () => {
@@ -142,7 +177,14 @@ it('black placing a stone to kill a white stone on a N side', () => {
         f1: FLAGS.STONE_BLACK,
     };
 
+    const expectedAlteredStones = new Set(['e1', 'f1']);
+    const alteredStones = GAME_MATHS.determineAlteredstones({
+        currentBoardState: existingStones,
+        nextBoardState: newStonesState,
+    });
+
     expect(newStonesState).toEqual(correctState);
+    expect(alteredStones).toEqual(expectedAlteredStones);
 });
 
 it('white placing a stone to kill a black triangle group in NE corner', () => {
@@ -174,7 +216,14 @@ it('white placing a stone to kill a black triangle group in NE corner', () => {
 
     };
 
+    const expectedAlteredStones = new Set(['h1', 'h2', 'h3', 'i1']);
+    const alteredStones = GAME_MATHS.determineAlteredstones({
+        currentBoardState: existingStones,
+        nextBoardState: newStonesState,
+    });
+
     expect(newStonesState).toEqual(correctState);
+    expect(alteredStones).toEqual(expectedAlteredStones);
 });
 
 it('white placing a stone to kill a black one eye group in center', () => {
@@ -233,7 +282,14 @@ it('white placing a stone to kill a black one eye group in center', () => {
         h6: FLAGS.STONE_WHITE,
     };
 
+    const expectedAlteredStones = new Set(['e4', 'e5', 'e6', 'f4', 'f5', 'f6', 'g4', 'g5', 'g6']);
+    const alteredStones = GAME_MATHS.determineAlteredstones({
+        currentBoardState: existingStones,
+        nextBoardState: newStonesState,
+    });
+
     expect(newStonesState).toEqual(correctState);
+    expect(alteredStones).toEqual(expectedAlteredStones);
 });
 
 it('white placing a stone in a textbook beginning of ko kills the appropriate black stone', () => {
@@ -266,7 +322,14 @@ it('white placing a stone in a textbook beginning of ko kills the appropriate bl
         e4: FLAGS.STONE_WHITE,
     };
 
+    const expectedAlteredStones = new Set(['d3', 'd4']);
+    const alteredStones = GAME_MATHS.determineAlteredstones({
+        currentBoardState: existingStones,
+        nextBoardState: newStonesState,
+    });
+
     expect(newStonesState).toEqual(correctState);
+    expect(alteredStones).toEqual(expectedAlteredStones);
 });
 
 it('black placing a stone in a strange middle fight with two white groups dying', () => {
@@ -325,5 +388,12 @@ it('black placing a stone in a strange middle fight with two white groups dying'
         g6: FLAGS.STONE_NONE,        
     };
 
+    const expectedAlteredStones = new Set(['d4', 'e3', 'e4', 'f3', 'f4', 'g4', 'g5', 'g6']);
+    const alteredStones = GAME_MATHS.determineAlteredstones({
+        currentBoardState: existingStones,
+        nextBoardState: newStonesState,
+    });
+
     expect(newStonesState).toEqual(correctState);
+    expect(alteredStones).toEqual(expectedAlteredStones);
 });

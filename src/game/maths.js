@@ -210,6 +210,7 @@ export const getAdjacentCoordinates = ({
 // get all connected stones in that opposing color group
 // determine if any of those connected stones have any liberties
 // return board state with dead groups removed
+// TODO: this can't be 100 lines long...
 
 export const removeDeadStones = ({
     existingStones,
@@ -335,6 +336,18 @@ export const removeDeadStones = ({
     return newStones;
 };
 
+export const determineAlteredstones = ({ nextBoardState, currentBoardState }) => {
+    const alteredStones = new Set();
+
+    for (const coordinate in nextBoardState) {
+        if (nextBoardState[coordinate] !== currentBoardState[coordinate]) {
+            alteredStones.add(coordinate);
+        }
+    }
+
+    return alteredStones;
+};
+
 export const getOffsets = ({ x, y, tileDimensions }) => {
     const col = Math.floor(x / tileDimensions.width);
     const row = Math.floor(y / tileDimensions.height);
@@ -348,8 +361,6 @@ export const getOffsets = ({ x, y, tileDimensions }) => {
 export const deriveCoordinatesFromOffsets = (offsets) => {
     const colCoordinate = UTILS.getCharacterFromOffset(offsets.col);
     const rowCoordinate = offsets.row + 1;
-
-    console.log(`col coordinate: ${colCoordinate}, row coordinate: ${rowCoordinate}`);
 
     return {
         colCoordinate,

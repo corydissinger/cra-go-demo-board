@@ -273,7 +273,6 @@ class Board extends Component {
 
     showPreviewStone(colOffset, rowOffset) {
         const {
-            currentBoardState,
             lastPreviewStone,
             setLastPreviewStone,
             turnColor,
@@ -286,9 +285,7 @@ class Board extends Component {
 
         // Don't go through re-render if it's the same stone
         // Don't render preview stone if a stone is already there
-        if (coordinate === lastPreviewStone ||
-            (currentBoardState[coordinate] &&
-            currentBoardState[coordinate] !== FLAGS.STONE_NONE)) {
+        if (coordinate === lastPreviewStone) {
             return;
         }
 
@@ -358,6 +355,7 @@ class Board extends Component {
 
     onClick(e) {
         const {
+            currentBoardState,
             setStone,
         } = this.props;
 
@@ -374,6 +372,11 @@ class Board extends Component {
         }
 
         const coordinates = GAME_MATHS.deriveCoordinatesFromOffsets(offsets);
+        const theCoordinate = `${coordinates.colCoordinate}${coordinates.rowCoordinate}`;
+
+        if (currentBoardState[theCoordinate] && currentBoardState[theCoordinate] !== FLAGS.STONE_NONE) {
+            return;
+        }
 
         // a little hacky, wutevs
         setStone({ ...coordinates });
