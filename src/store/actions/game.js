@@ -7,6 +7,10 @@ export const setMode = mode => ({
     },
 });
 
+export const showConfigurationPanel = () => ({
+    type: TYPES.TOGGLE_CONFIGURATION_PANEL,
+});
+
 export const setLastPreviewStone = coordinate => ({
     type: TYPES.SET_LAST_PREVIEW_STONE,
     payload: {

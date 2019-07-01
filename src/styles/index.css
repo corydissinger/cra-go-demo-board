@@ -1,27 +1,70 @@
-.app-container {
-    display: flex;
-    flex-wrap: wrap;
-}
+/*
+    Copy and refactor-pasta: https://codyhouse.co/gem/css-slide-in-panel
+*/
 
-.tiles-container {
-    display: flex;
-}
-
-.configuration-container {
-    flex-grow: 1;
-}
-
-.board-container {
-    flex-grow: 8;
-}
-
-#interactive-board {
-    position: absolute;
+.configuration-panel {
+    /*...*/
     visibility: hidden;
-    z-index: 20;
+    transition: visibility 0s 0.6s;
 }
 
-#stones-board {
+.configuration-panel.configuration-panel--is-visible {
+    visibility: visible;
+    transition: visibility 0s 0s;
+}
+
+.configuration-panel__header {
+    /*...*/
+    position: fixed;
+    top: 0;
+    width: 90%;
+    height: 50px;
+    transition: transform 0.3s 0s;
+    transform: translateY(-50px);
+}
+
+.configuration-panel--from-right .configuration-panel__header {
+    right: 0;
+}
+
+.configuration-panel--from-left .configuration-panel__header {
+    left: 0;
+}
+
+.configuration-panel--is-visible .configuration-panel__header {
+    transition: transform 0.3s 0.3s;
+    transform: translateY(0px);
+}
+
+.configuration-panel__container {
+    /*...*/
+    position: fixed;
+    width: 90%;
+    height: 100%;
+    top: 0;
+    transition: transform 0.3s 0.3s;
+}
+
+.configuration-panel--from-right .configuration-panel__container {
+    right: 0;
+    transform: translate3d(100%, 0, 0);
+}
+
+.configuration-panel--from-left .configuration-panel__container {
+    left: 0;
+    transform: translate3d(-100%, 0, 0);
+}
+
+.configuration-panel--is-visible .configuration-panel__container {
+    transform: translate3d(0, 0, 0);
+    transition-delay: 0s;
+}
+
+.title-tab {
     position: absolute;
-    z-index: 10;
+    right: 0;
+}
+
+.title-tab-rotate {
+    transform: rotate(-90deg);
 }

@@ -45,8 +45,6 @@ class Board extends Component {
     getCoordinates() {
         const { mode } = this.props;
 
-        console.log(`Current mode ${mode}, tile dims: ${JSON.stringify(this.props.tileDimensions)}`);
-
         // Yay hardcoding
         if (mode === FLAGS.GAME_9_x_9) {
             return FLAGS.GRID_COORDINATES_9_x_9;

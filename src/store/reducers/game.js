@@ -8,6 +8,7 @@ const initialState = {
         width: 0,
     },
     canRender: false,
+    configurationPanelShown: false,
     maxOffsets: {
         col: 8,
         row: 8,
@@ -89,7 +90,8 @@ const game = (state = initialState, action) => {
                 blackCaptures: 0,
                 whiteCaptures: 0,
             };
-        } case ACTIONS.UPDATE_STONES:
+        } 
+        case ACTIONS.UPDATE_STONES:
             return {
                 ...state,
                 turnColor: state.turnColor === FLAGS.TURN_BLACK ? FLAGS.TURN_WHITE : FLAGS.TURN_BLACK,
@@ -118,7 +120,14 @@ const game = (state = initialState, action) => {
                 windowHeight,
                 windowWidth,
             };
-        } default:
+        } 
+        case ACTIONS.TOGGLE_CONFIGURATION_PANEL: {
+           return {
+               ...state,
+               configurationPanelShown: !state.configurationPanelShown,
+           } 
+        }
+        default:
             return state;
     }
 };

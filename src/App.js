@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Board from './Board';
-import Configuration from './Configuration';
+import ConfigurationPanel from './ConfigurationPanel';
+import ConfigurationTitleTab from './ConfigurationTitleTab';
 import { connect } from 'react-redux';
 import { setWindowDimensions } from './store/actions/game';
 import './styles/index.css';
@@ -29,14 +30,11 @@ class App extends Component {
         const { canRender } = this.props;
 
         return (
-            <div className="App app-container">
-                <div className="board-container">
-                    {canRender && <Board/>}
-                    {!canRender && <h1>Please wait...</h1>}
-                </div>
-                <div className="configuration-container">
-                    <Configuration/>
-                </div>
+            <div className="App">
+                <ConfigurationTitleTab/>
+                {canRender && <Board/>}
+                {!canRender && <h1>Please wait...</h1>}
+                <ConfigurationPanel/>
             </div>
         );
     }
