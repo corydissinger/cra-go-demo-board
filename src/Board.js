@@ -79,14 +79,20 @@ class Board extends Component {
             mode,
         } = this.props;
 
+        // const stonePlaced = currentBoardState[`${colCoordinate}${rowCoordinate}`];
+        //
+        // // Render the stone first, that way we can clear appropriately
+        // // when the component is updated.
+        // if (!stonePlaced || FLAGS.STONE_NONE === stonePlaced) {
+        //     this.clearCanvas(canvasContext, colOffset, rowOffset);
+        // } else {
+        //     this.drawStone(canvasContext, colOffset, rowOffset, stonePlaced);
+        // }
+
         const stonePlaced = currentBoardState[`${colCoordinate}${rowCoordinate}`];
 
-        // Render the stone first, that way we can clear appropriately
-        // when the component is updated.
-        if (!stonePlaced || FLAGS.STONE_NONE === stonePlaced) {
+        if (stonePlaced === FLAGS.STONE_NONE) {
             this.clearCanvas(canvasContext, colOffset, rowOffset);
-        } else {
-            this.drawStone(canvasContext, colOffset, rowOffset, stonePlaced);
         }
 
         if (GAME_MATHS.getCornersConstant(mode).includes(`${colCoordinate}${rowCoordinate}`)) {
@@ -97,6 +103,10 @@ class Board extends Component {
             this.drawStarPoint(canvasContext, colOffset, rowOffset);
         } else {
             this.drawIntersection(canvasContext, colOffset, rowOffset);
+        }
+
+        if (stonePlaced && FLAGS.STONE_NONE !== stonePlaced) {
+            this.drawStone(canvasContext, colOffset, rowOffset, stonePlaced);
         }
     }
 
@@ -254,6 +264,9 @@ class Board extends Component {
         if (isBlack) {
             canvasContext.fillStyle = '#000000';
             canvasContext.fill();
+        } else {
+            canvasContext.fillStyle = '#FFFFFF';
+            canvasContext.fill();
         }
 
         canvasContext.stroke();
@@ -273,10 +286,13 @@ class Board extends Component {
 
     showPreviewStone(colOffset, rowOffset) {
         const {
+            currentBoardState,
             lastPreviewStone,
             setLastPreviewStone,
             turnColor,
         } = this.props;
+
+        const canvasContext = this.getCanvasContextPresets();
 
         const currentColCoordinate = UTILS.getCharacterFromOffset(colOffset);
         const currentRowCoordinate = rowOffset + 1;
@@ -284,15 +300,17 @@ class Board extends Component {
         const coordinate = `${currentColCoordinate}${currentRowCoordinate}`;
 
         // Don't go through re-render if it's the same stone
-        // Don't render preview stone if a stone is already there
         if (coordinate === lastPreviewStone) {
             return;
         }
 
-        const canvasContext = this.getCanvasContextPresets();
-
         // DRY but lame?
         this.resetLastPreviewStone(canvasContext);
+
+        // Don't render preview stone if a stone is already there
+        if (currentBoardState[coordinate] && currentBoardState[coordinate] !== FLAGS.STONE_NONE) {
+            return;
+        }
 
         setLastPreviewStone(coordinate);
         this.drawStoneInternal(FLAGS.TURN_BLACK === turnColor, canvasContext, colOffset, rowOffset);

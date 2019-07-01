@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as FLAGS from '../../game/flags';
 import * as ACTIONS from '../constants/actions';
 
