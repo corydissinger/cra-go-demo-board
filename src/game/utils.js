@@ -11,3 +11,6 @@ export const genCharArray = (charA, charZ) => {
 
     return a;
 };
+
+export const getCharacterFromOffset = (offset) => String.fromCharCode(offset + 97);
+export const getOffsetFromCharacter = (character) => character.charCodeAt(0) - 97;

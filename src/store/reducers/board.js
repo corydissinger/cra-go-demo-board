@@ -5,10 +5,13 @@ import * as ACTIONS from '../constants/actions';
 // the state is somewhat dynamic but predictable based on the
 // generally agreed upon goban coordinates
 const initialState = {
+    alteredStones: new Set(),
     mode: FLAGS.GAME_9_x_9,
     koViolation: '',
     currentBoardState: {},
     previousBoardState: {},
+    previousStone: '',
+    penultimateStone: '', // means 'second to last', quite literally
 };
 
 const board = (state = initialState, action) => {
@@ -21,13 +24,21 @@ const board = (state = initialState, action) => {
                 mode,
             };
         case ACTIONS.UPDATE_STONES:
-            const { nextBoardState } = action.payload;
+            const {
+                alteredStones,
+                nextBoardState,
+                placedStone,
+            } = action.payload;
 
+            // ALTERED STONES GOES TO GAME MATHS
             return {
                 ...state,
+                alteredStones,
                 koViolation: '',
                 currentBoardState: nextBoardState,
                 previousBoardState: state.currentBoardState,
+                penultimateStone: state.previousStone,
+                previousStone: placedStone,
             };
         case ACTIONS.KO_WARNING:
             const {

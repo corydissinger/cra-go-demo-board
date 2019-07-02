@@ -3,10 +3,16 @@ import * as FLAGS from '../../game/flags';
 import * as GAME_MATHS from '../../game/maths';
 import * as _ from 'lodash';
 
-const updateStones = (nextBoardState) => ({
+const updateStones = ({
+    alteredStones,
+    nextBoardState,
+    placedStone,
+}) => ({
     type: TYPES.UPDATE_STONES,
     payload: {
+        alteredStones,
         nextBoardState,
+        placedStone,
     },
 });
 
@@ -19,7 +25,7 @@ const koWarning = (colCoordinate, rowCoordinate, color) => ({
     }
 });
 
-export const setStone = (colCoordinate, rowCoordinate) => {
+export const setStone = ({ colCoordinate, rowCoordinate }) => {
     return (dispatch, getState) => {
         const {
             mode,
@@ -46,7 +52,14 @@ export const setStone = (colCoordinate, rowCoordinate) => {
         if (isKo) {
             dispatch(koWarning(colCoordinate, rowCoordinate, color));
         } else {
-            dispatch(updateStones(nextBoardState));
+            // TEST THIS
+            const alteredStones = GAME_MATHS.determineAlteredstones({ currentBoardState, nextBoardState});
+
+            dispatch(updateStones({
+                alteredStones,
+                nextBoardState,
+                placedStone: `${colCoordinate}${rowCoordinate}`,
+            }));
         }
     };
 };
