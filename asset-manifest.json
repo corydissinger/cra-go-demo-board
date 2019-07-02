@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/cra-go-demo-board/static/css/main.9118bf09.chunk.css",
-    "main.js": "/cra-go-demo-board/static/js/main.26966c7d.chunk.js",
-    "main.js.map": "/cra-go-demo-board/static/js/main.26966c7d.chunk.js.map",
+    "main.css": "/cra-go-demo-board/static/css/main.f266083c.chunk.css",
+    "main.js": "/cra-go-demo-board/static/js/main.bb1eab57.chunk.js",
+    "main.js.map": "/cra-go-demo-board/static/js/main.bb1eab57.chunk.js.map",
     "runtime~main.js": "/cra-go-demo-board/static/js/runtime~main.67231506.js",
     "runtime~main.js.map": "/cra-go-demo-board/static/js/runtime~main.67231506.js.map",
-    "static/js/2.9a34fa12.chunk.js": "/cra-go-demo-board/static/js/2.9a34fa12.chunk.js",
-    "static/js/2.9a34fa12.chunk.js.map": "/cra-go-demo-board/static/js/2.9a34fa12.chunk.js.map",
+    "static/js/2.9d5365f2.chunk.js": "/cra-go-demo-board/static/js/2.9d5365f2.chunk.js",
+    "static/js/2.9d5365f2.chunk.js.map": "/cra-go-demo-board/static/js/2.9d5365f2.chunk.js.map",
     "index.html": "/cra-go-demo-board/index.html",
-    "precache-manifest.8db981c3f4d473b080298d4267d26d0e.js": "/cra-go-demo-board/precache-manifest.8db981c3f4d473b080298d4267d26d0e.js",
+    "precache-manifest.456a0eb4bbf1d37dd704618aa88f5402.js": "/cra-go-demo-board/precache-manifest.456a0eb4bbf1d37dd704618aa88f5402.js",
     "service-worker.js": "/cra-go-demo-board/service-worker.js",
-    "static/css/main.9118bf09.chunk.css.map": "/cra-go-demo-board/static/css/main.9118bf09.chunk.css.map"
+    "static/css/main.f266083c.chunk.css.map": "/cra-go-demo-board/static/css/main.f266083c.chunk.css.map"
   }
 }
