@@ -30,7 +30,7 @@ class App extends Component {
         const { canRender } = this.props;
 
         return (
-            <div className="App">
+            <div>
                 <ConfigurationTitleTab/>
                 {canRender && <Board/>}
                 {!canRender && <h1>Please wait...</h1>}

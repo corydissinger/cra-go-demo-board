@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as FLAGS from './game/flags';
 import {
     setMode,
+    showConfigurationPanel,
 } from './store/actions/game';
 
 class ConfigurationPanel extends Component {
@@ -25,6 +26,7 @@ class ConfigurationPanel extends Component {
             configurationPanelShown,
             mode,
             setMode,
+            showConfigurationPanel,
         } = this.props;
 
         let panelClasses = "configuration-panel configuration-panel--from-right js-configuration-panel-main";
@@ -37,7 +39,6 @@ class ConfigurationPanel extends Component {
             <div id="configuration" className={panelClasses}>
                 <header className="configuration-panel__header">
                     <h1>Goban Configuration</h1>
-                    <a href="#0" className="configuration-panel__close js-configuration-close">Close</a>
                 </header>
 
                 <div className="configuration-panel__container">
@@ -56,6 +57,13 @@ class ConfigurationPanel extends Component {
                                 <option value={FLAGS.GAME_19_x_19}>19 x 19</option>
                             </select>
                         </form>
+                        <a
+                            href="#0"
+                            className="configuration-panel__close js-configuration-close"
+                            onClick={showConfigurationPanel}
+                        >
+                            Close
+                        </a>
                     </div>
                 </div>
             </div>
@@ -80,6 +88,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
     setMode: (mode) => {
         dispatch(setMode(mode))
+    },
+    showConfigurationPanel: () => {
+        dispatch(showConfigurationPanel());
     },
 });
 

@@ -11,9 +11,13 @@ class ConfigurationTitleTab extends Component {
         } = this.props;
 
         return (
-            <div id="configuration-title-tab" className="title-tab title-tab-rotate">
-                <h1 onClick={showConfigurationPanel}>Configuration</h1>
-            </div>
+            <h1
+                id="configuration-title-tab"
+                className="title-tab title-tab-rotate"
+                onClick={showConfigurationPanel}
+            >
+                Configuration
+            </h1>
         );
     }
 }
