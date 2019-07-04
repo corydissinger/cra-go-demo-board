@@ -16,7 +16,15 @@ export const genGobanCharArray = (numColumns) => {
     return columnLabels;
 };
 
-export const getCharacterFromOffset = (offset) => String.fromCharCode(offset + 65);
+export const getCharacterFromOffset = (offset) => {
+    if (offset < 8) {
+        return String.fromCharCode(offset + 65);
+    } else {
+        // accounting for I...
+        return String.fromCharCode(offset + 66);
+    }
+};
+
 export const getOffsetFromCharacter = (character) => {
     const originalCharacterCode = character.charCodeAt(0);
 

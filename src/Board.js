@@ -79,16 +79,6 @@ class Board extends Component {
             mode,
         } = this.props;
 
-        // const stonePlaced = currentBoardState[`${colCoordinate}${rowCoordinate}`];
-        //
-        // // Render the stone first, that way we can clear appropriately
-        // // when the component is updated.
-        // if (!stonePlaced || FLAGS.STONE_NONE === stonePlaced) {
-        //     this.clearCanvas(canvasContext, colOffset, rowOffset);
-        // } else {
-        //     this.drawStone(canvasContext, colOffset, rowOffset, stonePlaced);
-        // }
-
         const stonePlaced = currentBoardState[`${colCoordinate}${rowCoordinate}`];
 
         if (stonePlaced === FLAGS.STONE_NONE) {
@@ -258,6 +248,8 @@ class Board extends Component {
         const mid_X = min_X + (tileDimensions.width / 2);
         const mid_Y = min_Y + (tileDimensions.height / 2);
 
+        canvasContext.lineWidth = 1; // 4 pixels is a little over a millimeter. Yeah I know mobile yada yada
+
         canvasContext.beginPath();
         canvasContext.arc(mid_X, mid_Y, stoneRadius, 0, 2 * Math.PI);
 
@@ -368,7 +360,7 @@ class Board extends Component {
             return;
         }
 
-        this.showPreviewStone(offsets.col, offsets.row, x, y);
+        this.showPreviewStone(offsets.col, offsets.row);
     }
 
     onClick(e) {
