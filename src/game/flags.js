@@ -31,20 +31,20 @@ export const SOUTH_WEST = 'SOUTH_WEST';
 export const WEST = 'WEST';
 export const NORTH_WEST = 'NORTH_WEST';
 
-export const MIN_COLUMN = 'a';
-export const MIN_SIDE_COLUMN = 'b';
+export const MIN_COLUMN = 'A';
+export const MIN_SIDE_COLUMN = 'B';
 export const MIN_ROW = '1';
 
-export const MAX_9_x_9_COLUMN = 'i';
-export const MAX_EASTWARD_9_x_9_COLUMN_FOR_NORTH_SOUTH = 'h';
+export const MAX_9_x_9_COLUMN = 'J';
+export const MAX_EASTWARD_9_x_9_COLUMN_FOR_NORTH_SOUTH = 'H';
 export const MAX_9_x_9_ROW    = '9';
 
-export const MAX_13_x_13_COLUMN = 'm';
-export const MAX_EASTWARD_13_x_13_COLUMN_FOR_NORTH_SOUTH = 'l';
+export const MAX_13_x_13_COLUMN = 'N';
+export const MAX_EASTWARD_13_x_13_COLUMN_FOR_NORTH_SOUTH = 'L';
 export const MAX_13_x_13_ROW    = '13';
 
-export const MAX_19_x_19_COLUMN = 's';
-export const MAX_EASTWARD_19_x_19_COLUMN_FOR_NORTH_SOUTH = 'r';
+export const MAX_19_x_19_COLUMN = 'T';
+export const MAX_EASTWARD_19_x_19_COLUMN_FOR_NORTH_SOUTH = 'S';
 export const MAX_19_x_19_ROW    = '19';
 
 // it's always a1 doofus
@@ -70,7 +70,7 @@ export const CORNERS_9_x_9 = [
 ];
 
 export const STAR_POINTS_9_x_9 = [
-    'c3','g3','e5', 'c7', 'g7',
+    'C3','G3','E5', 'C7', 'G7',
 ];
 
 export const CORNERS_13_x_13 = [
@@ -81,7 +81,7 @@ export const CORNERS_13_x_13 = [
 ];
 
 export const STAR_POINTS_13_x_13 = [
-    'd4','j4','g7', 'j10', 'd10',
+    'D4','J4','G7', 'J10', 'D10',
 ];
 
 export const CORNERS_19_x_19 = [
@@ -92,44 +92,44 @@ export const CORNERS_19_x_19 = [
 ];
 
 export const STAR_POINTS_19_x_19 = [
-    'd4', 'd10', 'd16', 'j4', 'j10', 'j16', 'p4', 'p10', 'p16',
+    'D4', 'D10', 'D16', 'J4', 'J10', 'J16', 'P4', 'P10', 'P16',
 ];
 
 export const SIDES_9_x_9 = [
     ..._.map(_.range(2, 9), row => `${MIN_COLUMN}${row}`),
     ..._.map(_.range(2, 9), row => `${MAX_9_x_9_COLUMN}${row}`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_9_x_9_COLUMN_FOR_NORTH_SOUTH), col => `${col}9`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_9_x_9_COLUMN_FOR_NORTH_SOUTH), col => `${col}1`),
+    ..._.map(UTILS.genGobanCharArray(8), col => `${col}9`),
+    ..._.map(UTILS.genGobanCharArray(8), col => `${col}1`),
 ];
 
 export const SIDES_13_x_13 = [
     ..._.map(_.range(2, 13), row => `${MIN_COLUMN}${row}`),
     ..._.map(_.range(2, 13), row => `${MAX_13_x_13_COLUMN}${row}`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_13_x_13_COLUMN_FOR_NORTH_SOUTH), col => `${col}13`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_13_x_13_COLUMN_FOR_NORTH_SOUTH), col => `${col}1`),
+    ..._.map(UTILS.genGobanCharArray(12), col => `${col}13`),
+    ..._.map(UTILS.genGobanCharArray(12), col => `${col}1`),
 ];
 
 export const SIDES_19_x_19 = [
     ..._.map(_.range(2, 19), row => `${MIN_COLUMN}${row}`),
     ..._.map(_.range(2, 19), row => `${MAX_19_x_19_COLUMN}${row}`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_19_x_19_COLUMN_FOR_NORTH_SOUTH), col => `${col}19`),
-    ..._.map(UTILS.genCharArray(MIN_SIDE_COLUMN, MAX_EASTWARD_19_x_19_COLUMN_FOR_NORTH_SOUTH), col => `${col}1`),
+    ..._.map(UTILS.genGobanCharArray(18), col => `${col}19`),
+    ..._.map(UTILS.genGobanCharArray(18), col => `${col}1`),
 ];
 
 export const GRID_COORDINATES_9_x_9 =
     _.map(_.range(1, 10), row => {
-        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_9_x_9_COLUMN), col => `${col}${row}`);
+        return _.map(UTILS.genGobanCharArray(9), col => `${col}${row}`);
     })
 ;
 
 export const GRID_COORDINATES_13_x_13 =
     _.map(_.range(1, 14), row => {
-        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_13_x_13_COLUMN), col => `${col}${row}`);
+        return _.map(UTILS.genGobanCharArray(13), col => `${col}${row}`);
     })
 ;
 
 export const GRID_COORDINATES_19_x_19 =
     _.map(_.range(1, 20), row => {
-        return _.map(UTILS.genCharArray(MIN_COLUMN, MAX_19_x_19_COLUMN), col => `${col}${row}`);
+        return _.map(UTILS.genGobanCharArray(19), col => `${col}${row}`);
     })
 ;

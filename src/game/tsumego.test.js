@@ -9,25 +9,25 @@ import * as FLAGS from './flags';
 
 it('black placing a stone to kill a white stone in NW corner', () => {
     const existingStones = {
-        a1: FLAGS.STONE_WHITE,
-        a2: FLAGS.STONE_BLACK,
+        A1: FLAGS.STONE_WHITE,
+        A2: FLAGS.STONE_BLACK,
     };
 
     const newStonesState = GAME_MATHS.removeDeadStones({
         existingStones,
         mode: FLAGS.GAME_9_x_9,
         newStoneColor: FLAGS.STONE_BLACK,
-        newStoneColCoordinate: 'b',
+        newStoneColCoordinate: 'B',
         newStoneRowCoordinate: 1,
     });
 
     const correctState = {
-        a1: FLAGS.STONE_NONE,
-        a2: FLAGS.STONE_BLACK,
-        b1: FLAGS.STONE_BLACK,
+        A1: FLAGS.STONE_NONE,
+        A2: FLAGS.STONE_BLACK,
+        B1: FLAGS.STONE_BLACK,
     };
 
-    const expectedAlteredStones = new Set(['a1', 'b1']);
+    const expectedAlteredStones = new Set(['A1', 'B1']);
     const alteredStones = GAME_MATHS.determineAlteredstones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
@@ -39,27 +39,27 @@ it('black placing a stone to kill a white stone in NW corner', () => {
 
 it('black placing a stone to kill a white stone in NW corner; random outlying stone', () => {
     const existingStones = {
-        a1: FLAGS.STONE_WHITE,
-        a2: FLAGS.STONE_BLACK,
-        b7: FLAGS.STONE_WHITE,
+        A1: FLAGS.STONE_WHITE,
+        A2: FLAGS.STONE_BLACK,
+        B7: FLAGS.STONE_WHITE,
     };
 
     const newStonesState = GAME_MATHS.removeDeadStones({
         existingStones,
         mode: FLAGS.GAME_9_x_9,
         newStoneColor: FLAGS.STONE_BLACK,
-        newStoneColCoordinate: 'b',
+        newStoneColCoordinate: 'B',
         newStoneRowCoordinate: 1,
     });
 
     const correctState = {
-        a1: FLAGS.STONE_NONE,
-        a2: FLAGS.STONE_BLACK,
-        b1: FLAGS.STONE_BLACK,
-        b7: FLAGS.STONE_WHITE,
+        A1: FLAGS.STONE_NONE,
+        A2: FLAGS.STONE_BLACK,
+        B1: FLAGS.STONE_BLACK,
+        B7: FLAGS.STONE_WHITE,
     };
 
-    const expectedAlteredStones = new Set(['a1', 'b1']);
+    const expectedAlteredStones = new Set(['A1', 'B1']);
     const alteredStones = GAME_MATHS.determineAlteredstones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
@@ -71,17 +71,17 @@ it('black placing a stone to kill a white stone in NW corner; random outlying st
 
 it('white placing a stone with no liberties commits seppuku', () => {
     const existingStones = {
-        e3: FLAGS.STONE_BLACK,
-        f2: FLAGS.STONE_BLACK,
-        f4: FLAGS.STONE_BLACK,
-        g3: FLAGS.STONE_BLACK,
+        E3: FLAGS.STONE_BLACK,
+        F2: FLAGS.STONE_BLACK,
+        F4: FLAGS.STONE_BLACK,
+        G3: FLAGS.STONE_BLACK,
     };
 
     const newStonesState = GAME_MATHS.removeDeadStones({
         existingStones,
         mode: FLAGS.GAME_9_x_9,
         newStoneColor: FLAGS.STONE_WHITE,
-        newStoneColCoordinate: 'f',
+        newStoneColCoordinate: 'F',
         newStoneRowCoordinate: 3,
     });
 
@@ -97,25 +97,25 @@ it('white placing a stone with no liberties commits seppuku', () => {
 
 it('white placing a stone to kill a black stone in NW corner', () => {
     const existingStones = {
-        a1: FLAGS.STONE_BLACK,
-        a2: FLAGS.STONE_WHITE,
+        A1: FLAGS.STONE_BLACK,
+        A2: FLAGS.STONE_WHITE,
     };
 
     const newStonesState = GAME_MATHS.removeDeadStones({
         existingStones,
         mode: FLAGS.GAME_9_x_9,
         newStoneColor: FLAGS.STONE_WHITE,
-        newStoneColCoordinate: 'b',
+        newStoneColCoordinate: 'B',
         newStoneRowCoordinate: 1,
     });
 
     const correctState = {
-        a1: FLAGS.STONE_NONE,
-        a2: FLAGS.STONE_WHITE,
-        b1: FLAGS.STONE_WHITE,
+        A1: FLAGS.STONE_NONE,
+        A2: FLAGS.STONE_WHITE,
+        B1: FLAGS.STONE_WHITE,
     };
 
-    const expectedAlteredStones = new Set(['a1', 'b1']);
+    const expectedAlteredStones = new Set(['A1', 'B1']);
     const alteredStones = GAME_MATHS.determineAlteredstones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
@@ -127,25 +127,25 @@ it('white placing a stone to kill a black stone in NW corner', () => {
 
 it('black placing a stone to kill a white stone in SE corner', () => {
     const existingStones = {
-        i9: FLAGS.STONE_WHITE,
-        i8: FLAGS.STONE_BLACK,
+        J9: FLAGS.STONE_WHITE,
+        J8: FLAGS.STONE_BLACK,
     };
 
     const newStonesState = GAME_MATHS.removeDeadStones({
         existingStones,
         mode: FLAGS.GAME_9_x_9,
         newStoneColor: FLAGS.STONE_BLACK,
-        newStoneColCoordinate: 'h',
+        newStoneColCoordinate: 'H',
         newStoneRowCoordinate: 9,
     });
 
     const correctState = {
-        i9: FLAGS.STONE_NONE,
-        i8: FLAGS.STONE_BLACK,
-        h9: FLAGS.STONE_BLACK,
+        J9: FLAGS.STONE_NONE,
+        J8: FLAGS.STONE_BLACK,
+        H9: FLAGS.STONE_BLACK,
     };
 
-    const expectedAlteredStones = new Set(['h9', 'i9']);
+    const expectedAlteredStones = new Set(['H9', 'J9']);
     const alteredStones = GAME_MATHS.determineAlteredstones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
@@ -157,27 +157,27 @@ it('black placing a stone to kill a white stone in SE corner', () => {
 
 it('black placing a stone to kill a white stone on a N side', () => {
     const existingStones = {
-        e1: FLAGS.STONE_WHITE,
-        d1: FLAGS.STONE_BLACK,
-        e2: FLAGS.STONE_BLACK,
+        E1: FLAGS.STONE_WHITE,
+        D1: FLAGS.STONE_BLACK,
+        E2: FLAGS.STONE_BLACK,
     };
 
     const newStonesState = GAME_MATHS.removeDeadStones({
         existingStones,
         mode: FLAGS.GAME_9_x_9,
         newStoneColor: FLAGS.STONE_BLACK,
-        newStoneColCoordinate: 'f',
+        newStoneColCoordinate: 'F',
         newStoneRowCoordinate: 1,
     });
 
     const correctState = {
-        e1: FLAGS.STONE_NONE,
-        e2: FLAGS.STONE_BLACK,
-        d1: FLAGS.STONE_BLACK,
-        f1: FLAGS.STONE_BLACK,
+        E1: FLAGS.STONE_NONE,
+        E2: FLAGS.STONE_BLACK,
+        D1: FLAGS.STONE_BLACK,
+        F1: FLAGS.STONE_BLACK,
     };
 
-    const expectedAlteredStones = new Set(['e1', 'f1']);
+    const expectedAlteredStones = new Set(['E1', 'F1']);
     const alteredStones = GAME_MATHS.determineAlteredstones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
@@ -189,34 +189,34 @@ it('black placing a stone to kill a white stone on a N side', () => {
 
 it('white placing a stone to kill a black triangle group in NE corner', () => {
     const existingStones = {
-        g1: FLAGS.STONE_WHITE,
-        g2: FLAGS.STONE_WHITE,
-        h1: FLAGS.STONE_BLACK,
-        h2: FLAGS.STONE_BLACK,
-        i1: FLAGS.STONE_BLACK,
-        i2: FLAGS.STONE_WHITE,
+        G1: FLAGS.STONE_WHITE,
+        G2: FLAGS.STONE_WHITE,
+        H1: FLAGS.STONE_BLACK,
+        H2: FLAGS.STONE_BLACK,
+        J1: FLAGS.STONE_BLACK,
+        J2: FLAGS.STONE_WHITE,
     };
 
     const newStonesState = GAME_MATHS.removeDeadStones({
         existingStones,
         mode: FLAGS.GAME_9_x_9,
         newStoneColor: FLAGS.STONE_WHITE,
-        newStoneColCoordinate: 'h',
+        newStoneColCoordinate: 'H',
         newStoneRowCoordinate: 3,
     });
 
     const correctState = {
-        g1: FLAGS.STONE_WHITE,
-        g2: FLAGS.STONE_WHITE,
-        h1: FLAGS.STONE_NONE,
-        h2: FLAGS.STONE_NONE,
-        h3: FLAGS.STONE_WHITE,
-        i1: FLAGS.STONE_NONE,
-        i2: FLAGS.STONE_WHITE,
+        G1: FLAGS.STONE_WHITE,
+        G2: FLAGS.STONE_WHITE,
+        H1: FLAGS.STONE_NONE,
+        H2: FLAGS.STONE_NONE,
+        H3: FLAGS.STONE_WHITE,
+        J1: FLAGS.STONE_NONE,
+        J2: FLAGS.STONE_WHITE,
 
     };
 
-    const expectedAlteredStones = new Set(['h1', 'h2', 'h3', 'i1']);
+    const expectedAlteredStones = new Set(['H1', 'H2', 'H3', 'J1']);
     const alteredStones = GAME_MATHS.determineAlteredstones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
@@ -228,61 +228,61 @@ it('white placing a stone to kill a black triangle group in NE corner', () => {
 
 it('white placing a stone to kill a black one eye group in center', () => {
     const existingStones = {
-        d4: FLAGS.STONE_WHITE,
-        d5: FLAGS.STONE_WHITE,
-        d6: FLAGS.STONE_WHITE,
-        e3: FLAGS.STONE_WHITE,
-        e4: FLAGS.STONE_BLACK,
-        e5: FLAGS.STONE_BLACK,
-        e6: FLAGS.STONE_BLACK,
-        e7: FLAGS.STONE_WHITE,
-        f3: FLAGS.STONE_WHITE,
-        f4: FLAGS.STONE_BLACK,
-        f6: FLAGS.STONE_BLACK,
-        f7: FLAGS.STONE_WHITE,
-        g3: FLAGS.STONE_WHITE,
-        g4: FLAGS.STONE_BLACK,
-        g5: FLAGS.STONE_BLACK,
-        g6: FLAGS.STONE_BLACK,
-        g7: FLAGS.STONE_WHITE,
-        h4: FLAGS.STONE_WHITE,
-        h5: FLAGS.STONE_WHITE,
-        h6: FLAGS.STONE_WHITE,
+        D4: FLAGS.STONE_WHITE,
+        D5: FLAGS.STONE_WHITE,
+        D6: FLAGS.STONE_WHITE,
+        E3: FLAGS.STONE_WHITE,
+        E4: FLAGS.STONE_BLACK,
+        E5: FLAGS.STONE_BLACK,
+        E6: FLAGS.STONE_BLACK,
+        E7: FLAGS.STONE_WHITE,
+        F3: FLAGS.STONE_WHITE,
+        F4: FLAGS.STONE_BLACK,
+        F6: FLAGS.STONE_BLACK,
+        F7: FLAGS.STONE_WHITE,
+        G3: FLAGS.STONE_WHITE,
+        G4: FLAGS.STONE_BLACK,
+        G5: FLAGS.STONE_BLACK,
+        G6: FLAGS.STONE_BLACK,
+        G7: FLAGS.STONE_WHITE,
+        H4: FLAGS.STONE_WHITE,
+        H5: FLAGS.STONE_WHITE,
+        H6: FLAGS.STONE_WHITE,
     };
 
     const newStonesState = GAME_MATHS.removeDeadStones({
         existingStones,
         mode: FLAGS.GAME_9_x_9,
         newStoneColor: FLAGS.STONE_WHITE,
-        newStoneColCoordinate: 'f',
+        newStoneColCoordinate: 'F',
         newStoneRowCoordinate: 5,
     });
 
     const correctState = {
-        d4: FLAGS.STONE_WHITE,
-        d5: FLAGS.STONE_WHITE,
-        d6: FLAGS.STONE_WHITE,
-        e3: FLAGS.STONE_WHITE,
-        e4: FLAGS.STONE_NONE,
-        e5: FLAGS.STONE_NONE,
-        e6: FLAGS.STONE_NONE,
-        e7: FLAGS.STONE_WHITE,
-        f3: FLAGS.STONE_WHITE,
-        f4: FLAGS.STONE_NONE,
-        f5: FLAGS.STONE_WHITE,
-        f6: FLAGS.STONE_NONE,
-        f7: FLAGS.STONE_WHITE,
-        g3: FLAGS.STONE_WHITE,
-        g4: FLAGS.STONE_NONE,
-        g5: FLAGS.STONE_NONE,
-        g6: FLAGS.STONE_NONE,
-        g7: FLAGS.STONE_WHITE,
-        h4: FLAGS.STONE_WHITE,
-        h5: FLAGS.STONE_WHITE,
-        h6: FLAGS.STONE_WHITE,
+        D4: FLAGS.STONE_WHITE,
+        D5: FLAGS.STONE_WHITE,
+        D6: FLAGS.STONE_WHITE,
+        E3: FLAGS.STONE_WHITE,
+        E4: FLAGS.STONE_NONE,
+        E5: FLAGS.STONE_NONE,
+        E6: FLAGS.STONE_NONE,
+        E7: FLAGS.STONE_WHITE,
+        F3: FLAGS.STONE_WHITE,
+        F4: FLAGS.STONE_NONE,
+        F5: FLAGS.STONE_WHITE,
+        F6: FLAGS.STONE_NONE,
+        F7: FLAGS.STONE_WHITE,
+        G3: FLAGS.STONE_WHITE,
+        G4: FLAGS.STONE_NONE,
+        G5: FLAGS.STONE_NONE,
+        G6: FLAGS.STONE_NONE,
+        G7: FLAGS.STONE_WHITE,
+        H4: FLAGS.STONE_WHITE,
+        H5: FLAGS.STONE_WHITE,
+        H6: FLAGS.STONE_WHITE,
     };
 
-    const expectedAlteredStones = new Set(['e4', 'e5', 'e6', 'f4', 'f5', 'f6', 'g4', 'g5', 'g6']);
+    const expectedAlteredStones = new Set(['E4', 'E5', 'E6', 'F4', 'F5', 'F6', 'G4', 'G5', 'G6']);
     const alteredStones = GAME_MATHS.determineAlteredstones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
@@ -294,35 +294,35 @@ it('white placing a stone to kill a black one eye group in center', () => {
 
 it('white placing a stone in a textbook beginning of ko kills the appropriate black stone', () => {
     const existingStones = {
-        c3: FLAGS.STONE_BLACK,
-        c4: FLAGS.STONE_WHITE,
-        d2: FLAGS.STONE_BLACK,
-        d4: FLAGS.STONE_BLACK,
-        d5: FLAGS.STONE_WHITE,
-        e3: FLAGS.STONE_BLACK,
-        e4: FLAGS.STONE_WHITE,
+        C3: FLAGS.STONE_BLACK,
+        C4: FLAGS.STONE_WHITE,
+        D2: FLAGS.STONE_BLACK,
+        D4: FLAGS.STONE_BLACK,
+        D5: FLAGS.STONE_WHITE,
+        E3: FLAGS.STONE_BLACK,
+        E4: FLAGS.STONE_WHITE,
     };
 
     const newStonesState = GAME_MATHS.removeDeadStones({
         existingStones,
         mode: FLAGS.GAME_9_x_9,
         newStoneColor: FLAGS.STONE_WHITE,
-        newStoneColCoordinate: 'd',
+        newStoneColCoordinate: 'D',
         newStoneRowCoordinate: 3,
     });
 
     const correctState = {
-        c3: FLAGS.STONE_BLACK,
-        c4: FLAGS.STONE_WHITE,
-        d2: FLAGS.STONE_BLACK,
-        d3: FLAGS.STONE_WHITE,
-        d4: FLAGS.STONE_NONE,
-        d5: FLAGS.STONE_WHITE,
-        e3: FLAGS.STONE_BLACK,
-        e4: FLAGS.STONE_WHITE,
+        C3: FLAGS.STONE_BLACK,
+        C4: FLAGS.STONE_WHITE,
+        D2: FLAGS.STONE_BLACK,
+        D3: FLAGS.STONE_WHITE,
+        D4: FLAGS.STONE_NONE,
+        D5: FLAGS.STONE_WHITE,
+        E3: FLAGS.STONE_BLACK,
+        E4: FLAGS.STONE_WHITE,
     };
 
-    const expectedAlteredStones = new Set(['d3', 'd4']);
+    const expectedAlteredStones = new Set(['D3', 'D4']);
     const alteredStones = GAME_MATHS.determineAlteredstones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
@@ -334,61 +334,61 @@ it('white placing a stone in a textbook beginning of ko kills the appropriate bl
 
 it('black placing a stone in a strange middle fight with two white groups dying', () => {
     const existingStones = {
-        c4: FLAGS.STONE_BLACK,
-        d3: FLAGS.STONE_BLACK,
-        d4: FLAGS.STONE_WHITE,
-        d5: FLAGS.STONE_BLACK,
-        e2: FLAGS.STONE_BLACK,
-        e3: FLAGS.STONE_WHITE,
-        e6: FLAGS.STONE_BLACK,
-        f2: FLAGS.STONE_BLACK,
-        f3: FLAGS.STONE_WHITE,
-        f4: FLAGS.STONE_WHITE,
-        f5: FLAGS.STONE_BLACK,
-        f6: FLAGS.STONE_BLACK,
-        g3: FLAGS.STONE_BLACK,
-        g4: FLAGS.STONE_WHITE,
-        g5: FLAGS.STONE_WHITE,
-        g6: FLAGS.STONE_WHITE,
-        g7: FLAGS.STONE_BLACK,
-        h4: FLAGS.STONE_BLACK,
-        h5: FLAGS.STONE_BLACK,
-        h6: FLAGS.STONE_BLACK,
+        C4: FLAGS.STONE_BLACK,
+        D3: FLAGS.STONE_BLACK,
+        D4: FLAGS.STONE_WHITE,
+        D5: FLAGS.STONE_BLACK,
+        E2: FLAGS.STONE_BLACK,
+        E3: FLAGS.STONE_WHITE,
+        E6: FLAGS.STONE_BLACK,
+        F2: FLAGS.STONE_BLACK,
+        F3: FLAGS.STONE_WHITE,
+        F4: FLAGS.STONE_WHITE,
+        F5: FLAGS.STONE_BLACK,
+        F6: FLAGS.STONE_BLACK,
+        G3: FLAGS.STONE_BLACK,
+        G4: FLAGS.STONE_WHITE,
+        G5: FLAGS.STONE_WHITE,
+        G6: FLAGS.STONE_WHITE,
+        G7: FLAGS.STONE_BLACK,
+        H4: FLAGS.STONE_BLACK,
+        H5: FLAGS.STONE_BLACK,
+        H6: FLAGS.STONE_BLACK,
     };
 
     const newStonesState = GAME_MATHS.removeDeadStones({
         existingStones,
         mode: FLAGS.GAME_13_x_13,
         newStoneColor: FLAGS.STONE_BLACK,
-        newStoneColCoordinate: 'e',
+        newStoneColCoordinate: 'E',
         newStoneRowCoordinate: 4,
     });
 
     const correctState = {
-        c4: FLAGS.STONE_BLACK,
-        d3: FLAGS.STONE_BLACK,
-        d5: FLAGS.STONE_BLACK,
-        e2: FLAGS.STONE_BLACK,
-        e4: FLAGS.STONE_BLACK,
-        e6: FLAGS.STONE_BLACK,
-        f2: FLAGS.STONE_BLACK,
-        f5: FLAGS.STONE_BLACK,
-        f6: FLAGS.STONE_BLACK,
-        g3: FLAGS.STONE_BLACK,
-        g7: FLAGS.STONE_BLACK,
-        h4: FLAGS.STONE_BLACK,
-        h5: FLAGS.STONE_BLACK,
-        h6: FLAGS.STONE_BLACK,
-        d4: FLAGS.STONE_NONE,
-        e3: FLAGS.STONE_NONE,
-        f3: FLAGS.STONE_NONE,
-        f4: FLAGS.STONE_NONE,
-        g4: FLAGS.STONE_NONE,
-        g5: FLAGS.STONE_NONE,
-        g6: FLAGS.STONE_NONE,        
+        C4: FLAGS.STONE_BLACK,
+        D3: FLAGS.STONE_BLACK,
+        D5: FLAGS.STONE_BLACK,
+        E2: FLAGS.STONE_BLACK,
+        E4: FLAGS.STONE_BLACK,
+        E6: FLAGS.STONE_BLACK,
+        F2: FLAGS.STONE_BLACK,
+        F5: FLAGS.STONE_BLACK,
+        F6: FLAGS.STONE_BLACK,
+        G3: FLAGS.STONE_BLACK,
+        G7: FLAGS.STONE_BLACK,
+        H4: FLAGS.STONE_BLACK,
+        H5: FLAGS.STONE_BLACK,
+        H6: FLAGS.STONE_BLACK,
+        D4: FLAGS.STONE_NONE,
+        E3: FLAGS.STONE_NONE,
+        F3: FLAGS.STONE_NONE,
+        F4: FLAGS.STONE_NONE,
+        G4: FLAGS.STONE_NONE,
+        G5: FLAGS.STONE_NONE,
+        G6: FLAGS.STONE_NONE,        
     };
 
-    const expectedAlteredStones = new Set(['d4', 'e3', 'e4', 'f3', 'f4', 'g4', 'g5', 'g6']);
+    const expectedAlteredStones = new Set(['D4', 'E3', 'E4', 'F3', 'F4', 'G4', 'G5', 'G6']);
     const alteredStones = GAME_MATHS.determineAlteredstones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,

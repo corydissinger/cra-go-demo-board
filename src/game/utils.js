@@ -1,16 +1,29 @@
-export const genCharArray = (charA, charZ) => {
-    let a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
-
-    for (; i <= j; ++i) {
-        a.push(String.fromCharCode(i));
+// Skips I, very intelligent
+export const genGobanCharArray = (numColumns) => {
+    if (numColumns < 1) {
+        throw new Error('Please expect more than one column for a standard board...');
     }
 
-    if (a.length === 0) {
-        throw new Error(`Unexpected begin [${charA}] and end [${charZ}] characters`);
+    let columnLabels = [];
+
+    for (let i = 65; columnLabels.length < numColumns; ++i) {
+        const currentCharacter = String.fromCharCode(i);
+        if ('I' !== currentCharacter) {
+            columnLabels.push(currentCharacter);
+        }
     }
 
-    return a;
+    return columnLabels;
 };
 
-export const getCharacterFromOffset = (offset) => String.fromCharCode(offset + 97);
-export const getOffsetFromCharacter = (character) => character.charCodeAt(0) - 97;
+export const getCharacterFromOffset = (offset) => String.fromCharCode(offset + 65);
+export const getOffsetFromCharacter = (character) => {
+    const originalCharacterCode = character.charCodeAt(0);
+
+    if (originalCharacterCode < 74) {
+        return originalCharacterCode - 65;
+    } else {
+        // this accounts for the 'I' offset
+        return originalCharacterCode - 66;
+    }
+};

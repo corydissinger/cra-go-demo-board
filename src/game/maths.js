@@ -56,7 +56,7 @@ export const getCardinalDirection = (mode, coordinate) => {
             }
         }
 
-        throw new Error('Avast ye matey, shouldn"nt be branching to this island in 9 x 9');
+        throw new Error(`Avast ye matey, shouldn'nt be branching to this island in mode [${mode}], coordinate [${coordinate}]`);
     }
 
     if (FLAGS.GAME_13_x_13 === mode) {
@@ -78,7 +78,7 @@ export const getCardinalDirection = (mode, coordinate) => {
             }
         }
 
-        throw new Error('Avast ye matey, shouldn"nt be branching to this island in 13 x 13');
+        throw new Error(`Avast ye matey, shouldn'nt be branching to this island in mode [${mode}], coordinate [${coordinate}]`);
     }
 
     if (FLAGS.GAME_19_x_19 === mode) {
@@ -100,7 +100,7 @@ export const getCardinalDirection = (mode, coordinate) => {
             }
         }
 
-        throw new Error('Avast ye matey, shouldn"nt be branching to this island in 19 x 19');
+        throw new Error(`Avast ye matey, shouldn'nt be branching to this island in mode [${mode}], coordinate [${coordinate}]`);
     }    
 };
 
@@ -171,26 +171,26 @@ export const getCardinalAdjacencies = ({
 
     const maxIndex = coordinates.length - 1;
 
-    // 'a' is ASCII 97
-    const colIndex = parseInt(colCoordinate.charCodeAt(0) - 97);
-    const rowIndex = parseInt(rowCoordinate) - 1; // 0 indexed, dummy
+    // 'A' is ASCII 65
+    const colOffset = UTILS.getOffsetFromCharacter(colCoordinate);
+    const rowOffset = parseInt(rowCoordinate) - 1; // 0 indexed, dummy
 
     const adjacencies = {};
 
-    if (rowIndex >= 1) {
-        adjacencies.north = coordinates[rowIndex - 1][colIndex];
+    if (rowOffset >= 1) {
+        adjacencies.north = coordinates[rowOffset - 1][colOffset];
     }
 
-    if (colIndex < maxIndex) {
-        adjacencies.east = coordinates[rowIndex][colIndex + 1];
+    if (colOffset < maxIndex) {
+        adjacencies.east = coordinates[rowOffset][colOffset + 1];
     }
 
-    if (rowIndex < maxIndex) {
-        adjacencies.south = coordinates[rowIndex + 1][colIndex];
+    if (rowOffset < maxIndex) {
+        adjacencies.south = coordinates[rowOffset + 1][colOffset];
     }
 
-    if (colIndex >= 1) {
-        adjacencies.west = coordinates[rowIndex][colIndex - 1];
+    if (colOffset >= 1) {
+        adjacencies.west = coordinates[rowOffset][colOffset - 1];
     }
 
     return adjacencies;
