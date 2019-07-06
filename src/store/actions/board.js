@@ -1,7 +1,12 @@
+import * as _ from 'lodash';
 import * as TYPES from '../constants/actions';
 import * as FLAGS from '../../game/flags';
 import * as GAME_MATHS from '../../game/maths';
-import * as _ from 'lodash';
+import {
+    incrementCaptures,
+    koWarning,
+    suicideWarning,
+} from '../actions/game';
 
 const updateStones = ({
     alteredStones,
@@ -14,15 +19,6 @@ const updateStones = ({
         nextBoardState,
         placedStone,
     },
-});
-
-const koWarning = (colCoordinate, rowCoordinate, color) => ({
-    type: TYPES.KO_WARNING,
-    payload: {
-        colCoordinate,
-        rowCoordinate,
-        color,
-    }
 });
 
 export const setStone = ({ colCoordinate, rowCoordinate }) => {
@@ -48,17 +44,28 @@ export const setStone = ({ colCoordinate, rowCoordinate }) => {
         });
 
         const isKo = _.isEqual(previousBoardState, nextBoardState);
+        const isSuicide = _.isEqual(currentBoardState, nextBoardState);
 
-        if (isKo) {
-            dispatch(koWarning(colCoordinate, rowCoordinate, color));
+
+        if (isSuicide) {
+            dispatch(suicideWarning());
+        } else if (isKo) {
+            dispatch(koWarning());
         } else {
-            // TEST THIS
             const alteredStones = GAME_MATHS.determineAlteredstones({ currentBoardState, nextBoardState});
+            const placedStone = `${colCoordinate}${rowCoordinate}`;
 
             dispatch(updateStones({
                 alteredStones,
                 nextBoardState,
-                placedStone: `${colCoordinate}${rowCoordinate}`,
+                placedStone,
+            }));
+
+            alteredStones.delete(placedStone);
+
+            dispatch(incrementCaptures({
+                blackCaptures: color === FLAGS.STONE_BLACK ? alteredStones.size : 0,
+                whiteCaptures: color === FLAGS.STONE_WHITE ? alteredStones.size : 0,
             }));
         }
     };

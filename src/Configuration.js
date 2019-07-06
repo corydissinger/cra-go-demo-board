@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as FLAGS from './game/flags';
+import * as CONTENT from './game/content';
 import {
     setMode,
 } from './store/actions/game';
@@ -10,11 +11,11 @@ class Configuration extends Component {
         const { mode } = this.props;
 
         if (mode === FLAGS.GAME_9_x_9) {
-            return '9 x 9';
+            return CONTENT.MODE_9_x_9;
         } else if (mode === FLAGS.GAME_13_x_13) {
-            return '13 x 13';
+            return CONTENT.MODE_13_x_13;
         } else if (mode === FLAGS.GAME_19_x_19) {
-            return '19 x 19';
+            return CONTENT.MODE_19_x_19;
         } else {
             throw new Error('No known mode selected');
         }
@@ -39,9 +40,9 @@ class Configuration extends Component {
                             onChange={e => setMode(e.target.value)}
                             value={mode}
                         >
-                            <option value={FLAGS.GAME_9_x_9}>9 x 9</option>
-                            <option value={FLAGS.GAME_13_x_13}>13 x 13</option>
-                            <option value={FLAGS.GAME_19_x_19}>19 x 19</option>
+                            <option value={FLAGS.GAME_9_x_9}>{CONTENT.MODE_9_x_9}</option>
+                            <option value={FLAGS.GAME_13_x_13}>{CONTENT.MODE_13_x_13}</option>
+                            <option value={FLAGS.GAME_19_x_19}>{CONTENT.MODE_19_x_19}</option>
                         </select>
                     </form>
                 </div>

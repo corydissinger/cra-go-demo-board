@@ -1,10 +1,14 @@
-.app-container {
+.flex-wrap-container {
     display: flex;
     flex-wrap: wrap;
 }
 
-.tiles-container {
+.flex-container {
     display: flex;
+}
+
+.captures-status {
+    width: 50%;
 }
 
 .configuration-container {
@@ -13,4 +17,14 @@
 
 .board-container {
     flex-grow: 8;
+}
+
+.game-warning {
+    z-index: 100;
+    position: absolute;
+    top: 40%;
+    color: red;
+    background: dimgray;
+    width: 100%;
+    text-align: center;
 }

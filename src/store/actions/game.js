@@ -21,3 +21,30 @@ export const setWindowDimensions = (windowWidth, windowHeight) => ({
         windowHeight,
     },
 });
+
+export const setCapturePanelHeight = (capturesPanelHeight) => ({
+    type: TYPES.SET_CAPTURE_PANEL_HEIGHT,
+    payload: {
+        capturesPanelHeight,
+    },
+});
+
+export const incrementCaptures = ({ blackCaptures, whiteCaptures }) => ({
+   type: TYPES.INCREMENT_CAPTURES,
+   payload: {
+       blackCaptures,
+       whiteCaptures,
+   }
+});
+
+export const koWarning = () => ({
+    type: TYPES.KO_WARNING,
+});
+
+export const suicideWarning = () => ({
+    type: TYPES.SUICIDE_WARNING,
+});
+
+export const resetWarnings = () => ({
+    type: TYPES.RESET_WARNINGS,
+});

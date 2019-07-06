@@ -40,6 +40,10 @@ class Board extends Component {
                 this.drawTile(colCoordinate, rowCoordinate, canvasContext, colOffset, rowOffset);
             }
         }
+
+        if (this.props.koWarning || this.props.suicideWarning) {
+            this.resetLastPreviewStone(this.getCanvasContextPresets());
+        }
     }
 
     getCoordinates() {
@@ -60,15 +64,9 @@ class Board extends Component {
     }
 
     getCanvasContextPresets() {
-        const { isKoViolation } = this.props;
-
         const canvas = this.refs.canvas;
         const canvasContext = canvas.getContext('2d');
         canvasContext.lineWidth = 4; // 4 pixels is a little over a millimeter. Yeah I know mobile yada yada
-
-        if (isKoViolation) {
-            canvasContext.strokeStyle = '#FF0000';
-        }
 
         return canvasContext;
     }
@@ -367,14 +365,20 @@ class Board extends Component {
         const {
             currentBoardState,
             setStone,
+            koWarning,
+            suicideWarning,
         } = this.props;
+
+        if (koWarning || suicideWarning) {
+            return;
+        }
 
         let offsets;
 
         try {
             offsets = this.getOffsetsWithinBounds({
                 x: e.clientX,
-                y: e.clientY,
+                y: e.clientY - this.props.capturesPanelHeight,
             });
         } catch (e) {
             console.log(e);
@@ -401,10 +405,19 @@ class Board extends Component {
     }
 
     onMouseMove(e) {
+        const {
+            koWarning,
+            suicideWarning,
+        } = this.props;
+
+        if (koWarning || suicideWarning) {
+            return;
+        }
+
         const clientX = e.clientX;
         const clientY = e.clientY;
 
-        this.calculatePreviewStone(clientX, clientY);
+        this.calculatePreviewStone(clientX, clientY - this.props.capturesPanelHeight);
     }
 
     // I may have reversed this? https://senseis.xmp.net/?Coordinates
@@ -426,26 +439,28 @@ class Board extends Component {
 
 const mapStateToProps = (state) => {
     const {
-        mode,
         boardDimensions,
+        capturesPanelHeight,
         lastPreviewStone,
         maxOffsets,
+        mode,
         tileDimensions,
         turnColor,
+        koWarning,
+        suicideWarning,
     } = state.game;
 
     const {
         alteredStones,
         currentBoardState,
-        koViolation,
     } = state.board;
 
     const stoneRadius = GAME_MATHS.stoneRadius(tileDimensions.height);
 
     return {
         alteredStones,
+        capturesPanelHeight,
         currentBoardState,
-        koViolation,
         lastPreviewStone,
         maxOffsets,
         mode,
@@ -453,6 +468,8 @@ const mapStateToProps = (state) => {
         tileDimensions,
         boardDimensions,
         turnColor,
+        koWarning,
+        suicideWarning,
     };
 };
 

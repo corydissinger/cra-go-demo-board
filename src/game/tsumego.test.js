@@ -69,7 +69,7 @@ it('black placing a stone to kill a white stone in NW corner; random outlying st
     expect(alteredStones).toEqual(expectedAlteredStones);
 });
 
-it('white placing a stone with no liberties commits seppuku', () => {
+it('white placing a stone with no liberties commits suicide', () => {
     const existingStones = {
         E3: FLAGS.STONE_BLACK,
         F2: FLAGS.STONE_BLACK,
@@ -385,7 +385,7 @@ it('black placing a stone in a strange middle fight with two white groups dying'
         F4: FLAGS.STONE_NONE,
         G4: FLAGS.STONE_NONE,
         G5: FLAGS.STONE_NONE,
-        G6: FLAGS.STONE_NONE,        
+        G6: FLAGS.STONE_NONE,
     };
 
     const expectedAlteredStones = new Set(['D4', 'E3', 'E4', 'F3', 'F4', 'G4', 'G5', 'G6']);
@@ -395,5 +395,33 @@ it('black placing a stone in a strange middle fight with two white groups dying'
     });
 
     expect(newStonesState).toEqual(correctState);
+    expect(alteredStones).toEqual(expectedAlteredStones);
+});
+
+
+it('white placing a stone with no liberties commits suicide, a bug in the original algo', () => {
+    const existingStones = {
+        E4: FLAGS.STONE_BLACK,
+        H1: FLAGS.STONE_BLACK,
+        H2: FLAGS.STONE_BLACK,
+        J1: FLAGS.STONE_NONE,
+        J2: FLAGS.STONE_BLACK,
+    };
+
+    const newStonesState = GAME_MATHS.removeDeadStones({
+        existingStones,
+        mode: FLAGS.GAME_9_x_9,
+        newStoneColor: FLAGS.STONE_WHITE,
+        newStoneColCoordinate: 'J',
+        newStoneRowCoordinate: 1,
+    });
+
+    const expectedAlteredStones = new Set([]);
+    const alteredStones = GAME_MATHS.determineAlteredstones({
+        currentBoardState: existingStones,
+        nextBoardState: newStonesState,
+    });
+
+    expect(newStonesState).toEqual(existingStones);
     expect(alteredStones).toEqual(expectedAlteredStones);
 });

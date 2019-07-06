@@ -106,11 +106,11 @@ export const getCardinalDirection = (mode, coordinate) => {
 
 // Calculates how much space the board can have on the screen
 export const calculateBoardDimensions = ({
-                                     windowHeight,
-                                     windowWidth,
-                                 }) => {
-    let desiredWidth = windowHeight * FLAGS.GOBAN_HEIGHT_TO_WIDTH_RATIO;
-    desiredWidth = windowWidth > desiredWidth ? desiredWidth : windowWidth - 10; // very scientific
+    workingHeight,
+    workingWidth,
+}) => {
+    let desiredWidth = workingHeight * FLAGS.GOBAN_HEIGHT_TO_WIDTH_RATIO;
+    desiredWidth = workingWidth > desiredWidth ? desiredWidth : workingWidth - 10; // very scientific
     const desiredHeight = desiredWidth * FLAGS.GOBAN_WIDTH_TO_HEIGHT_RATIO;
 
     return {
@@ -230,6 +230,13 @@ export const removeDeadStones = ({
     });
 
     let nextAdjacentCoordinates = [];
+    const adjacentLibertiesOfPlacedStone = _.reduce(cardinalAdjacencyMap, (sum, coordinate, direction) => {
+        if (newStones[coordinate] && newStones[coordinate] !== FLAGS.STONE_NONE) {
+            return sum;
+        }
+
+        return sum + 1;
+    }, 0);
 
     // Need to track the attacked groups separately to ensure proper removal
     const attackedGroups = {
@@ -314,9 +321,14 @@ export const removeDeadStones = ({
 
     const stonesToRemove = [];
     let survivingAttackedGroups = 0;
+    let totalAttackedGroups = 0;
 
     for (const direction in attackedGroups) {
         const attackedGroup = attackedGroups[direction];
+
+        if (attackedGroup.stones.length > 0) {
+            totalAttackedGroups++;
+        }
 
         if (attackedGroup.liberties.length === 0) {
             stonesToRemove.push.apply(stonesToRemove, attackedGroup.stones);
@@ -325,7 +337,10 @@ export const removeDeadStones = ({
         }
     }
 
-    if (survivingAttackedGroups === _.keys(cardinalAdjacencyMap).length) {
+    // if (survivingAttackedGroups === _.keys(cardinalAdjacencyMap).length) {
+    if (adjacentLibertiesOfPlacedStone === 0
+        && survivingAttackedGroups > 0
+        && survivingAttackedGroups === totalAttackedGroups) {
         return existingStones; // the placed stone died
     }
 

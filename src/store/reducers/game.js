@@ -1,5 +1,5 @@
 import * as FLAGS from '../../game/flags';
-import * as ACTIONS from '../constants/actions';
+import * as TYPES from '../constants/actions';
 import * as GAME_MATHS from "../../game/maths";
 
 const initialState = {
@@ -8,6 +8,9 @@ const initialState = {
         width: 0,
     },
     canRender: false,
+    capturesPanelHeight: null,
+    koWarning: false,
+    suicideWarning: false,
     maxOffsets: {
         col: 8,
         row: 8,
@@ -26,11 +29,16 @@ const initialState = {
     lastPreviewStone: '',
 };
 
-const getDimensions = ({ mode, windowHeight, windowWidth }) => {
+const getDimensions = ({
+    capturesPanelHeight,
+    mode,
+    windowHeight,
+    windowWidth,
+}) => {
     const boardDimensions =
         GAME_MATHS.calculateBoardDimensions({
-            windowHeight,
-            windowWidth,
+            workingHeight: windowHeight - capturesPanelHeight,
+            workingWidth: windowWidth,
         });
 
     const tileDimensions =
@@ -48,22 +56,28 @@ const getDimensions = ({ mode, windowHeight, windowWidth }) => {
 
 const game = (state = initialState, action) => {
     switch (action.type) {
-        case ACTIONS.SET_LAST_PREVIEW_STONE: {
+        case TYPES.SET_LAST_PREVIEW_STONE: {
             return {
                 ...state,
                 lastPreviewStone: action.payload.coordinate,
             }
         }
-        case ACTIONS.SET_MODE: {
+        case TYPES.SET_MODE: {
             const { mode } = action.payload;
+            const {
+                capturesPanelHeight,
+                windowHeight,
+                windowWidth,
+            } = state;
 
             const {
                 boardDimensions,
                 tileDimensions,
             } = getDimensions({
+                capturesPanelHeight,
                 mode,
-                windowHeight: state.windowHeight,
-                windowWidth: state.windowWidth,
+                windowHeight,
+                windowWidth,
             });
 
             let maxOffsets = {
@@ -89,36 +103,112 @@ const game = (state = initialState, action) => {
                 blackCaptures: 0,
                 whiteCaptures: 0,
             };
-        } case ACTIONS.UPDATE_STONES:
+        } case TYPES.UPDATE_STONES:
             return {
                 ...state,
                 turnColor: state.turnColor === FLAGS.TURN_BLACK ? FLAGS.TURN_WHITE : FLAGS.TURN_BLACK,
                 turnNumber: state.turnNumber + 1,
             };
-        case ACTIONS.SET_WINDOW_DIMENSIONS: {
+        case TYPES.SET_WINDOW_DIMENSIONS: {
             const {
                 windowHeight,
                 windowWidth,
             } = action.payload;
 
             const {
-                boardDimensions,
-                tileDimensions,
-            } = getDimensions({
-                mode: state.mode,
-                windowHeight,
-                windowWidth,
-            });
+                capturesPanelHeight,
+                mode,
+            } = state;
+
+            if (state.capturesPanelHeight) {
+                const {
+                    boardDimensions,
+                    tileDimensions,
+                } = getDimensions({
+                    capturesPanelHeight,
+                    mode,
+                    windowHeight,
+                    windowWidth,
+                });
+
+                return {
+                    ...state,
+                    boardDimensions,
+                    tileDimensions,
+                    canRender: true,
+                    windowHeight,
+                    windowWidth,
+                };
+            }
 
             return {
                 ...state,
-                boardDimensions,
-                tileDimensions,
-                canRender: true,
                 windowHeight,
                 windowWidth,
             };
-        } default:
+        } case TYPES.SET_CAPTURE_PANEL_HEIGHT: {
+            const {
+                mode,
+                windowHeight,
+                windowWidth,
+            } = state;
+
+            const { capturesPanelHeight } = action.payload;
+
+            if (windowHeight && windowWidth) {
+                const {
+                    boardDimensions,
+                    tileDimensions,
+                } = getDimensions({
+                    capturesPanelHeight,
+                    mode,
+                    windowHeight,
+                    windowWidth,
+                });
+
+                return {
+                    ...state,
+                    boardDimensions,
+                    capturesPanelHeight,
+                    tileDimensions,
+                    canRender: true,
+                };
+            }
+
+            return {
+                ...state,
+                capturesPanelHeight,
+            };
+        }
+        case TYPES.INCREMENT_CAPTURES: {
+            const {
+                blackCaptures,
+                whiteCaptures,
+            } = action.payload;
+            
+            return {
+                ...state,
+                blackCaptures: state.blackCaptures + blackCaptures,
+                whiteCaptures: state.whiteCaptures + whiteCaptures,
+            }
+        }
+        case TYPES.KO_WARNING:
+            return {
+                ...state,
+                koWarning: true,
+            };
+        case TYPES.SUICIDE_WARNING:
+            return {
+                ...state,
+                suicideWarning: true,
+            };
+        case TYPES.RESET_WARNINGS:
+            return {
+                ...state,
+                koWarning: false,
+                suicideWarning: false,
+            };
+        default:
             return state;
     }
 };

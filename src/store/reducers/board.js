@@ -1,5 +1,5 @@
 import * as FLAGS from '../../game/flags';
-import * as ACTIONS from '../constants/actions';
+import * as TYPES from '../constants/actions';
 
 // This maintains a map of coordinates as keys to placed stones.
 // the state is somewhat dynamic but predictable based on the
@@ -7,7 +7,6 @@ import * as ACTIONS from '../constants/actions';
 const initialState = {
     alteredStones: new Set(),
     mode: FLAGS.GAME_9_x_9,
-    koViolation: '',
     currentBoardState: {},
     previousBoardState: {},
     previousStone: '',
@@ -16,14 +15,14 @@ const initialState = {
 
 const board = (state = initialState, action) => {
     switch (action.type) {
-        case ACTIONS.SET_MODE:
+        case TYPES.SET_MODE:
             const { mode } = action.payload;
 
             return {
                 ...initialState,
                 mode,
             };
-        case ACTIONS.UPDATE_STONES:
+        case TYPES.UPDATE_STONES:
             const {
                 alteredStones,
                 nextBoardState,
@@ -39,16 +38,6 @@ const board = (state = initialState, action) => {
                 previousBoardState: state.currentBoardState,
                 penultimateStone: state.previousStone,
                 previousStone: placedStone,
-            };
-        case ACTIONS.KO_WARNING:
-            const {
-                colCoordinate,
-                rowCoordinate,
-            } = action.payload;
-
-            return {
-                ...state,
-                koViolation: `${colCoordinate}${rowCoordinate}`,
             };
         default:
             return state;
