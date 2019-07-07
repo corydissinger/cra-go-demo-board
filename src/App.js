@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { resetWarnings } from './store/actions/game';
 import { setWindowDimensions } from './store/actions/configuration';
+import './styles/index.css';
 import Board from './Board';
 import Configuration from './Configuration';
-import './styles/index.css';
 import CapturesPanel from './CapturesPanel';
 import GameWarning from './GameWarning';
 
 class App extends Component {
-    // Always seems like garbage when .bind() is used
     constructor(props) {
         super(props);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -46,13 +45,14 @@ class App extends Component {
 
         return (
             <main onClick={this.onClick}>
-                <CapturesPanel />
+                <CapturesPanel isAbove={true} />
                 <div className="App flex-wrap-container">
                     <div className="board-container">
                         {canRender && <Board/>}
                         {!canRender && <h1>Please wait...</h1>}
                     </div>
                     <div className="configuration-container">
+                        <CapturesPanel isAbove={false} />
                         <Configuration/>
                     </div>
                 </div>

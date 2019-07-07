@@ -28,3 +28,15 @@
     width: 100%;
     text-align: center;
 }
+
+@media only screen and (max-device-width : 767px) {
+    #captures-panel-side {
+        display: none;
+    }
+}
+
+@media only screen and (min-device-width : 768px) {
+    #captures-panel-above {
+        display: none;
+    }
+}

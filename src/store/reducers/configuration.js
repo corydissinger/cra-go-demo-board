@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as FLAGS from '../../game/flags';
 import * as TYPES from '../constants/actions';
 import * as GAME_MATHS from '../../game/maths';
@@ -102,7 +103,7 @@ const configuration = (state = initialState, action) => {
                 mode,
             } = state;
 
-            if (state.capturesPanelHeight) {
+            if (_.isNumber(state.capturesPanelHeight)) {
                 const {
                     boardDimensions,
                     tileDimensions,
@@ -138,7 +139,7 @@ const configuration = (state = initialState, action) => {
 
             const { capturesPanelHeight } = action.payload;
 
-            if (windowHeight && windowWidth) {
+            if (_.isNumber(windowHeight) && _.isNumber(windowWidth)) {
                 const {
                     boardDimensions,
                     tileDimensions,

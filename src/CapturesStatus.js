@@ -13,7 +13,7 @@ class CapturesStatus extends Component {
 
         return (
             <div className="captures-status">
-                <h1>{displayColor} captures - {captures}</h1>
+                <h3>{displayColor} captures - {captures}</h3>
             </div>
         );
     }

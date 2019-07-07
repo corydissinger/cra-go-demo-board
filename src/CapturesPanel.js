@@ -7,15 +7,22 @@ import { setCapturePanelHeight } from './store/actions/configuration';
 
 class CapturesPanel extends Component {
     componentDidMount() {
-        const capturesPanelHeight = document.getElementById('captures-panel').clientHeight;
-        this.props.setCapturePanelHeight(capturesPanelHeight);
+        // Is this DRY ? (insert butterfly meme here)
+        if (this.props.isAbove) {
+            const capturesPanelHeight = document.getElementById(this.getId()).clientHeight;
+            this.props.setCapturePanelHeight(capturesPanelHeight);
+        }
+    }
+
+    getId() {
+        return this.props.isAbove ? "captures-panel-above" : "captures-panel-side";
     }
 
     render() {
         return (
             <div
                 className="flex-container"
-                id="captures-panel"
+                id={this.getId()}
             >
                 <CapturesStatus color={FLAGS.STONE_BLACK} />
                 <CapturesStatus color={FLAGS.STONE_WHITE} />
@@ -26,6 +33,7 @@ class CapturesPanel extends Component {
 
 CapturesPanel.propTypes = {
     setCapturePanelHeight: PropTypes.func.isRequired,
+    isAbove: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
