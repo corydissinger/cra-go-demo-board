@@ -363,6 +363,7 @@ class Board extends Component {
 
     onClick(e) {
         const {
+            capturesPanelHeight,
             currentBoardState,
             setStone,
             koWarning,
@@ -378,7 +379,7 @@ class Board extends Component {
         try {
             offsets = this.getOffsetsWithinBounds({
                 x: e.clientX,
-                y: e.clientY - this.props.capturesPanelHeight,
+                y: e.clientY - capturesPanelHeight + window.scrollY,
             });
         } catch (e) {
             console.log(e);
@@ -415,9 +416,9 @@ class Board extends Component {
         }
 
         const clientX = e.clientX;
-        const clientY = e.clientY;
+        const clientY = e.clientY - this.props.capturesPanelHeight + window.scrollY;
 
-        this.calculatePreviewStone(clientX, clientY - this.props.capturesPanelHeight);
+        this.calculatePreviewStone(clientX, clientY);
     }
 
     // I may have reversed this? https://senseis.xmp.net/?Coordinates
@@ -439,16 +440,19 @@ class Board extends Component {
 
 const mapStateToProps = (state) => {
     const {
-        boardDimensions,
-        capturesPanelHeight,
         lastPreviewStone,
-        maxOffsets,
-        mode,
-        tileDimensions,
         turnColor,
         koWarning,
         suicideWarning,
     } = state.game;
+
+    const {
+        boardDimensions,
+        capturesPanelHeight,
+        maxOffsets,
+        mode,
+        tileDimensions,
+    } = state.configuration;
 
     const {
         alteredStones,

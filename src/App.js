@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-    resetWarnings,
-    setWindowDimensions,
-} from './store/actions/game';
+import { resetWarnings } from './store/actions/game';
+import { setWindowDimensions } from './store/actions/configuration';
 import Board from './Board';
 import Configuration from './Configuration';
 import './styles/index.css';
@@ -49,7 +47,6 @@ class App extends Component {
         return (
             <main onClick={this.onClick}>
                 <CapturesPanel />
-                <GameWarning />
                 <div className="App flex-wrap-container">
                     <div className="board-container">
                         {canRender && <Board/>}
@@ -59,6 +56,7 @@ class App extends Component {
                         <Configuration/>
                     </div>
                 </div>
+                <GameWarning />
             </main>
         );
     }
@@ -66,11 +64,14 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
     const {
-        canRender,
-        mode,
         koWarning,
         suicideWarning,
     } = state.game;
+
+    const {
+        canRender,
+        mode,
+    } = state.configuration;
 
     return {
         mode,

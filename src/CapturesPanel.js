@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CapturesStatus from './CapturesStatus';
 import * as FLAGS from './game/flags';
-import { setCapturePanelHeight } from './store/actions/game';
+import { setCapturePanelHeight } from './store/actions/configuration';
 
 class CapturesPanel extends Component {
     componentDidMount() {

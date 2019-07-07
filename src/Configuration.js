@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as FLAGS from './game/flags';
 import * as CONTENT from './game/content';
-import {
-    setMode,
-} from './store/actions/game';
+import { setMode } from './store/actions/configuration';
 
 class Configuration extends Component {
     getHumanReadableMode() {
@@ -53,7 +51,7 @@ class Configuration extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        mode: state.game.mode,
+        mode: state.configuration.mode,
         turnNumber: state.game.turnNumber,
     };
 };

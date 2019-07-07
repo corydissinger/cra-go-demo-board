@@ -23,11 +23,8 @@ const updateStones = ({
 
 export const setStone = ({ colCoordinate, rowCoordinate }) => {
     return (dispatch, getState) => {
-        const {
-            mode,
-            turnColor,
-        } = getState().game;
-
+        const { turnColor } = getState().game;
+        const { mode } = getState().configuration;
         const {
             currentBoardState,
             previousBoardState,
