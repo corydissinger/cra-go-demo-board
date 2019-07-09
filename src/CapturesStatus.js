@@ -21,7 +21,7 @@ class CapturesStatus extends Component {
 
 // TODO: enforce explicit values
 CapturesStatus.propTypes = {
-    displayColor: PropTypes.string.isRequired,
+    displayColor: PropTypes.oneOf([CONTENT.BLACK, CONTENT.WHITE]),
     captures: PropTypes.number.isRequired,
 };
 

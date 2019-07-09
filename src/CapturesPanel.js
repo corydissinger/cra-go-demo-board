@@ -7,10 +7,15 @@ import { setCapturePanelHeight } from './store/actions/configuration';
 
 class CapturesPanel extends Component {
     componentDidMount() {
+        const {
+            isAbove,
+            setCapturePanelHeight,
+        } = this.props;
+
         // Is this DRY ? (insert butterfly meme here)
-        if (this.props.isAbove) {
+        if (isAbove) {
             const capturesPanelHeight = document.getElementById(this.getId()).clientHeight;
-            this.props.setCapturePanelHeight(capturesPanelHeight);
+            setCapturePanelHeight(capturesPanelHeight);
         }
     }
 
@@ -32,8 +37,8 @@ class CapturesPanel extends Component {
 }
 
 CapturesPanel.propTypes = {
-    setCapturePanelHeight: PropTypes.func.isRequired,
     isAbove: PropTypes.bool.isRequired,
+    setCapturePanelHeight: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({

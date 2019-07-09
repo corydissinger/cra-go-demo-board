@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as FLAGS from './game/flags';
 import * as CONTENT from './game/content';
@@ -48,6 +49,12 @@ class Configuration extends Component {
         );
     }
 }
+
+Configuration.propTypes = {
+    turnNumber: PropTypes.number.isRequired,
+    mode: PropTypes.oneOf([FLAGS.GAME_9_x_9, FLAGS.GAME_13_x_13, FLAGS.GAME_19_x_19]).isRequired,
+    setMode: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
     return {

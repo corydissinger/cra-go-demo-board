@@ -1,4 +1,6 @@
 // Skips I, very intelligent
+import * as _ from "lodash";
+
 export const genGobanCharArray = (numColumns) => {
     if (numColumns < 1) {
         throw new Error('Please expect more than one column for a standard board...');
@@ -34,4 +36,25 @@ export const getOffsetFromCharacter = (character) => {
         // this accounts for the 'I' offset
         return originalCharacterCode - 66;
     }
+};
+
+const validateCoordinateInternal = (propName, value, componentName) => {
+    if (value) {
+        const firstCharacterIsValid = /^[a-zA-Z]*$/.test(value[0]);
+        const remainderCharactersAreValid = _.isNumber(parseInt(value.substring(1)));
+
+        if (!firstCharacterIsValid || !remainderCharactersAreValid) {
+            return new Error(
+                `Invalid ${propName} ${value} sent to ${componentName}`
+            );
+        }
+    }
+};
+
+export const validateCoordinate = (props, propName, componentName) => {
+    validateCoordinateInternal(propName, props[propName], componentName);
+};
+
+export const validateCoordinates = (propValue, key, componentName, location, propFullName) => {
+    validateCoordinateInternal(propFullName, propValue, componentName);
 };

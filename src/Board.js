@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as _ from 'lodash';
 import * as FLAGS from './game/flags';
@@ -48,8 +49,6 @@ class Board extends Component {
 
     getCoordinates() {
         const { mode } = this.props;
-
-        console.log(`Current mode ${mode}, tile dims: ${JSON.stringify(this.props.tileDimensions)}`);
 
         // Yay hardcoding
         if (mode === FLAGS.GAME_9_x_9) {
@@ -437,6 +436,39 @@ class Board extends Component {
         );
     }
 }
+
+Board.propTypes = {
+    alteredStones: PropTypes.objectOf(UTILS.validateCoordinates),
+    lastPreviewStone: UTILS.validateCoordinate,
+
+    mode: PropTypes.oneOf([FLAGS.GAME_9_x_9, FLAGS.GAME_13_x_13, FLAGS.GAME_19_x_19]).isRequired,
+    turnColor: PropTypes.oneOf([FLAGS.TURN_BLACK, FLAGS.TURN_WHITE]).isRequired,
+
+    koWarning: PropTypes.bool.isRequired,
+    suicideWarning: PropTypes.bool.isRequired,
+
+    capturesPanelHeight: PropTypes.number.isRequired,
+
+    boardDimensions: PropTypes.exact({
+        height: PropTypes.number,
+        width: PropTypes.number,
+    }),
+
+    tileDimensions: PropTypes.exact({
+        height: PropTypes.number,
+        width: PropTypes.number,
+    }),
+
+    maxOffsets: PropTypes.exact({
+        col: PropTypes.number,
+        row: PropTypes.number,
+    }),
+
+    stoneRadius: PropTypes.number.isRequired,
+
+    setStone: PropTypes.func.isRequired,
+    setLastPreviewStone: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
     const {
