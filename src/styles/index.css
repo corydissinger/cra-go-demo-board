@@ -5,18 +5,29 @@
 
 .flex-container {
     display: flex;
+    justify-content: space-around;
 }
 
-.captures-status {
-    width: 50%;
-}
 
 .configuration-container {
     flex-grow: 1;
 }
 
 .board-container {
-    flex-grow: 8;
+    flex-grow: 2;
+}
+
+.history-controls {
+    background-color: dimgrey;
+}
+
+.history-button {
+    font-size: 3em;
+    margin: 1vh;
+}
+
+.captures-status {
+    font-size: 2em;
 }
 
 .game-warning {

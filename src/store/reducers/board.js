@@ -5,10 +5,10 @@ import * as TYPES from '../constants/actions';
 // the state is somewhat dynamic but predictable based on the
 // generally agreed upon goban coordinates
 const initialState = {
-    alteredStones: new Set(),
+    alteredStones: new Set(), //TODO: combine this and previousBoardState for historicBoardStates
     mode: FLAGS.GAME_9_x_9,
     currentBoardState: {},
-    previousBoardState: {},
+    previousBoardState: {}, //TODO: After combining there should be an object/map/array of turns/history-branches to altered stones
     previousStone: '',
     penultimateStone: '', // means 'second to last', quite literally
 };

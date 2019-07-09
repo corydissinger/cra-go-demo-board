@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as FLAGS from './game/flags';
 import * as CONTENT from './game/content';
 import { setMode } from './store/actions/configuration';
+import HistoryControls from './HistoryControls';
 
 class Configuration extends Component {
     getHumanReadableMode() {
@@ -28,7 +29,7 @@ class Configuration extends Component {
 
         return (
             <div id="configuration">
-                <h1>Go Demo Board</h1>
+                <HistoryControls />
                 <div className="flex-container">
                     <div>
                         <h4>Mode: {this.getHumanReadableMode()}</h4>

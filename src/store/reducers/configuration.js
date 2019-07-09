@@ -21,6 +21,7 @@ const initialState = {
     },
     windowHeight: null,
     windowWidth: null,
+    isPlaying: false,
 };
 
 const getDimensions = ({
