@@ -7,8 +7,14 @@ import boardReducer from './reducers/board';
 import gameReducer from './reducers/game';
 import configurationReducer from './reducers/configuration';
 
-export default function configureStore(preloadedState) {
-    const middlewareEnhancer = applyMiddleware(thunkMiddleware, loggerMiddleware);
+export default function configureStore(preloadedState, noLogger) {
+    let middlewareEnhancer;
+
+    if (noLogger) {
+        middlewareEnhancer = applyMiddleware(thunkMiddleware);
+    } else {
+        middlewareEnhancer = applyMiddleware(thunkMiddleware, loggerMiddleware);
+    }
 
     const enhancers = [middlewareEnhancer];
     const composedEnhancers = composeWithDevTools(...enhancers);

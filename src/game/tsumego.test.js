@@ -28,7 +28,7 @@ it('black placing a stone to kill a white stone in NW corner', () => {
     };
 
     const expectedAlteredStones = new Set(['A1', 'B1']);
-    const alteredStones = GAME_MATHS.determineAlteredstones({
+    const alteredStones = GAME_MATHS.determineAlteredStones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
     });
@@ -60,7 +60,7 @@ it('black placing a stone to kill a white stone in NW corner; random outlying st
     };
 
     const expectedAlteredStones = new Set(['A1', 'B1']);
-    const alteredStones = GAME_MATHS.determineAlteredstones({
+    const alteredStones = GAME_MATHS.determineAlteredStones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
     });
@@ -86,7 +86,7 @@ it('white placing a stone with no liberties commits suicide', () => {
     });
 
     const expectedAlteredStones = new Set([]);
-    const alteredStones = GAME_MATHS.determineAlteredstones({
+    const alteredStones = GAME_MATHS.determineAlteredStones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
     });
@@ -116,7 +116,7 @@ it('white placing a stone to kill a black stone in NW corner', () => {
     };
 
     const expectedAlteredStones = new Set(['A1', 'B1']);
-    const alteredStones = GAME_MATHS.determineAlteredstones({
+    const alteredStones = GAME_MATHS.determineAlteredStones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
     });
@@ -146,7 +146,7 @@ it('black placing a stone to kill a white stone in SE corner', () => {
     };
 
     const expectedAlteredStones = new Set(['H9', 'J9']);
-    const alteredStones = GAME_MATHS.determineAlteredstones({
+    const alteredStones = GAME_MATHS.determineAlteredStones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
     });
@@ -178,7 +178,7 @@ it('black placing a stone to kill a white stone on a N side', () => {
     };
 
     const expectedAlteredStones = new Set(['E1', 'F1']);
-    const alteredStones = GAME_MATHS.determineAlteredstones({
+    const alteredStones = GAME_MATHS.determineAlteredStones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
     });
@@ -217,7 +217,7 @@ it('white placing a stone to kill a black triangle group in NE corner', () => {
     };
 
     const expectedAlteredStones = new Set(['H1', 'H2', 'H3', 'J1']);
-    const alteredStones = GAME_MATHS.determineAlteredstones({
+    const alteredStones = GAME_MATHS.determineAlteredStones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
     });
@@ -283,7 +283,7 @@ it('white placing a stone to kill a black one eye group in center', () => {
     };
 
     const expectedAlteredStones = new Set(['E4', 'E5', 'E6', 'F4', 'F5', 'F6', 'G4', 'G5', 'G6']);
-    const alteredStones = GAME_MATHS.determineAlteredstones({
+    const alteredStones = GAME_MATHS.determineAlteredStones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
     });
@@ -323,7 +323,7 @@ it('white placing a stone in a textbook beginning of ko kills the appropriate bl
     };
 
     const expectedAlteredStones = new Set(['D3', 'D4']);
-    const alteredStones = GAME_MATHS.determineAlteredstones({
+    const alteredStones = GAME_MATHS.determineAlteredStones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
     });
@@ -389,7 +389,7 @@ it('black placing a stone in a strange middle fight with two white groups dying'
     };
 
     const expectedAlteredStones = new Set(['D4', 'E3', 'E4', 'F3', 'F4', 'G4', 'G5', 'G6']);
-    const alteredStones = GAME_MATHS.determineAlteredstones({
+    const alteredStones = GAME_MATHS.determineAlteredStones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
     });
@@ -417,7 +417,7 @@ it('white placing a stone with no liberties commits suicide, a bug in the origin
     });
 
     const expectedAlteredStones = new Set([]);
-    const alteredStones = GAME_MATHS.determineAlteredstones({
+    const alteredStones = GAME_MATHS.determineAlteredStones({
         currentBoardState: existingStones,
         nextBoardState: newStonesState,
     });

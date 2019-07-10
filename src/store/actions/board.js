@@ -43,13 +43,12 @@ export const setStone = ({ colCoordinate, rowCoordinate }) => {
         const isKo = _.isEqual(previousBoardState, nextBoardState);
         const isSuicide = _.isEqual(currentBoardState, nextBoardState);
 
-
         if (isSuicide) {
             dispatch(suicideWarning());
         } else if (isKo) {
             dispatch(koWarning());
         } else {
-            const alteredStones = GAME_MATHS.determineAlteredstones({ currentBoardState, nextBoardState});
+            const alteredStones = GAME_MATHS.determineAlteredStones({ currentBoardState, nextBoardState});
             const placedStone = `${colCoordinate}${rowCoordinate}`;
 
             dispatch(updateStones({

@@ -9,8 +9,6 @@ const initialState = {
     mode: FLAGS.GAME_9_x_9,
     currentBoardState: {},
     previousBoardState: {}, //TODO: After combining there should be an object/map/array of turns/history-branches to altered stones
-    previousStone: '',
-    penultimateStone: '', // means 'second to last', quite literally
 };
 
 const board = (state = initialState, action) => {
@@ -26,7 +24,6 @@ const board = (state = initialState, action) => {
             const {
                 alteredStones,
                 nextBoardState,
-                placedStone,
             } = action.payload;
 
             // ALTERED STONES GOES TO GAME MATHS
@@ -36,8 +33,6 @@ const board = (state = initialState, action) => {
                 koViolation: '',
                 currentBoardState: nextBoardState,
                 previousBoardState: state.currentBoardState,
-                penultimateStone: state.previousStone,
-                previousStone: placedStone,
             };
         default:
             return state;

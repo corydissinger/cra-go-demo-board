@@ -351,7 +351,7 @@ export const removeDeadStones = ({
     return newStones;
 };
 
-export const determineAlteredstones = ({ nextBoardState, currentBoardState }) => {
+export const determineAlteredStones = ({ nextBoardState, currentBoardState }) => {
     const alteredStones = new Set();
 
     for (const coordinate in nextBoardState) {

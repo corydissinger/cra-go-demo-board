@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { resetWarnings } from './store/actions/game';
 import { setWindowDimensions } from './store/actions/configuration';
 import './styles/index.css';
-import './styles/all.min.css';
+import './styles/all.min.css'; //it's font awesome IDC
 import Board from './Board';
 import Configuration from './Configuration';
 import CapturesPanel from './CapturesPanel';
