@@ -210,7 +210,6 @@ export const getAdjacentCoordinates = ({
 // get all connected stones in that opposing color group
 // determine if any of those connected stones have any liberties
 // return board state with dead groups removed
-// TODO: this can't be 100 lines long...
 
 export const removeDeadStones = ({
     existingStones,

@@ -1,9 +1,13 @@
 import * as FLAGS from '../../game/flags';
 import * as TYPES from '../constants/actions';
 
-// This maintains a map of coordinates as keys to placed stones.
-// the state is somewhat dynamic but predictable based on the
-// generally agreed upon goban coordinates
+// TODO (history feature):
+// altered stones always represents a diff between what was rendered
+// previously and now.
+// current board state and future board state should cease to exist; instead
+// a history of all the board states should be held
+// also with the consideration of branching for user variations
+//... maybe variations should be a different reducer
 const initialState = {
     alteredStones: new Set(), //TODO: combine this and previousBoardState for historicBoardStates
     mode: FLAGS.GAME_9_x_9,

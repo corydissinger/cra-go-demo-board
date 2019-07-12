@@ -470,6 +470,12 @@ Board.propTypes = {
     setLastPreviewStone: PropTypes.func.isRequired,
 };
 
+// TODO (history feature):
+// Selectors should be used at the very least to make this component
+// unaware of which snapshot of the game state it's rendering.
+// altered stones should be calculated behind the scenes (it currently is,
+// but will also need to be diffed when merely changing points
+// in history)
 const mapStateToProps = (state) => {
     const {
         lastPreviewStone,

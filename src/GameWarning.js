@@ -42,7 +42,6 @@ class GameWarning extends Component {
     }
 }
 
-// TODO: enforce explicit values
 GameWarning.propTypes = {
     koWarning: PropTypes.bool.isRequired,
     suicideWarning: PropTypes.bool.isRequired,

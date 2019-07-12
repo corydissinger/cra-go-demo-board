@@ -57,7 +57,6 @@ class HistoryControls extends Component {
     }
 }
 
-// TODO: enforce explicit values
 HistoryControls.propTypes = {
     isPlaying: PropTypes.bool.isRequired,
 };

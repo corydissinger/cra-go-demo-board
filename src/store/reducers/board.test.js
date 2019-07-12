@@ -6,6 +6,7 @@ import { setStone } from '../actions/board';
 // Tried using redux-mock-store; seems like a complete waste, why bother?
 const store = configureStore(undefined, true);
 
+// TODO: add a few test cases to show history works
 it('integration test setStone and boardReducer', async () => {
     await store.dispatch(setStone({
         colCoordinate: 'B',
@@ -18,9 +19,9 @@ it('integration test setStone and boardReducer', async () => {
     }));
 
     await store.dispatch(setStone({
-        colCoordinate: 'B',
+        colCoordinate: 'A',
         rowCoordinate: 2,
     }));
 
-    console.log(store.getState());
+    console.log(JSON.stringify(store.getState()));
 });
